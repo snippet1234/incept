@@ -17,7 +17,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'logo', 'address', 'nmls', 'dre',
+        'company_phone', 'company_address', 'company_email', 'company_nlms',
+        'company_dre', 'phone',
     ];
 
     /**
@@ -37,4 +39,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function forms()
+    {
+        return $this->hasMany('App\LeadForm');
+    }
+
+    public function responses()
+    {
+        return $this->hasMany('App\FormResponses');
+    }
 }
