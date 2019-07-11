@@ -5,6 +5,7 @@ import { withNavigation, NavigationScreenProps } from 'react-navigation';
 import { PALLETE } from '../../../constants/Colors';
 import validate from 'validate.js';
 import { LOGIN_CONTSTRAINS } from './contraints';
+import { LOGO_IMAGE } from '../../../constants/Images';
 
 interface ILoginState {
   formData: { email: string; password: string };
@@ -40,7 +41,7 @@ class LoginScreenView extends React.Component<
           shape="round"
           style={{ height: 150, width: 150, marginTop: 15 }}
           size="giant"
-          source={require('../../../assets/images/icon_white.png')}
+          source={LOGO_IMAGE.DARK}
         />
         <Text style={styles.text} category="h4">
           Welcome to Incept

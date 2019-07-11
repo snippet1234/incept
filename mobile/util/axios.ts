@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API_URLS } from '../constants/Config';
 
 axios.interceptors.request.use(
   config => {
@@ -19,8 +20,15 @@ axios.interceptors.response.use(
   error => {
     // Your Interceptor code to do something with response error
     // Return error
+    console.warn(error);
     return Promise.reject(error);
   }
 );
 
-export const Networker = axios;
+export const Networker = axios.create({
+  baseURL: API_URLS.BASE,
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  }
+});

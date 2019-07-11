@@ -6,6 +6,7 @@ import { withNavigation, NavigationScreenProps } from 'react-navigation';
 import validate from 'validate.js';
 import { LOGIN_CONTSTRAINS } from './auth/login/contraints';
 import { PALLETE } from '../constants/Colors';
+import { LOGO_IMAGE } from '../constants/Images';
 
 interface ILoginState {
   formData: { email: string; password: string };
@@ -55,7 +56,7 @@ class RegisterScreenView extends React.Component<
             shape="round"
             style={{ height: 150, width: 150, marginTop: 15 }}
             size="giant"
-            source={require('../assets/images/icon_white.png')}
+            source={LOGO_IMAGE.DARK}
           />
           <Text style={{ marginBottom: 40 }} category="h4">
             Register
