@@ -24,7 +24,8 @@ class LoginScreenView extends React.Component<
   onSubmit = () => {
     const { formData } = this.state;
     const errors = validate(formData, LOGIN_CONTSTRAINS);
-    console.warn(errors);
+    this.props.navigation.navigate('Forms');
+    // console.warn(errors);
   };
 
   private onInputValueChange = (key: string, value: string) => {
@@ -76,7 +77,12 @@ class LoginScreenView extends React.Component<
         <Button onPress={this.onSubmit} style={styles.loginButton}>
           LOGIN
         </Button>
-        <Button style={styles.forgotButton}>Forgot Password?</Button>
+        <Button
+          onPress={() => this.props.navigation.navigate('Forms')}
+          style={styles.forgotButton}
+        >
+          Forgot Password?
+        </Button>
         <Button
           onPress={() => this.props.navigation.navigate('Register')}
           status="success"

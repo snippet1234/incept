@@ -23,6 +23,7 @@ class FormsScreenView extends Component<NavigationScreenProps> {
   ];
   private onItemPress = (index: number) => {
     // Handle item press
+    this.props.navigation.navigate('UpdateForm');
   };
 
   private renderItem = (

@@ -4,18 +4,18 @@ import { FormsScreen } from '../screens/forms/FormsScreen';
 import { SubscriptionScreen } from '../screens/subscription/SubscriptionScreen';
 import { AboutScreen } from '../screens/about/AboutScreen';
 import { ContactScreen } from '../screens/contact/ContactScreen';
-import { FormsUpdateScreen } from '../screens/forms/FormUpdateScreen';
-import { FormItemsScreen } from '../screens/forms/FormsItemsScreen';
+import { FormsItemUpdateScreen } from '../screens/forms/FormItemUpdateScreen';
+import { FormUpdateScreen } from '../screens/forms/FormUpdateScreen';
 
 export const MainDrawerNavigator = createDrawerNavigator({
-  UpdateFormItem: {
-    screen: FormItemsScreen
-  },
-  UpdateForm: {
-    screen: FormsUpdateScreen
-  },
   Forms: {
     screen: FormsScreen
+  },
+  UpdateFormItem: {
+    screen: FormsItemUpdateScreen
+  },
+  UpdateForm: {
+    screen: FormUpdateScreen
   },
   Profile: {
     screen: ProfileScreen
