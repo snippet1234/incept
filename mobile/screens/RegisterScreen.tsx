@@ -4,8 +4,8 @@ import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
 
 import validate from 'validate.js';
-import { LOGIN_CONTSTRAINS } from './auth/login/contraints';
-import { PALLETE } from '../constants/Colors';
+import { LOGIN_CONSTRAINS } from './auth/login/contraints';
+import { PALETTE } from '../constants/Colors';
 import { LOGO_IMAGE } from '../constants/Images';
 
 interface ILoginState {
@@ -16,7 +16,7 @@ interface ILoginState {
 class RegisterScreenView extends React.Component<
   NavigationScreenProps,
   ILoginState
-> {
+  > {
   state: ILoginState = {
     formData: { email: '', password: '' },
     loading: false
@@ -24,7 +24,8 @@ class RegisterScreenView extends React.Component<
 
   onSubmit = () => {
     const { formData } = this.state;
-    const errors = validate(formData, LOGIN_CONTSTRAINS);
+    this.props.navigation.navigate('Forms');
+    const errors = validate(formData, LOGIN_CONSTRAINS);
     console.warn(errors);
   };
 
@@ -124,19 +125,19 @@ const styles = StyleSheet.create({
   forgotButton: {
     width: '100%',
     marginTop: 15,
-    backgroundColor: PALLETE.tabIconDefault,
+    backgroundColor: PALETTE.tabIconDefault,
     borderColor: 'transparent'
   },
   registerButton: {
     width: '100%',
     marginTop: 120,
-    backgroundColor: PALLETE.primary,
-    borderColor: PALLETE.primary
+    backgroundColor: PALETTE.primary,
+    borderColor: PALETTE.primary
   },
   loginButton: {
     width: '100%',
     marginTop: 15,
     borderColor: 'transparent',
-    backgroundColor: PALLETE.primary
+    backgroundColor: PALETTE.primary
   }
 });

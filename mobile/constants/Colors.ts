@@ -1,6 +1,6 @@
 const tintColor = '#purple';
 
-export const PALLETE = {
+export const PALETTE = {
   tintColor,
   tabIconDefault: '#ccc',
   tabIconSelected: tintColor,

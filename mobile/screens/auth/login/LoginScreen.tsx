@@ -2,9 +2,9 @@ import * as React from 'react';
 import { StyleSheet, ActivityIndicator } from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
-import { PALLETE } from '../../../constants/Colors';
+import { PALETTE } from '../../../constants/Colors';
 import validate from 'validate.js';
-import { LOGIN_CONTSTRAINS } from './contraints';
+import { LOGIN_CONSTRAINS } from './contraints';
 import { LOGO_IMAGE } from '../../../constants/Images';
 
 interface ILoginState {
@@ -15,7 +15,7 @@ interface ILoginState {
 class LoginScreenView extends React.Component<
   NavigationScreenProps,
   ILoginState
-> {
+  > {
   state: ILoginState = {
     formData: { email: '', password: '' },
     loading: false
@@ -23,8 +23,8 @@ class LoginScreenView extends React.Component<
 
   onSubmit = () => {
     const { formData } = this.state;
-    const errors = validate(formData, LOGIN_CONTSTRAINS);
-    this.props.navigation.navigate('Forms');
+    const errors = validate(formData, LOGIN_CONSTRAINS);
+    this.props.navigation.navigate('Main');
     // console.warn(errors);
   };
 
@@ -78,7 +78,7 @@ class LoginScreenView extends React.Component<
           LOGIN
         </Button>
         <Button
-          onPress={() => this.props.navigation.navigate('Forms')}
+          onPress={() => { return; }}
           style={styles.forgotButton}
         >
           Forgot Password?
@@ -109,19 +109,19 @@ const styles = StyleSheet.create({
   forgotButton: {
     width: '100%',
     marginTop: 15,
-    backgroundColor: PALLETE.tabIconDefault,
+    backgroundColor: PALETTE.tabIconDefault,
     borderColor: 'transparent'
   },
   registerButton: {
     width: '100%',
     marginTop: 120,
-    backgroundColor: PALLETE.primary,
-    borderColor: PALLETE.primary
+    backgroundColor: PALETTE.primary,
+    borderColor: PALETTE.primary
   },
   loginButton: {
     width: '100%',
     marginTop: 15,
     borderColor: 'transparent',
-    backgroundColor: PALLETE.primary
+    backgroundColor: PALETTE.primary
   }
 });

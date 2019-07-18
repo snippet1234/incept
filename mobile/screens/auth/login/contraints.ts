@@ -1,6 +1,6 @@
 import validate from 'validate.js';
 
-export const LOGIN_CONTSTRAINS = {
+export const LOGIN_CONSTRAINS = {
   email: {
     presence: true,
     length: 5
@@ -16,7 +16,7 @@ export const CREDIT_CARD_CONTSTRAINS = {
     presence: true,
     format: {
       pattern: /^(34|37|4|5[1-5]).*$/,
-      message: function(
+      message: function (
         value,
         attribute,
         validatorOptions,
@@ -28,7 +28,7 @@ export const CREDIT_CARD_CONTSTRAINS = {
         });
       }
     },
-    length: function(value, attributes, attributeName, options, constraints) {
+    length: function (value, attributes, attributeName, options, constraints) {
       if (value) {
         // Amex
         if (/^(34|37).*$/.test(value)) return { is: 15 };
@@ -39,7 +39,7 @@ export const CREDIT_CARD_CONTSTRAINS = {
       return false;
     }
   },
-  creditCardZip: function(
+  creditCardZip: function (
     value,
     attributes,
     attributeName,

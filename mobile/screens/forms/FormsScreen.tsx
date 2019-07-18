@@ -37,6 +37,7 @@ class FormsScreenView extends Component<NavigationScreenProps> {
             appearance="ghost"
             status="warning"
             style={style}
+            onPress={() => this.onItemPress(0)}
           >
             UPDATE
           </Button>
@@ -67,9 +68,6 @@ class FormsScreenView extends Component<NavigationScreenProps> {
   render() {
     return (
       <Layout style={{ padding: 20, marginTop: 25, flex: 1 }}>
-        <Text category="h3" style={{ marginBottom: 15 }}>
-          Manage Forms
-        </Text>
         <List
           style={{ backgroundColor: 'white' }}
           data={this.data}

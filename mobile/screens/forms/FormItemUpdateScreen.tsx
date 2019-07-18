@@ -12,7 +12,7 @@ import {
   Input
 } from 'react-native-ui-kitten';
 import { ListRenderItemInfo, View, TouchableOpacity } from 'react-native';
-import { PALLETE } from '../../constants/Colors';
+import { PALETTE } from '../../constants/Colors';
 
 class FormItemUpdateScreenView extends Component<NavigationScreenProps> {
   private data: { name: string }[] = [
@@ -69,24 +69,7 @@ class FormItemUpdateScreenView extends Component<NavigationScreenProps> {
   render() {
     return (
       <>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.goBack()}
-          style={{
-            marginTop: 40,
-            marginLeft: 20
-          }}
-        >
-          <Avatar
-            shape="round"
-            size="small"
-            source={require('../../assets/icons/eva/arrow-ios-back.png')}
-          />
-        </TouchableOpacity>
-
         <Layout style={{ padding: 20, marginTop: 5, flex: 1 }}>
-          <Text category="h4" style={{ marginBottom: 15 }}>
-            Update Form Item
-          </Text>
           <Input
             placeholder="Name"
             label="Name"
@@ -155,12 +138,12 @@ class FormItemUpdateScreenView extends Component<NavigationScreenProps> {
             ))}
           </View>
           <Button
-            onPress={() => console.warn}
+            onPress={() => this.props.navigation.goBack()}
             style={{
               width: '100%',
               marginTop: 15,
               borderColor: 'transparent',
-              backgroundColor: PALLETE.primary
+              backgroundColor: PALETTE.primary
             }}
           >
             UPDATE

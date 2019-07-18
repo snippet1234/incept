@@ -10,7 +10,7 @@ import {
   Layout
 } from 'react-native-ui-kitten';
 import { ListRenderItemInfo, View } from 'react-native';
-import { PALLETE } from '../../constants/Colors';
+import { PALETTE } from '../../constants/Colors';
 
 class FormUpdateScreenView extends Component<NavigationScreenProps> {
   private data: { name: string; type: string }[] = [
@@ -38,6 +38,7 @@ class FormUpdateScreenView extends Component<NavigationScreenProps> {
             appearance="ghost"
             status="warning"
             style={style}
+            onPress={() => this.onItemPress(0)}
           >
             UPDATE
           </Button>
@@ -68,9 +69,6 @@ class FormUpdateScreenView extends Component<NavigationScreenProps> {
   render() {
     return (
       <Layout style={{ padding: 20, marginTop: 25, flex: 1 }}>
-        <Text category="h3" style={{ marginBottom: 15 }}>
-          Update Form
-        </Text>
         <List
           style={{ backgroundColor: 'white' }}
           data={this.data}
@@ -83,7 +81,7 @@ class FormUpdateScreenView extends Component<NavigationScreenProps> {
             marginTop: 15,
             marginBottom: 170,
             borderColor: 'transparent',
-            backgroundColor: PALLETE.primary
+            backgroundColor: PALETTE.primary
           }}
         >
           UPDATE
