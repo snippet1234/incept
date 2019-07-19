@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Laravel\Passport\Passport;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +18,24 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+
+
 Route::prefix('v1')->group(function () {
+
+
     Route::resource('leadform', 'LeadFormController', [
         'names' => [
             'create' => 'leadform.create',
         ]
     ]);
+});
+
+Route::get('/clients', function (Request $request) {
+    $client = DB::table("oauth_clients")->wherePasswordClient(1)->first();
+    $data['client_id'] = $client->id;
+    $data['secret'] = $client->secret;
+    $data['base_url'] = URL::to('/');
+    //it was 4
+    $data['version'] = 1;
+    return response($data);
 });

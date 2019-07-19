@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
 import { View, SafeAreaView, Image } from 'react-native';
 import { Text, Avatar, Layout, Input, Button } from '@kitten/ui';
-import { PALETTE } from '../../constants/Colors';
+import { PALETTE } from '../../constants/colors';
 import { NavigationScreenOptions } from 'react-navigation';
 class ProfileScreenView extends Component<NavigationScreenProps> {
-
   static defaultNavigationOptions: NavigationScreenOptions = {
     title: 'Details',
     headerTitle: 'Details',
@@ -25,9 +24,24 @@ class ProfileScreenView extends Component<NavigationScreenProps> {
   render() {
     return (
       <SafeAreaView>
-        <Layout style={{ justifyContent: 'center', alignItems: 'center', padding: 15 }}>
-          <Avatar style={{ width: 150, height: 150 }} size="large" source={{ uri: 'https://images.askmen.com/1080x540/2016/01/25-021526-facebook_profile_picture_affects_chances_of_getting_hired.jpg' }} />
-          <Text category="h3" style={{ margin: 10 }}>Nishant Z</Text>
+        <Layout
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 15
+          }}
+        >
+          <Avatar
+            style={{ width: 150, height: 150 }}
+            size="large"
+            source={{
+              uri:
+                'https://images.askmen.com/1080x540/2016/01/25-021526-facebook_profile_picture_affects_chances_of_getting_hired.jpg'
+            }}
+          />
+          <Text category="h3" style={{ margin: 10 }}>
+            Nishant Z
+          </Text>
           <Input
             placeholder="Email"
             value={undefined}
@@ -88,14 +102,35 @@ class ProfileScreenView extends Component<NavigationScreenProps> {
             )}
             onChangeText={value => this.onInputValueChange('email', value)}
           />
-          <Button icon={() => <Avatar
-            shape="round"
-            size="small"
-            source={require('../../assets/icons/eva/plus.png')}
-          />} style={{ backgroundColor: PALETTE.primary, borderColor: PALETTE.primary, width: '100%', marginTop: 15 }}> Add Company Info</Button>
-          <Button style={{ backgroundColor: PALETTE.primary, borderColor: PALETTE.primary, width: '100%', marginTop: 15 }}>Save Profile</Button>
+          <Button
+            icon={() => (
+              <Avatar
+                shape="round"
+                size="small"
+                source={require('../../assets/icons/eva/plus.png')}
+              />
+            )}
+            style={{
+              backgroundColor: PALETTE.primary,
+              borderColor: PALETTE.primary,
+              width: '100%',
+              marginTop: 15
+            }}
+          >
+            {' '}
+            Add Company Info
+          </Button>
+          <Button
+            style={{
+              backgroundColor: PALETTE.primary,
+              borderColor: PALETTE.primary,
+              width: '100%',
+              marginTop: 15
+            }}
+          >
+            Save Profile
+          </Button>
         </Layout>
-
       </SafeAreaView>
     );
   }

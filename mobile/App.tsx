@@ -2,13 +2,25 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  AsyncStorage
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { mapping, light as lightTheme } from '@eva-design/eva';
 import { ApplicationProvider } from 'react-native-ui-kitten';
+import FlashMessage from 'react-native-flash-message';
 
 import AppNavigator from './navigation/AppNavigator';
+import { Networker } from './util/axios';
+import { API_URLS } from './constants/network';
+import { Storage } from './util/storage';
+import { ClientData } from 'types/auth';
+import { Message, MessageDuration } from './util/message';
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -28,6 +40,7 @@ export default function App(props) {
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
           <AppNavigator />
         </View>
+        <FlashMessage position="bottom" />
       </ApplicationProvider>
     );
   }
@@ -35,6 +48,7 @@ export default function App(props) {
 
 async function loadResourcesAsync() {
   await Promise.all([
+    loadNetworkDetails(),
     Asset.loadAsync([
       require('./assets/images/robot-dev.png'),
       require('./assets/images/robot-prod.png')
@@ -50,6 +64,12 @@ async function loadResourcesAsync() {
       'opensans-semibold': require('./assets/fonts/opensans-semibold.ttf')
     })
   ]);
+}
+
+async function loadNetworkDetails() {
+  const { data } = await Networker.get<ClientData>(API_URLS.CLIENT);
+  Message.show(data.client_id, 'info', MessageDuration.LONG);
+  await Storage.setClient(data);
 }
 
 function handleLoadingError(error: Error) {

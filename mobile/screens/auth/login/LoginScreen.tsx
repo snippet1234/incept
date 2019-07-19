@@ -2,10 +2,10 @@ import * as React from 'react';
 import { StyleSheet, ActivityIndicator } from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
-import { PALETTE } from '../../../constants/Colors';
+import { PALETTE } from '../../../constants/colors';
 import validate from 'validate.js';
 import { LOGIN_CONSTRAINS } from './contraints';
-import { LOGO_IMAGE } from '../../../constants/Images';
+import { LOGO_IMAGE } from '../../../constants/images';
 
 interface ILoginState {
   formData: { email: string; password: string };
@@ -15,7 +15,7 @@ interface ILoginState {
 class LoginScreenView extends React.Component<
   NavigationScreenProps,
   ILoginState
-  > {
+> {
   state: ILoginState = {
     formData: { email: '', password: '' },
     loading: false
@@ -78,7 +78,9 @@ class LoginScreenView extends React.Component<
           LOGIN
         </Button>
         <Button
-          onPress={() => { return; }}
+          onPress={() => {
+            return;
+          }}
           style={styles.forgotButton}
         >
           Forgot Password?

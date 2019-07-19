@@ -1,5 +1,9 @@
 import React from 'react';
-import { createDrawerNavigator, HeaderProps, DrawerActions } from 'react-navigation';
+import {
+  createDrawerNavigator,
+  HeaderProps,
+  DrawerActions
+} from 'react-navigation';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { FormsScreen } from '../screens/forms/FormsScreen';
 import { AboutScreen } from '../screens/about/AboutScreen';
@@ -8,17 +12,27 @@ import { FormsItemUpdateScreen } from '../screens/forms/FormItemUpdateScreen';
 import { FormUpdateScreen } from '../screens/forms/FormUpdateScreen';
 import { ProductList } from '../screens/subscription/ProductList';
 import { Cards } from '../screens/subscription/Cards';
-import { createStackNavigator, } from 'react-navigation';
-import { View, ScrollView, Image, SafeAreaView, TouchableOpacity } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
+import {
+  View,
+  ScrollView,
+  Image,
+  SafeAreaView,
+  TouchableOpacity
+} from 'react-native';
 import { Button, Text, Avatar } from '@kitten/ui';
-import { PALETTE } from '../constants/Colors';
+import { PALETTE } from '../constants/colors';
 const AppHeader = (props: HeaderProps) => {
-
   return (
     <View style={{ backgroundColor: '#fff', paddingBottom: 10 }}>
       <SafeAreaView>
-        <View style={{ flexDirection: 'row-reverse', backgroundColor: '#fff', justifyContent: 'space-between' }}>
-
+        <View
+          style={{
+            flexDirection: 'row-reverse',
+            backgroundColor: '#fff',
+            justifyContent: 'space-between'
+          }}
+        >
           {/* <TouchableOpacity
             onPress={() => props.navigation.goBack()}
             style={{
@@ -32,22 +46,33 @@ const AppHeader = (props: HeaderProps) => {
               source={require('../assets/icons/eva/arrow-ios-back.png')}
             />
           </TouchableOpacity> */}
-          <TouchableOpacity onPress={() => props.navigation.dispatch(DrawerActions.toggleDrawer())}>
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.dispatch(DrawerActions.toggleDrawer())
+            }
+          >
             <Image
-              style={{ tintColor: PALETTE.primary, height: 40, width: 40, marginHorizontal: 20, resizeMode: 'contain', marginTop: 5 }}
+              style={{
+                tintColor: PALETTE.primary,
+                height: 40,
+                width: 40,
+                marginHorizontal: 20,
+                resizeMode: 'contain',
+                marginTop: 5
+              }}
               source={require('../assets/icons/menu1.png')}
             />
           </TouchableOpacity>
-          <Text style={{ marginLeft: 15, marginTop: 5 }} category="h4">{props.scene.descriptor.options.headerTitle}</Text>
-
+          <Text style={{ marginLeft: 15, marginTop: 5 }} category="h4">
+            {props.scene.descriptor.options.headerTitle}
+          </Text>
         </View>
       </SafeAreaView>
     </View>
+  );
+};
 
-  )
-}
-
-const MenuContent = (props) => (
+const MenuContent = props => (
   <ScrollView>
     <Text>Some Content</Text>
   </ScrollView>
@@ -55,7 +80,7 @@ const MenuContent = (props) => (
 const headerStyle = {
   borderBottomWidth: 0,
   shadowOpacity: 0,
-  elevation: 0,
+  elevation: 0
 };
 
 const getScreenNavigationOptions = (title: string) => ({
@@ -64,50 +89,79 @@ const getScreenNavigationOptions = (title: string) => ({
     headerStyle: {
       borderBottomWidth: 0,
       shadowOpacity: 0,
-      elevation: 0,
+      elevation: 0
     },
     header: AppHeader
   }
-})
-const DrawerNavigator = createDrawerNavigator({
-  Forms: {
-    screen: createStackNavigator({
-      Forms: { screen: FormsScreen },
-      UpdateForm: { screen: FormUpdateScreen, navigationOptions: { headerTitle: 'Update Form' } },
-      UpdateFormItem: { screen: FormsItemUpdateScreen, navigationOptions: { headerTitle: 'Update Form Item' } }
-    }, getScreenNavigationOptions('Manage Forms')),
+});
+const DrawerNavigator = createDrawerNavigator(
+  {
+    Forms: {
+      screen: createStackNavigator(
+        {
+          Forms: { screen: FormsScreen },
+          UpdateForm: {
+            screen: FormUpdateScreen,
+            navigationOptions: { headerTitle: 'Update Form' }
+          },
+          UpdateFormItem: {
+            screen: FormsItemUpdateScreen,
+            navigationOptions: { headerTitle: 'Update Form Item' }
+          }
+        },
+        getScreenNavigationOptions('Manage Forms')
+      )
+    },
+    Subscription: {
+      screen: createStackNavigator(
+        {
+          screen: ProductList
+        },
+        getScreenNavigationOptions('Subscriptions')
+      )
+    },
+    Profile: {
+      screen: createStackNavigator(
+        {
+          screen: ProfileScreen
+        },
+        getScreenNavigationOptions('Profile')
+      )
+    },
+    Cards: createStackNavigator(
+      {
+        screen: Cards
+      },
+      getScreenNavigationOptions('Manage Cards')
+    ),
+    About: {
+      screen: createStackNavigator(
+        {
+          screen: AboutScreen
+        },
+        getScreenNavigationOptions('About Us')
+      )
+    },
+    Contact: {
+      screen: createStackNavigator(
+        {
+          screen: ContactScreen
+        },
+        getScreenNavigationOptions('Contact')
+      )
+    },
+    Logout: props => props.navigation.navigate('Auth')
   },
-  Subscription: {
-    screen: createStackNavigator({
-      screen: ProductList
-    }, getScreenNavigationOptions('Subscriptions')),
-  },
-  Profile: {
-    screen: createStackNavigator({
-      screen: ProfileScreen
-    }, getScreenNavigationOptions('Profile')),
-  },
-  Cards: createStackNavigator({
-    screen: Cards
-  }, getScreenNavigationOptions('Manage Cards')),
-  About: {
-    screen: createStackNavigator({
-      screen: AboutScreen
-    }, getScreenNavigationOptions('About Us')),
-  },
-  Contact: {
-    screen: createStackNavigator({
-      screen: ContactScreen
-    }, getScreenNavigationOptions('Contact')),
-  },
-  Logout: (props) => (props.navigation.navigate('Auth'))
-}, {
+  {
     initialRouteName: '',
     // contentComponent: MenuContent,
     navigationOptions: {
       headerMode: 'screen',
       header: null
     }
-  });
+  }
+);
 
-export const MainDrawerNavigator = createStackNavigator({ drawer: { screen: DrawerNavigator } });
+export const MainDrawerNavigator = createStackNavigator({
+  drawer: { screen: DrawerNavigator }
+});

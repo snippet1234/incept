@@ -4,20 +4,13 @@ import {
   Image,
   TouchableOpacityProps,
   ImageSourcePropType,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
-import {
-  ThemedComponentProps,
-  ThemeType,
-  withStyles,
-} from '@kitten/theme';
-import {
-  Button,
-  Text,
-} from '@kitten/ui';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { Button, Text } from '@kitten/ui';
 import { textStyle } from '../../components/common';
 import { CartIconOutline } from '../../assets/icons';
-import { PALETTE } from '../../constants/Colors';
+import { PALETTE } from '../../constants/colors';
 
 interface ListDerivedProps {
   index?: number;
@@ -36,7 +29,6 @@ interface ComponentProps extends ListDerivedProps, TouchableOpacityProps {
 export type ProductListItemProps = ThemedComponentProps & ComponentProps;
 
 class ProductListItemComponent extends React.Component<ProductListItemProps> {
-
   private onPress = () => {
     this.props.onPress(this.props.index);
   };
@@ -46,35 +38,34 @@ class ProductListItemComponent extends React.Component<ProductListItemProps> {
   };
 
   public render(): React.ReactNode {
-    const { style, themedStyle, image, name, type, price, ...restProps } = this.props;
+    const {
+      style,
+      themedStyle,
+      image,
+      name,
+      type,
+      price,
+      ...restProps
+    } = this.props;
 
     return (
       <TouchableOpacity
         {...restProps}
         style={[themedStyle.container, style]}
-        onPress={this.onPress}>
-        <Image
-          style={themedStyle.image}
-          source={image}
-        />
+        onPress={this.onPress}
+      >
+        <Image style={themedStyle.image} source={image} />
         <View style={themedStyle.infoContainer}>
           <View>
-            <Text
-              style={themedStyle.nameLabel}
-              category='s1'>
+            <Text style={themedStyle.nameLabel} category="s1">
               {name}
             </Text>
-            <Text
-              style={themedStyle.typeLabel}
-              appearance='hint'
-              category='c1'>
+            <Text style={themedStyle.typeLabel} appearance="hint" category="c1">
               {type}
             </Text>
           </View>
           <View style={themedStyle.priceContainer}>
-            <Text
-              style={themedStyle.costLabel}
-              category='s1'>
+            <Text style={themedStyle.costLabel} category="s1">
               {price}
             </Text>
             <Button
@@ -90,34 +81,37 @@ class ProductListItemComponent extends React.Component<ProductListItemProps> {
   }
 }
 
-export const ProductListItem = withStyles(ProductListItemComponent, (theme: ThemeType) => ({
-  container: {
-    minHeight: 272,
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  infoContainer: {
-    flex: 1,
-    padding: 16,
-    justifyContent: 'space-between',
-  },
-  priceContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  image: {
-    flex: 1,
-    width: null,
-    height: 140,
-  },
-  nameLabel: textStyle.subtitle,
-  typeLabel: textStyle.caption1,
-  costLabel: textStyle.subtitle,
-  buyButton: {
-    width: 32,
-    height: 32,
-    backgroundColor: PALETTE.primary,
-    borderColor: PALETTE.primary
-  },
-}));
+export const ProductListItem = withStyles(
+  ProductListItemComponent,
+  (theme: ThemeType) => ({
+    container: {
+      minHeight: 272,
+      borderRadius: 12,
+      overflow: 'hidden'
+    },
+    infoContainer: {
+      flex: 1,
+      padding: 16,
+      justifyContent: 'space-between'
+    },
+    priceContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between'
+    },
+    image: {
+      flex: 1,
+      width: null,
+      height: 140
+    },
+    nameLabel: textStyle.subtitle,
+    typeLabel: textStyle.caption1,
+    costLabel: textStyle.subtitle,
+    buyButton: {
+      width: 32,
+      height: 32,
+      backgroundColor: PALETTE.primary,
+      borderColor: PALETTE.primary
+    }
+  })
+);

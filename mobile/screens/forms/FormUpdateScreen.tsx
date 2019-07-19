@@ -10,7 +10,7 @@ import {
   Layout
 } from 'react-native-ui-kitten';
 import { ListRenderItemInfo, View } from 'react-native';
-import { PALETTE } from '../../constants/Colors';
+import { PALETTE } from '../../constants/colors';
 
 class FormUpdateScreenView extends Component<NavigationScreenProps> {
   private data: { name: string; type: string }[] = [

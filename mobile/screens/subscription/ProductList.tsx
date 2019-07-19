@@ -1,26 +1,10 @@
 import React from 'react';
-import {
-  ListRenderItemInfo,
-  SafeAreaView
-} from 'react-native';
-import {
-  ThemedComponentProps,
-  ThemeType,
-  withStyles,
-} from '@kitten/theme';
-import {
-  List,
-  ListProps,
-  Layout,
-  Button,
-  Text
-} from '@kitten/ui';
+import { ListRenderItemInfo, SafeAreaView } from 'react-native';
+import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
+import { List, ListProps, Layout, Button, Text } from '@kitten/ui';
 import { Product } from '../../core/model';
-import {
-  ProductListItem,
-  ProductListItemProps,
-} from './ProductListItem';
-import { PALETTE } from '../../constants/Colors';
+import { ProductListItem, ProductListItemProps } from './ProductListItem';
+import { PALETTE } from '../../constants/colors';
 
 // @ts-ignore (override `renderItem` prop)
 interface ComponentProps extends ListProps {
@@ -34,7 +18,6 @@ export type ProductListProps = ThemedComponentProps & ComponentProps;
 type ListItemElement = React.ReactElement<ProductListItemProps>;
 
 class ProductListComponent extends React.Component<ProductListProps> {
-
   private onProductAddPress = (index: number) => {
     this.props.onItemAddPress(index);
   };
@@ -69,11 +52,21 @@ class ProductListComponent extends React.Component<ProductListProps> {
   };
 
   public render(): React.ReactNode {
-    const { contentContainerStyle, themedStyle, data, ...restProps } = this.props;
+    const {
+      contentContainerStyle,
+      themedStyle,
+      data,
+      ...restProps
+    } = this.props;
     const products: Product[] = [
       {
         name: 'Yearly Premium Subscription',
-        photo: { imageSource: { uri: 'http://www.fastandyou.com/uploads/2/3/6/2/23620028/s782333958681989678_p5_i1_w400.jpeg' } },
+        photo: {
+          imageSource: {
+            uri:
+              'http://www.fastandyou.com/uploads/2/3/6/2/23620028/s782333958681989678_p5_i1_w400.jpeg'
+          }
+        },
         cost: 799,
         currency: '$',
         description: '',
@@ -83,7 +76,12 @@ class ProductListComponent extends React.Component<ProductListProps> {
       },
       {
         name: 'Monthly Premium Subscription',
-        photo: { imageSource: { uri: 'http://www.fastandyou.com/uploads/2/3/6/2/23620028/s782333958681989678_p5_i1_w400.jpeg' } },
+        photo: {
+          imageSource: {
+            uri:
+              'http://www.fastandyou.com/uploads/2/3/6/2/23620028/s782333958681989678_p5_i1_w400.jpeg'
+          }
+        },
         cost: 101,
         currency: '$',
         description: '',
@@ -93,7 +91,12 @@ class ProductListComponent extends React.Component<ProductListProps> {
       },
       {
         name: 'Quarterly Premium Subscription',
-        photo: { imageSource: { uri: 'http://www.fastandyou.com/uploads/2/3/6/2/23620028/s782333958681989678_p5_i1_w400.jpeg' } },
+        photo: {
+          imageSource: {
+            uri:
+              'http://www.fastandyou.com/uploads/2/3/6/2/23620028/s782333958681989678_p5_i1_w400.jpeg'
+          }
+        },
         cost: 251,
         currency: '$',
         description: '',
@@ -103,14 +106,19 @@ class ProductListComponent extends React.Component<ProductListProps> {
       },
       {
         name: 'Quarterly Premium Subscription',
-        photo: { imageSource: { uri: 'http://www.fastandyou.com/uploads/2/3/6/2/23620028/s782333958681989678_p5_i1_w400.jpeg' } },
+        photo: {
+          imageSource: {
+            uri:
+              'http://www.fastandyou.com/uploads/2/3/6/2/23620028/s782333958681989678_p5_i1_w400.jpeg'
+          }
+        },
         cost: 251,
         currency: '$',
         description: '',
         type: 'Subscription',
         size: '',
         colors: ['red']
-      },
+      }
     ];
 
     return (
@@ -118,27 +126,40 @@ class ProductListComponent extends React.Component<ProductListProps> {
         <SafeAreaView>
           <List
             {...restProps}
-            contentContainerStyle={[contentContainerStyle, themedStyle.container, { backgroundColor: '#fff' }]}
+            contentContainerStyle={[
+              contentContainerStyle,
+              themedStyle.container,
+              { backgroundColor: '#fff' }
+            ]}
             data={products}
             renderItem={this.renderItem}
             numColumns={2}
           />
-          <Button style={{ backgroundColor: PALETTE.primary, borderColor: PALETTE.primary }} appearance="faded" status="warning">
+          <Button
+            style={{
+              backgroundColor: PALETTE.primary,
+              borderColor: PALETTE.primary
+            }}
+            appearance="faded"
+            status="warning"
+          >
             Buy Subscription
-        </Button>
-
+          </Button>
         </SafeAreaView>
       </Layout>
     );
   }
 }
 
-export const ProductList = withStyles(ProductListComponent, (theme: ThemeType) => ({
-  container: {},
-  item: {
-    flex: 1,
-    marginHorizontal: 8,
-    marginVertical: 8,
-    backgroundColor: theme['background-basic-color-1'],
-  },
-}));
+export const ProductList = withStyles(
+  ProductListComponent,
+  (theme: ThemeType) => ({
+    container: {},
+    item: {
+      flex: 1,
+      marginHorizontal: 8,
+      marginVertical: 8,
+      backgroundColor: theme['background-basic-color-1']
+    }
+  })
+);

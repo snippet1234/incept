@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URLS } from '../constants/Config';
+import { API_URLS } from '../constants/network';
 
 axios.interceptors.request.use(
   config => {
