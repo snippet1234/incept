@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLeadFormItemOprtionsTable extends Migration
+class CreateLeadFormItemOptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,9 +16,11 @@ class CreateLeadFormItemOprtionsTable extends Migration
         Schema::create('lead_form_item_options', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('value');
-            $table->integer('lead_form_item_id')->unsigned();
-            $table->foreign('lead_form_item_id')->references('id')->on('lead_form_items')->onDelete('cascade');
+            $table->bigInteger('lead_form_item_id')->unsigned();
             $table->timestamps();
+        });
+        Schema::table('lead_form_item_options', function ($table) {
+            $table->foreign('lead_form_item_id')->references('id')->on('lead_form_items')->onDelete('cascade');
         });
     }
 

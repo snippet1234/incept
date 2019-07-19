@@ -19,12 +19,15 @@ class CreateLeadFormItemsTable extends Migration
             $table->string('label');
             $table->string('placeholder');
 
-            $table->integer('lead_form_id')->unsigned();
-            $table->integer('form_item_type_id')->unsigned();
+            $table->bigInteger('lead_form_id')->unsigned();
+            $table->bigInteger('form_item_type_id')->unsigned();
 
+            $table->timestamps();
+        });
+
+        Schema::table('lead_form_items', function ($table) {
             $table->foreign('lead_form_id')->references('id')->on('lead_forms')->onDelete('cascade');
             $table->foreign('form_item_type_id')->references('id')->on('form_item_types')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 

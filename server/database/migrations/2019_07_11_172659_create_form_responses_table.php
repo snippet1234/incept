@@ -15,12 +15,13 @@ class CreateFormResponsesTable extends Migration
     {
         Schema::create('form_responses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->string('value');
-            $table->integer('lead_form_item_id')->unsigned();
+            $table->bigInteger('lead_form_item_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('lead_form_item_id')->on('lead_form_items')->onDelete('cascade');
+            $table->foreign('lead_form_item_id')->references('id')->on('lead_form_items')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
