@@ -45,7 +45,7 @@ class LoginScreenView extends React.Component<
           source={LOGO_IMAGE.DARK}
         />
         <Text style={styles.text} category="h4">
-          Welcome to Incept
+          Welcome to Loan Incept
         </Text>
         <Input
           placeholder="Email"
