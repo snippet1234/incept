@@ -1,6 +1,6 @@
 {
   "main": "node_modules/expo/AppEntry.js",
-  "serverUrl": "http://localhost:8000/api",
+  "serverUrl": "http://127.0.0.1:8000",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",

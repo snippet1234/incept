@@ -1,12 +1,11 @@
 const { serverUrl } = require('../package.json');
 
 const makeUrl = (endPoint: string) => {
-  return `${serverUrl}/${endPoint}`;
+  return `${serverUrl}/api/${endPoint}`;
 };
 
 export const API_URLS = {
-  BASE: serverUrl,
-  LOGIN: makeUrl('auth/login'),
+  LOGIN: serverUrl + 'oauth/token',
   CLIENT: makeUrl('clients'),
   REGISTER: makeUrl('auth/register'),
   FORM: makeUrl('form'),

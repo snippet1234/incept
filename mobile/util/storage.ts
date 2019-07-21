@@ -8,14 +8,19 @@ async function setData(key: string, data: any) {
 }
 
 async function getData(key: string, def: any) {
-  return await AsyncStorage.getItem(key, def);
+  const data = await AsyncStorage.getItem(key, def);
+  try {
+    return JSON.parse(data);
+  } catch (err) {
+    return def;
+  }
 }
 
 async function setClient(client: ClientData) {
   return await setData(STORAGE_KEYS.CLIENT, client);
 }
 
-async function getClient() {
+async function getClient(): Promise<ClientData | null> {
   return await getData(STORAGE_KEYS.CLIENT, null);
 }
 

@@ -3,27 +3,44 @@ import { StyleSheet, ActivityIndicator } from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
 import { PALETTE } from '../../../constants/colors';
-import validate from 'validate.js';
+const validate = require('validate.js');
 import { LOGIN_CONSTRAINS } from './contraints';
 import { LOGO_IMAGE } from '../../../constants/images';
+import { CustomInput } from '../../../components/CustomInput';
+import { Networker } from '../../../util/axios';
+import { API_URLS } from '../../../constants/network';
+import { Storage } from '../../../util/storage';
 
 interface ILoginState {
   formData: { email: string; password: string };
   loading: boolean;
+  errors: { [index: string]: string[] }[]
 }
 
 class LoginScreenView extends React.Component<
   NavigationScreenProps,
   ILoginState
-> {
+  > {
   state: ILoginState = {
-    formData: { email: '', password: '' },
-    loading: false
+    formData: { email: 'user@mail.com', password: 'secret' },
+    loading: false,
+    errors: []
   };
 
-  onSubmit = () => {
+  onSubmit = async () => {
     const { formData } = this.state;
+    console.warn(formData);
     const errors = validate(formData, LOGIN_CONSTRAINS);
+    if (errors) {
+      this.setState({ errors });
+      console.warn(errors);
+      return;
+    }
+
+    this.setState({ loading: true });
+    const { client_id, secret } = await Storage.getClient();
+    const result = await Networker.post(API_URLS.LOGIN, { data: { ...formData, client_id, client_secret: secret, grant_type: 'password' } });
+    console.warn(result);
     this.props.navigation.navigate('Main');
     // console.warn(errors);
   };
@@ -35,7 +52,7 @@ class LoginScreenView extends React.Component<
   };
 
   render() {
-    const { formData } = this.state;
+    const { formData, errors } = this.state;
     return (
       <Layout style={styles.container}>
         <Avatar
@@ -47,8 +64,10 @@ class LoginScreenView extends React.Component<
         <Text style={styles.text} category="h4">
           Welcome to Loan Incept
         </Text>
-        <Input
+        <CustomInput
+
           placeholder="Email"
+          error={errors['email'] && errors['email'][0]}
           label="Email"
           value={formData.email}
           icon={() => (
@@ -60,9 +79,11 @@ class LoginScreenView extends React.Component<
           )}
           onChangeText={value => this.onInputValueChange('email', value)}
         />
-        <Input
+        <CustomInput
           placeholder="Password"
+
           label="Password"
+          error={errors['password'] && errors['password'][0]}
           labelStyle={{}}
           icon={() => (
             <Avatar
@@ -71,6 +92,7 @@ class LoginScreenView extends React.Component<
               source={require('../../../assets/icons/eva/lock.png')}
             />
           )}
+
           value={formData.password}
           onChangeText={value => this.onInputValueChange('password', value)}
         />

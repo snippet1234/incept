@@ -68,6 +68,7 @@ async function loadResourcesAsync() {
 
 async function loadNetworkDetails() {
   const { data } = await Networker.get<ClientData>(API_URLS.CLIENT);
+  console.warn(data);
   Message.show(data.client_id, 'info', MessageDuration.LONG);
   await Storage.setClient(data);
 }

@@ -20,7 +20,7 @@ import {
   SafeAreaView,
   TouchableOpacity
 } from 'react-native';
-import { Button, Text, Avatar } from '@kitten/ui';
+import { Text } from '@kitten/ui';
 import { PALETTE } from '../constants/colors';
 const AppHeader = (props: HeaderProps) => {
   return (

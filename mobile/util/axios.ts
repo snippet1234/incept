@@ -15,6 +15,7 @@ axios.interceptors.response.use(
     //
     //   Your Interceptor code to do something with the response data
     // Return response data
+    console.warn(response.status)
     return response;
   },
   error => {
