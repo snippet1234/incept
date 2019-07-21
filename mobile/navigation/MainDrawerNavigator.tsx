@@ -2,7 +2,8 @@ import React from 'react';
 import {
   createDrawerNavigator,
   HeaderProps,
-  DrawerActions
+  DrawerActions,
+  DrawerItems
 } from 'react-navigation';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { FormsScreen } from '../screens/forms/FormsScreen';
@@ -20,8 +21,9 @@ import {
   SafeAreaView,
   TouchableOpacity
 } from 'react-native';
-import { Text } from '@kitten/ui';
+import { Text, Button } from '@kitten/ui';
 import { PALETTE } from '../constants/colors';
+import { logOut } from '../util/auth';
 const AppHeader = (props: HeaderProps) => {
   return (
     <View style={{ backgroundColor: '#fff', paddingBottom: 10 }}>
@@ -149,12 +151,24 @@ const DrawerNavigator = createDrawerNavigator(
         },
         getScreenNavigationOptions('Contact')
       )
-    },
-    Logout: props => props.navigation.navigate('Auth')
+    }
   },
   {
     initialRouteName: '',
     // contentComponent: MenuContent,
+    contentComponent: props => (
+      <View style={{ flex: 1 }}>
+        <SafeAreaView>
+          <DrawerItems {...props} />
+          <Text
+            onPress={async () => await logOut(props.navigation)}
+            style={{ color: PALETTE.errorBackground, padding: 20 }}
+          >
+            Logout
+          </Text>
+        </SafeAreaView>
+      </View>
+    ),
     navigationOptions: {
       headerMode: 'screen',
       header: null

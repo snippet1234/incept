@@ -1,49 +1,55 @@
 import React from 'react';
-import { StyleSheet, ActivityIndicator } from 'react-native';
-import {
-  Layout,
-  Text,
-  Button,
-  Input,
-  Avatar,
-  ButtonProps
-} from 'react-native-ui-kitten';
+import { StyleSheet, ViewStyle } from 'react-native';
+import { Text, ButtonProps } from 'react-native-ui-kitten';
 import { PALETTE } from '../constants/colors';
 import { LoadingIndicator } from './LoadingIndicator';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 type CustomButtonProps = {
   color?: string;
+  disabled?: boolean;
+  loading?: boolean;
+  title?: string;
+  onPress?: () => void;
+  style: ViewStyle;
 };
 
 export const getBackgroundColor = (props: ButtonProps & CustomButtonProps) => {
   let color = props.color || PALETTE.primary;
 
   if (props.disabled) {
-    color = PALETTE.faded;
+    color = PALETTE.faded_white;
   }
   return color;
 };
 
-export const CustomButton = (props: CustomButtonProps & ButtonProps) => (
-  <Button
-    onPress={() => this.props.navigation.navigate('Register')}
-    status="success"
+export const CustomButton = (props: CustomButtonProps) => (
+  <TouchableOpacity
+    onPress={props.onPress}
     style={[
       styles.container,
-      { backgroundColor: props.color || PALETTE.primary }
+      { backgroundColor: getBackgroundColor(props) },
+      props.style
     ]}
-    {...props}
   >
-    <LoadingIndicator />
-    REGISTER
-  </Button>
+    <Text style={styles.btnText}>LOGIN</Text>
+    {props.loading && <LoadingIndicator style={{ left: 25 }} />}
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: 120,
-    backgroundColor: PALETTE.primary,
-    borderColor: PALETTE.primary
+    minWidth: '100%',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    borderRadius: 5,
+    paddingVertical: 15
+  },
+  btnText: {
+    color: PALETTE.white,
+    fontWeight: 'bold',
+    fontFamily: 'opensans-bold'
   }
 });

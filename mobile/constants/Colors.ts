@@ -11,5 +11,7 @@ export const PALETTE = {
   warningText: '#666804',
   noticeBackground: tintColor,
   noticeText: '#fff',
-  primary: '#865e9f'
+  primary: '#865e9f',
+  white: '#fff',
+  faded_white: 'whitesmoke'
 };

@@ -10,8 +10,16 @@ import {
   Layout
 } from 'react-native-ui-kitten';
 import { ListRenderItemInfo, View } from 'react-native';
+import { Networker } from '../../util/networker';
+import { API_URLS } from '../../constants/network';
+import { Message } from '../../util/message';
 
 class FormsScreenView extends Component<NavigationScreenProps> {
+  async componentDidMount() {
+    const { data } = await Networker.get(API_URLS.FORM);
+    console.warn(data);
+  }
+
   private data: { name: string }[] = [
     { name: 'Campaign Form' },
     { name: 'Campaign Form' },
@@ -21,6 +29,7 @@ class FormsScreenView extends Component<NavigationScreenProps> {
     { name: 'Campaign Form' },
     { name: 'Campaign Form' }
   ];
+
   private onItemPress = (index: number) => {
     // Handle item press
     this.props.navigation.navigate('UpdateForm');

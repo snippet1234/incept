@@ -1,4 +1,5 @@
 export const STORAGE_KEYS = {
   CLIENT: 'client',
-  USER: 'user'
+  USER: 'user',
+  AUTH: 'auth'
 };

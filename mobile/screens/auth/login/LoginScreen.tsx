@@ -7,29 +7,49 @@ const validate = require('validate.js');
 import { LOGIN_CONSTRAINS } from './contraints';
 import { LOGO_IMAGE } from '../../../constants/images';
 import { CustomInput } from '../../../components/CustomInput';
-import { Networker } from '../../../util/axios';
+import { Networker } from '../../../util/networker';
 import { API_URLS } from '../../../constants/network';
 import { Storage } from '../../../util/storage';
+import { isLoggedIn } from '../../../util/auth';
+import { ClientData } from 'types/auth';
+import { MessageDuration, Message } from '../../../util/message';
+import { CustomButton } from '../../../components/CustomButton';
 
 interface ILoginState {
   formData: { email: string; password: string };
   loading: boolean;
-  errors: { [index: string]: string[] }[]
+  errors: { [index: string]: string[] }[];
 }
 
 class LoginScreenView extends React.Component<
   NavigationScreenProps,
   ILoginState
-  > {
+> {
   state: ILoginState = {
     formData: { email: 'user@mail.com', password: 'secret' },
     loading: false,
     errors: []
   };
 
+  async componentDidMount() {
+    if (await isLoggedIn()) {
+      this.props.navigation.navigate('Main');
+      return;
+    }
+    await this.loadNetworkDetails();
+  }
+
+  async loadNetworkDetails() {
+    const { data } = await Networker.get<ClientData>(API_URLS.CLIENT);
+
+    Message.show(JSON.stringify(data), 'success', MessageDuration.LONG);
+    await Storage.setClient(data);
+  }
+
   onSubmit = async () => {
     const { formData } = this.state;
     console.warn(formData);
+    this.setState({ loading: true });
     const errors = validate(formData, LOGIN_CONSTRAINS);
     if (errors) {
       this.setState({ errors });
@@ -37,10 +57,18 @@ class LoginScreenView extends React.Component<
       return;
     }
 
-    this.setState({ loading: true });
     const { client_id, secret } = await Storage.getClient();
-    const result = await Networker.post(API_URLS.LOGIN, { data: { ...formData, client_id, client_secret: secret, grant_type: 'password' } });
-    console.warn(result);
+    const { data } = await Networker.post(API_URLS.LOGIN, {
+      password: formData.password,
+      username: formData.email,
+      client_id,
+      client_secret: secret,
+      grant_type: 'password'
+    });
+
+    console.warn(data);
+    await Storage.setAuth(data);
+    this.setState({ loading: false });
     this.props.navigation.navigate('Main');
     // console.warn(errors);
   };
@@ -52,7 +80,7 @@ class LoginScreenView extends React.Component<
   };
 
   render() {
-    const { formData, errors } = this.state;
+    const { formData, errors, loading } = this.state;
     return (
       <Layout style={styles.container}>
         <Avatar
@@ -65,7 +93,6 @@ class LoginScreenView extends React.Component<
           Welcome to Loan Incept
         </Text>
         <CustomInput
-
           placeholder="Email"
           error={errors['email'] && errors['email'][0]}
           label="Email"
@@ -81,7 +108,6 @@ class LoginScreenView extends React.Component<
         />
         <CustomInput
           placeholder="Password"
-
           label="Password"
           error={errors['password'] && errors['password'][0]}
           labelStyle={{}}
@@ -92,13 +118,16 @@ class LoginScreenView extends React.Component<
               source={require('../../../assets/icons/eva/lock.png')}
             />
           )}
-
           value={formData.password}
           onChangeText={value => this.onInputValueChange('password', value)}
         />
-        <Button onPress={this.onSubmit} style={styles.loginButton}>
-          LOGIN
-        </Button>
+        <CustomButton
+          disabled={loading}
+          loading={loading}
+          onPress={this.onSubmit}
+          style={styles.loginButton}
+          title="Login"
+        />
         <Button
           onPress={() => {
             return;

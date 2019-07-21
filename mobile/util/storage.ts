@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 
-import { ClientData, AuthUser } from '../types/auth';
+import { ClientData, AuthUser, AuthData } from '../types/auth';
 import { STORAGE_KEYS } from '../constants/storage';
 
 async function setData(key: string, data: any) {
@@ -27,8 +27,15 @@ async function getClient(): Promise<ClientData | null> {
 async function setUser(user: AuthUser) {
   return await setData(STORAGE_KEYS.CLIENT, user);
 }
+async function setAuth(user: AuthData) {
+  return await setData(STORAGE_KEYS.AUTH, user);
+}
+
 async function getUser() {
   return await getData(STORAGE_KEYS.CLIENT, null);
+}
+async function getAuth() {
+  return await getData(STORAGE_KEYS.AUTH, null);
 }
 
 export const Storage = {
@@ -37,5 +44,7 @@ export const Storage = {
   setClient,
   getClient,
   setUser,
-  getUser
+  getUser,
+  setAuth,
+  getAuth
 };
