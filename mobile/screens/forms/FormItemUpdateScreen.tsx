@@ -14,16 +14,15 @@ import {
 import { ListRenderItemInfo, View, TouchableOpacity } from 'react-native';
 import { PALETTE } from '../../constants/colors';
 
-class FormItemUpdateScreenView extends Component<NavigationScreenProps> {
-  private data: { name: string }[] = [
-    { name: 'Lorem Opt' },
-    { name: 'Lorem Opt' },
-    { name: 'Lorem Opt' },
-    { name: 'Lorem Opt' },
-    { name: 'Lorem Opt' },
-    { name: 'Lorem Opt' },
-    { name: 'Lorem Opt' }
-  ];
+interface FormItemUpdateScreenViewState {
+  formItem: LeadFormItem;
+}
+
+class FormItemUpdateScreenView extends Component<NavigationScreenProps, FormItemUpdateScreenViewState> {
+  state: FormItemUpdateScreenViewState = {
+    formItem: this.props.navigation.state.params.formItem
+  }
+
   private onItemPress = (index: number) => {
     // Handle item press
   };
@@ -67,13 +66,15 @@ class FormItemUpdateScreenView extends Component<NavigationScreenProps> {
   };
 
   render() {
+    const { formItem } = this.state;
+
     return (
       <>
         <Layout style={{ padding: 20, marginTop: 5, flex: 1 }}>
           <Input
             placeholder="Name"
             label="Name"
-            value={null}
+            value={formItem.name}
             icon={() => (
               <Avatar
                 shape="round"
@@ -81,12 +82,12 @@ class FormItemUpdateScreenView extends Component<NavigationScreenProps> {
                 source={require('../../assets/icons/icon-messaging.png')}
               />
             )}
-            onChangeText={value => console.warn}
+            onChangeText={value => this.setState({ formItem: { ...formItem, name: value } })}
           />
           <Input
             placeholder="Label"
             label="Label"
-            value={null}
+            value={formItem.label}
             icon={() => (
               <Avatar
                 shape="round"
@@ -94,7 +95,20 @@ class FormItemUpdateScreenView extends Component<NavigationScreenProps> {
                 source={require('../../assets/icons/eva/bulb.png')}
               />
             )}
-            onChangeText={value => console.warn}
+            onChangeText={value => this.setState({ formItem: { ...formItem, label: value } })}
+          />
+          <Input
+            placeholder="Placeholder"
+            label="Placeholder"
+            value={formItem.placeholder}
+            icon={() => (
+              <Avatar
+                shape="round"
+                size="small"
+                source={require('../../assets/icons/eva/bulb.png')}
+              />
+            )}
+            onChangeText={value => this.setState({ formItem: { ...formItem, placeholder: value } })}
           />
           <Input
             placeholder="Type"
@@ -107,7 +121,7 @@ class FormItemUpdateScreenView extends Component<NavigationScreenProps> {
                 source={require('../../assets/icons/eva/arrowhead-down.png')}
               />
             )}
-            onChangeText={value => console.warn}
+            onChangeText={value => this.setState({ formItem: { ...formItem, label: value } })}
           />
           <Input
             placeholder="Enabled"
@@ -126,7 +140,7 @@ class FormItemUpdateScreenView extends Component<NavigationScreenProps> {
             Options
           </Text>
           <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
-            {this.data.map((item, index) => (
+            {[{ name: 'some option' }].map((item, index) => (
               <Button
                 key={index}
                 status="success"

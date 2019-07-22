@@ -12,31 +12,28 @@ import {
 import { ListRenderItemInfo, View } from 'react-native';
 import { Networker } from '../../util/networker';
 import { API_URLS } from '../../constants/network';
-import { Message } from '../../util/message';
 
-class FormsScreenView extends Component<NavigationScreenProps> {
+interface FormsScreenViewState extends NavigationScreenProps {
+  forms: LeadForm[]
+}
+
+class FormsScreenView extends Component<FormsScreenViewState> {
+  state = {
+    forms: []
+  }
   async componentDidMount() {
     const { data } = await Networker.get(API_URLS.FORM);
+    this.setState({ forms: data })
     console.warn(data);
   }
 
-  private data: { name: string }[] = [
-    { name: 'Campaign Form' },
-    { name: 'Campaign Form' },
-    { name: 'Campaign Form' },
-    { name: 'Campaign Form' },
-    { name: 'Campaign Form' },
-    { name: 'Campaign Form' },
-    { name: 'Campaign Form' }
-  ];
-
   private onItemPress = (index: number) => {
     // Handle item press
-    this.props.navigation.navigate('UpdateForm');
+    this.props.navigation.navigate('UpdateForm', { form: this.state.forms[index] });
   };
 
   private renderItem = (
-    info: ListRenderItemInfo<{ name: string }>
+    info: ListRenderItemInfo<LeadForm>
   ): React.ReactElement => {
     const Accessory = (style: StyleType): React.ReactElement<ButtonProps> => {
       return (
@@ -59,8 +56,8 @@ class FormsScreenView extends Component<NavigationScreenProps> {
 
     return (
       <ListItem
-        title={info.item.name}
-        description="11 fields | Live"
+        title={`${info.item.name}`}
+        description={`${info.item.items.length} fields | ${info.item.status}`}
         onPress={this.onItemPress}
         accessory={Accessory}
         titleStyle={{ fontSize: 17 }}
@@ -75,11 +72,12 @@ class FormsScreenView extends Component<NavigationScreenProps> {
   };
 
   render() {
+    const { forms } = this.state;
     return (
       <Layout style={{ padding: 20, marginTop: 25, flex: 1 }}>
         <List
           style={{ backgroundColor: 'white' }}
-          data={this.data}
+          data={forms}
           renderItem={this.renderItem}
         />
       </Layout>

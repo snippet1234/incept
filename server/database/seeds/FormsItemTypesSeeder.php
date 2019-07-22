@@ -11,10 +11,10 @@ class FormsItemTypesSeeder extends Seeder
      */
     public function run()
     {
-        $types = ['select', 'text', 'number', 'textarea'];
+        $types = ['select', 'text', 'number', 'textarea', 'date'];
         foreach ($types as $type) {
             \App\FormItemType::create([
-                name => $type
+                'name' => $type
             ]);
         }
     }

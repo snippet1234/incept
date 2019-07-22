@@ -9,7 +9,9 @@ class LeadFormItem extends Model
     protected $fillable = [
         'name',
         'label',
+        'lead_form_id',
         'placeholder',
+        'form_item_type_id'
     ];
 
     public function form()

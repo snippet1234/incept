@@ -8,10 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class LeadFormController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     /**
      * Display a listing of the resource.
@@ -20,7 +16,8 @@ class LeadFormController extends Controller
      */
     public function index()
     {
-        return Auth::user()->forms();
+
+        return Auth::user()->forms()->with('items')->get();
     }
 
     /**

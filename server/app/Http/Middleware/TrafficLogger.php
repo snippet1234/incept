@@ -18,6 +18,7 @@ class TrafficLogger
     {
         Log::info($request->all());
         Log::info($request->url());
+        Log::info($request->headers);
         return $next($request);
     }
 }

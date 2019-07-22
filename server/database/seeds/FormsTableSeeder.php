@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\LeadFormItem;
 
 class FormsTableSeeder extends Seeder
 {
@@ -12,20 +13,22 @@ class FormsTableSeeder extends Seeder
     public function run()
     {
         $users = \App\User::all();
+        $formItemTypes = \App\FormItemType::pluck('id');
         $faker = Faker\Factory::create();
 
         foreach ($users as $user) {
-            $leadForm = $user->forms()->create([]);
+            $leadForm = $user->forms()->create(['name' => 'Some Form']);
 
             foreach (range(0, 10) as $index) {
-                $leadForm->items()->create([]);
+                $formItemName = $faker->word;
+                LeadFormItem::create([
+                    'lead_form_id' => $leadForm->id,
+                    'form_item_type_id' => $faker->randomElement($formItemTypes),
+                    'name' => $formItemName,
+                    'label' => $formItemName,
+                    'placeholder' => $formItemName,
+                ]);
             }
         }
-        \App\LeadForm::create([
-            'name' => 'Akash Rajput',
-            'email' => 'user@mail.com',
-            'phone' => '8390516768',
-            'password' => Hash::make('secret')
-        ]);
     }
 }
