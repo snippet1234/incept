@@ -69,7 +69,10 @@ class LeadFormItemController extends Controller
      */
     public function update(Request $request, LeadFormItem $leadFormItem)
     {
-        //
+        $formItem = LeadFormItem::find($request->id);
+
+        // create options
+        // create stuff
     }
 
     /**

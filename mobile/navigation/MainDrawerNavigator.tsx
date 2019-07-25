@@ -24,6 +24,7 @@ import {
 import { Text, Button } from '@kitten/ui';
 import { PALETTE } from '../constants/colors';
 import { logOut } from '../util/auth';
+import { ShowFormScreen } from '../screens/forms/ShowFormScreen';
 const AppHeader = (props: HeaderProps) => {
   return (
     <View style={{ backgroundColor: '#fff', paddingBottom: 10 }}>
@@ -105,6 +106,10 @@ const DrawerNavigator = createDrawerNavigator(
           UpdateForm: {
             screen: FormUpdateScreen,
             navigationOptions: { headerTitle: 'Update Form' }
+          },
+          ShowForm: {
+            screen: ShowFormScreen,
+            navigationOptions: { headerTitle: 'Show Form' }
           },
           UpdateFormItem: {
             screen: FormsItemUpdateScreen,

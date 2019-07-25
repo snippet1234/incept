@@ -24,6 +24,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 
 
     Route::resource('leadform', 'LeadFormController');
+    Route::get('formitemtypes', 'LeadFormController@formItemTypes');
 });
 
 Route::get('/clients', function (Request $request) {

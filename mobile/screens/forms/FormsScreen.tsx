@@ -12,6 +12,7 @@ import {
 import { ListRenderItemInfo, View } from 'react-native';
 import { Networker } from '../../util/networker';
 import { API_URLS } from '../../constants/network';
+import { Container, Header, Content, Tab, Tabs } from 'native-base';
 
 interface FormsScreenViewState extends NavigationScreenProps {
   forms: LeadForm[]
@@ -22,14 +23,16 @@ class FormsScreenView extends Component<FormsScreenViewState> {
     forms: []
   }
   async componentDidMount() {
-    const { data } = await Networker.get(API_URLS.FORM);
-    this.setState({ forms: data })
-    console.warn(data);
+    const { data } = await Networker.get<LeadForm[]>(API_URLS.FORM);
+    if (data && data.length) {
+      this.setState({ forms: data });
+      console.warn(data[0].items[0].type);
+    }
   }
 
   private onItemPress = (index: number) => {
     // Handle item press
-    this.props.navigation.navigate('UpdateForm', { form: this.state.forms[index] });
+    this.props.navigation.navigate('ShowForm', { form: this.state.forms[index] });
   };
 
   private renderItem = (

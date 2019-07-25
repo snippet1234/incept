@@ -1,72 +1,99 @@
 import React, { Component } from 'react';
-import { withNavigation, NavigationScreenProps } from 'react-navigation';
-import {
-  Avatar,
-  List,
-  ListItem,
-  Button,
-  ButtonProps,
-  StyleType,
-  Text,
-  Layout,
-  Input
-} from 'react-native-ui-kitten';
-import { ListRenderItemInfo, View, TouchableOpacity } from 'react-native';
-import { PALETTE } from '../../constants/colors';
+import { View } from 'react-native';
+import { Dropdown } from 'react-native-material-dropdown';
+import { Avatar, Button, Input, Layout, Text } from 'react-native-ui-kitten';
+import { NavigationScreenProps, withNavigation } from 'react-navigation';
+
+import { CustomButton } from '../../components/CustomButton';
+import { API_URLS } from '../../constants/network';
+import { Networker } from '../../util/networker';
+
 
 interface FormItemUpdateScreenViewState {
   formItem: LeadFormItem;
+  formItemTypes: LeadFormItemType[];
+  selectedType?: string;
+  selectedStatus?: string;
+  optionValue: string;
 }
 
 class FormItemUpdateScreenView extends Component<NavigationScreenProps, FormItemUpdateScreenViewState> {
   state: FormItemUpdateScreenViewState = {
-    formItem: this.props.navigation.state.params.formItem
+    formItem: this.props.navigation.state.params.formItem,
+    selectedType: this.props.navigation.state.params.formItem.type.name,
+    selectedStatus: this.props.navigation.state.params.formItem.status || 'Enabled',
+    formItemTypes: [],
+    optionValue: ''
   }
 
-  private onItemPress = (index: number) => {
-    // Handle item press
-  };
+  async componentDidMount() {
+    const { formItem } = this.state;
+    console.warn(formItem);
+    const { data } = await Networker.get(API_URLS.FORM_ITEM_TYPES);
 
-  private renderItem = (
-    info: ListRenderItemInfo<{ name: string }>
-  ): React.ReactElement => {
-    const Accessory = (style: StyleType): React.ReactElement<ButtonProps> => {
-      return (
-        <>
-          <Button
-            size="small"
-            appearance="ghost"
-            status="warning"
-            style={style}
-          >
-            UPDATE
-          </Button>
-          <Button size="small" appearance="ghost" status="danger" style={style}>
-            X
-          </Button>
-        </>
-      );
-    };
+    if (data && data.length) {
+      this.setState({ formItemTypes: data });
+    }
+  }
+
+  renderOptions = () => {
+    const { formItem, selectedType, optionValue } = this.state;
+    if (selectedType !== 'select' && !formItem.options) {
+      return null;
+    }
+
+    if (!formItem.options) {
+      formItem.options = []
+    }
 
     return (
-      <ListItem
-        title={info.item.name}
-        description="11 fields | Live"
-        onPress={this.onItemPress}
-        accessory={Accessory}
-        titleStyle={{ fontSize: 17 }}
-        descriptionStyle={{ marginTop: 7 }}
-        style={{
-          paddingVertical: 10,
-          borderBottomColor: '#aaf',
-          borderBottomWidth: 0.3
-        }}
-      />
-    );
-  };
+      <>
+        <View>
+          <Text category="h6" style={{ marginBottom: 15, marginTop: 15 }}>
+            Options
+          </Text>
+
+        </View>
+        <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
+          {formItem.options.map((item, index) => (
+            <Button
+              key={index}
+              status=""
+              style={{ width: 100, margin: 5, height: 35 }}
+              size="tiny"
+            >
+              {item.value + ' X'}
+            </Button>
+          ))}
+          <Input
+            style={{ height: 25, padding: 5 }}
+            placeholder="Option value"
+            onChangeText={value => this.setState({ optionValue: value })}
+          />
+          <Button
+            onPress={() => this.setState({ formItem: { ...formItem, options: [...formItem.options, { value: optionValue }] } })}
+            status="warning"
+            style={{ width: 100, marginBottom: 45 }}
+          >
+            +
+          </Button>
+        </View>
+      </>
+    )
+  }
+
+  public onSubmit = async () => {
+    const { formItem, formItemTypes, selectedType, selectedStatus } = this.state;
+    const newFormItem = formItem;
+    newFormItem.status = selectedStatus === 'Enabled';
+    newFormItem.type = formItemTypes.find(item => item.name === selectedType);
+    console.warn(newFormItem);
+    const { data } = await Networker.put(API_URLS.FORM_ITEM, formItem);
+    console.warn(data);
+  }
 
   render() {
-    const { formItem } = this.state;
+    const { formItem, formItemTypes, selectedType, selectedStatus } = this.state;
 
     return (
       <>
@@ -110,58 +137,30 @@ class FormItemUpdateScreenView extends Component<NavigationScreenProps, FormItem
             )}
             onChangeText={value => this.setState({ formItem: { ...formItem, placeholder: value } })}
           />
-          <Input
-            placeholder="Type"
-            label="Type"
-            value={null}
-            icon={() => (
-              <Avatar
-                shape="round"
-                size="small"
-                source={require('../../assets/icons/eva/arrowhead-down.png')}
-              />
-            )}
-            onChangeText={value => this.setState({ formItem: { ...formItem, label: value } })}
-          />
-          <Input
-            placeholder="Enabled"
-            label="Enabled"
-            value={'Enabled'}
-            icon={() => (
-              <Avatar
-                shape="round"
-                size="small"
-                source={require('../../assets/icons/eva/arrowhead-down.png')}
-              />
-            )}
-            onChangeText={value => console.warn}
-          />
-          <Text category="h6" style={{ marginBottom: 15, marginTop: 15 }}>
-            Options
-          </Text>
-          <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
-            {[{ name: 'some option' }].map((item, index) => (
-              <Button
-                key={index}
-                status="success"
-                style={{ width: 100, margin: 5 }}
-                size="tiny"
-              >
-                {item.name + '  X'}
-              </Button>
-            ))}
-          </View>
-          <Button
-            onPress={() => this.props.navigation.goBack()}
-            style={{
-              width: '100%',
-              marginTop: 15,
-              borderColor: 'transparent',
-              backgroundColor: PALETTE.primary
+          <Dropdown
+            label='Input Type'
+            value={selectedType}
+            data={formItemTypes.map(inputType => ({ value: inputType.name }))}
+            onChangeText={(value, index, data) => {
+
+              this.setState({ selectedType: value })
             }}
-          >
-            UPDATE
-          </Button>
+          />
+          <Dropdown
+            label='Enabled'
+            value={selectedStatus}
+            data={['Enabled', 'Disabled'].map(status => ({ value: status }))}
+            onChangeText={(value, index, data) => {
+
+              this.setState({ selectedStatus: value })
+            }}
+          />
+
+          {this.renderOptions()}
+          <CustomButton
+            onPress={this.onSubmit}
+            title="UPDATE"
+          />
         </Layout>
       </>
     );

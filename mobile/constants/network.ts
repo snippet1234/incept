@@ -10,5 +10,7 @@ export const API_URLS = {
   CLIENT: serverUrl + '/api/clients',
   REGISTER: makeUrl('auth/register'),
   FORM: makeUrl('leadform'),
-  SUBCRIPTION: makeUrl('subscription')
+  FORM_ITEM: makeUrl('formitem'),
+  FORM_ITEM_TYPES: makeUrl('formitemtypes'),
+  SUBSCRIPTION: makeUrl('subscription')
 };

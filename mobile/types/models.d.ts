@@ -14,9 +14,10 @@ type LeadFormItem = {
   id: string;
   name: string;
   label: string;
+  status: boolean;
   placeholder: string;
   type: LeadFormItemType;
-  options: LeadFormItemOption;
+  options?: LeadFormItemOption[];
 }
 
 type LeadFormItemType = {
@@ -30,6 +31,6 @@ type FormItemResponse = {
 }
 
 type LeadFormItemOption = {
-  id: string;
+  id?: string;
   value: string;
 }

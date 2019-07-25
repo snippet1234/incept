@@ -11,7 +11,7 @@ type CustomButtonProps = {
   loading?: boolean;
   title?: string;
   onPress?: () => void;
-  style: ViewStyle;
+  style?: ViewStyle;
 };
 
 export const getBackgroundColor = (props: ButtonProps & CustomButtonProps) => {

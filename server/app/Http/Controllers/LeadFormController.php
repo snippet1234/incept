@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\LeadForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\FormItemType;
 
 class LeadFormController extends Controller
 {
@@ -17,7 +18,7 @@ class LeadFormController extends Controller
     public function index()
     {
 
-        return Auth::user()->forms()->with('items')->get();
+        return Auth::user()->forms()->with('items.type')->get();
     }
 
     /**
@@ -84,5 +85,15 @@ class LeadFormController extends Controller
     public function destroy(LeadForm $leadForm)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function formItemTypes(Request $request)
+    {
+        return FormItemType::all();
     }
 }

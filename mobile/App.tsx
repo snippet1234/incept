@@ -9,7 +9,7 @@ import {
   View,
   AsyncStorage
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, FontAwesome, AntDesign, Entypo, EvilIcons, Feather } from '@expo/vector-icons';
 
 import { mapping, light as lightTheme } from '@eva-design/eva';
 import { ApplicationProvider } from 'react-native-ui-kitten';
@@ -50,6 +50,8 @@ async function loadResourcesAsync() {
     Font.loadAsync({
       // This is the font that we are using for our tab bar
       ...Ionicons.font,
+      ...FontAwesome5.font, ...AntDesign.font, ...Entypo.font, ...EvilIcons.font, ...Feather.font,
+      ...FontAwesome.font,
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),

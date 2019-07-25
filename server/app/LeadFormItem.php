@@ -21,6 +21,6 @@ class LeadFormItem extends Model
 
     public function type()
     {
-        return $this->belongsTo('App\LeadFormItemType');
+        return $this->belongsTo('App\FormItemType', 'form_item_type_id');
     }
 }
