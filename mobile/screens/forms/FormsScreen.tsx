@@ -1,32 +1,27 @@
 import React, { Component } from 'react';
-import { withNavigation, NavigationScreenProps } from 'react-navigation';
-import {
-  List,
-  ListItem,
-  Button,
-  ButtonProps,
-  StyleType,
-  Text,
-  Layout
-} from 'react-native-ui-kitten';
-import { ListRenderItemInfo, View } from 'react-native';
-import { Networker } from '../../util/networker';
+import { ListRenderItemInfo } from 'react-native';
+import { Button, ButtonProps, Layout, List, ListItem, StyleType } from 'react-native-ui-kitten';
+import { NavigationScreenProps, withNavigation } from 'react-navigation';
 import { API_URLS } from '../../constants/network';
-import { Container, Header, Content, Tab, Tabs } from 'native-base';
+import { Networker } from '../../util/networker';
 
 interface FormsScreenViewState extends NavigationScreenProps {
   forms: LeadForm[]
 }
 
+
 class FormsScreenView extends Component<FormsScreenViewState> {
   state = {
-    forms: []
+    forms: [],
   }
+
   async componentDidMount() {
     const { data } = await Networker.get<LeadForm[]>(API_URLS.FORM);
     if (data && data.length) {
+
+
       this.setState({ forms: data });
-      console.warn(data[0].items[0].type);
+
     }
   }
 
@@ -76,8 +71,10 @@ class FormsScreenView extends Component<FormsScreenViewState> {
 
   render() {
     const { forms } = this.state;
+
     return (
       <Layout style={{ padding: 20, marginTop: 25, flex: 1 }}>
+
         <List
           style={{ backgroundColor: 'white' }}
           data={forms}

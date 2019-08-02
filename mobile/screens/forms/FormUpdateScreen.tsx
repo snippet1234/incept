@@ -14,10 +14,12 @@ import { PALETTE } from '../../constants/colors';
 interface FormUpdateScreenViewState extends NavigationScreenProps {
   form: LeadForm;
 }
-
+const perPage = 5;
 class FormUpdateScreenView extends Component<FormUpdateScreenViewState> {
   state = {
-    form: this.props.navigation.state.params.form
+    form: this.props.navigation.state.params.form,
+    currentPage: 0,
+    totalPages: Math.ceil(this.props.navigation.state.params.form.items / perPage)
   }
   componentDidMount() {
     this.setState({ form: this.props.navigation.state.params.form })
@@ -68,11 +70,15 @@ class FormUpdateScreenView extends Component<FormUpdateScreenViewState> {
   };
 
   render() {
+    const { form, currentPage } = this.state;
+    const data = form.items.slice(perPage * currentPage, perPage);
+    console.warn('DATA', data)
+
     return (
       <Layout style={{ padding: 20, marginTop: 25, flex: 1 }}>
         <List
           style={{ backgroundColor: 'white' }}
-          data={this.state.form.items}
+          data={data}
           renderItem={this.renderItem}
         />
         <Button

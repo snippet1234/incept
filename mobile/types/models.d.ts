@@ -16,8 +16,8 @@ type LeadFormItem = {
   label: string;
   status: boolean;
   placeholder: string;
-  type: LeadFormItemType;
-  options?: LeadFormItemOption[];
+  type: LeadFormItemType | string;
+  options?: LeadFormItemOption[] | string[];
 }
 
 type LeadFormItemType = {

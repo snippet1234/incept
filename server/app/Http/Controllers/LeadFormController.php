@@ -18,7 +18,7 @@ class LeadFormController extends Controller
     public function index()
     {
 
-        return Auth::user()->forms()->with('items.type')->get();
+        return Auth::user()->forms()->with(['items.type', 'items.options'])->get();
     }
 
     /**

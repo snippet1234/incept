@@ -25,7 +25,7 @@ const getHiddenValue = (value: string) => {
 
 export const CustomInput = (props: InputProps & CustomInputProps) => (
   <>
-    <Input status={props.error ? 'danger' : undefined} {...props} />
+    <Input status={props.error ? 'danger' : undefined} {...props} textStyle={{ color: 'black' }} />
     <Text style={styles.errorText}>{props.error}</Text>
     {/* {props.error && <Text status="error">{props.error}</Text>} */}
   </>

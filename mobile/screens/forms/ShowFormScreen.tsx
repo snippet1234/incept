@@ -9,19 +9,25 @@ import {
   Text,
   Layout
 } from 'react-native-ui-kitten';
-import { ListRenderItemInfo, View } from 'react-native';
+import { ListRenderItemInfo, View, Dimensions } from 'react-native';
 import { Networker } from '../../util/networker';
 import { API_URLS } from '../../constants/network';
 import { Container, Header, Content, Tab, Tabs } from 'native-base';
 import { PALETTE } from '../../constants/colors';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface ShowFormsScreenViewState extends NavigationScreenProps {
   form: LeadForm
 }
 
+const perPage = 5;
+
 class ShowFormScreenView extends Component<ShowFormsScreenViewState> {
   state = {
-    form: this.props.navigation.state.params.form
+    form: this.props.navigation.state.params.form,
+    currentPage: 0,
+    totalPages: Math.ceil(this.props.navigation.state.params.form.items.length / perPage)
+
   }
   async componentDidMount() {
     console.warn(this.state.form)
@@ -32,15 +38,13 @@ class ShowFormScreenView extends Component<ShowFormsScreenViewState> {
     this.props.navigation.navigate('UpdateFormItem', { formItem: this.state.form.items[index] });
   };
 
-  renderShowItem = (info: ListRenderItemInfo<{ name: string; type: { name: string } }>) => {
+  renderShowItem = (info: ListRenderItemInfo<LeadFormItem>) => {
 
     const Accessory = (style: StyleType): React.ReactElement<ButtonProps> => {
       return (
         <>
-          <Text status="success">{info.item.type.name}</Text>
-          <Button size="small" appearance="ghost" status="danger" style={style}>
-            X
-          </Button>
+          {info.item.options.length > 0 && <Text category="C2" status="info">Options {info.item.options.length.toString()}</Text>}
+
         </>
       );
     };
@@ -62,7 +66,7 @@ class ShowFormScreenView extends Component<ShowFormsScreenViewState> {
     );
   }
 
-  private renderItem = (
+  private renderUpdateItem = (
     info: ListRenderItemInfo<{ name: string; type: string }>
   ): React.ReactElement => {
     const Accessory = (style: StyleType): React.ReactElement<ButtonProps> => {
@@ -101,25 +105,47 @@ class ShowFormScreenView extends Component<ShowFormsScreenViewState> {
     );
   };
 
+  renderPaginatedFormItems = () => {
+    const { form, currentPage, totalPages } = this.state;
+
+    let data = []
+    console.warn(form.items.length, 'data', totalPages);
+    for (let i = 0; i < totalPages; i++) {
+
+      data[i] = form.items.slice(perPage * i, perPage * i + perPage);
+    }
+    return data.map((d, index) => {
+      // console.warn(d.length, index)
+      return (
+        <List
+          style={{ backgroundColor: 'white', width: Dimensions.get('window').width }}
+          data={d}
+          renderItem={this.renderShowItem}
+        />
+      )
+    })
+
+  }
 
   render() {
-    const { form } = this.state;
+
+    const { form, currentPage, totalPages } = this.state;
+
     return (
-      <Layout style={{ padding: 20, marginTop: 25, flex: 1 }}>
+      <Layout style={{ flex: 1 }}>
         <Container>
           {/* <Header style={{ backgroundColor: PALETTE.white }} hasTabs /> */}
-          <Tabs tabContainerStyle={{ backgroundColor: PALETTE.white }} tabBarBackgroundColor={PALETTE.white} style={{ backgroundColor: PALETTE.white }} tabBarUnderlineStyle={{ backgroundColor: PALETTE.primary }}>
+          <Tabs locked tabContainerStyle={{ backgroundColor: PALETTE.white }} tabBarBackgroundColor={PALETTE.white} style={{ backgroundColor: PALETTE.white }} tabBarUnderlineStyle={{ backgroundColor: PALETTE.primary }}>
             <Tab tabStyle={{ backgroundColor: PALETTE.white }}
               activeTextStyle={{ color: PALETTE.primary }}
               activeTabStyle={{
                 backgroundColor: PALETTE.white, borderBottomColor: PALETTE.primary, borderColor: PALETTE
                   .primary
               }} heading="View Form">
-              <List
-                style={{ backgroundColor: 'white' }}
-                data={form.items}
-                renderItem={this.renderShowItem}
-              />
+              <ScrollView horizontal pagingEnabled showsHorizontalScrollIndicator>
+                {this.renderPaginatedFormItems()}
+
+              </ScrollView>
             </Tab>
             <Tab heading="Edit Form" tabStyle={{ backgroundColor: PALETTE.white }}
               activeTextStyle={{ color: PALETTE.primary }}
@@ -130,7 +156,7 @@ class ShowFormScreenView extends Component<ShowFormsScreenViewState> {
               <List
                 style={{ backgroundColor: 'white' }}
                 data={form.items}
-                renderItem={this.renderItem}
+                renderItem={this.renderUpdateItem}
               />
             </Tab>
           </Tabs>

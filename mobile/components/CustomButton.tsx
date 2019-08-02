@@ -32,7 +32,7 @@ export const CustomButton = (props: CustomButtonProps) => (
       props.style
     ]}
   >
-    <Text style={styles.btnText}>LOGIN</Text>
+    <Text style={styles.btnText}>{props.title}</Text>
     {props.loading && <LoadingIndicator style={{ left: 25 }} />}
   </TouchableOpacity>
 );

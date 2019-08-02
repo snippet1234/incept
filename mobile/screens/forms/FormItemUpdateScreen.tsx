@@ -36,6 +36,25 @@ class FormItemUpdateScreenView extends Component<NavigationScreenProps, FormItem
     }
   }
 
+  removeTag = (index: number) => {
+    const { formItem } = this.state;
+    formItem.options.splice(index, 1);
+    this.setState({ formItem });
+
+  }
+
+  addTag = () => {
+    const { formItem, optionValue } = this.state;
+
+    this.setState({
+      formItem: {
+        ...formItem,
+        options: [...formItem.options, { value: optionValue }]
+      },
+      optionValue: ''
+    })
+  }
+
   renderOptions = () => {
     const { formItem, selectedType, optionValue } = this.state;
     if (selectedType !== 'select' && !formItem.options) {
@@ -58,22 +77,26 @@ class FormItemUpdateScreenView extends Component<NavigationScreenProps, FormItem
           {formItem.options.map((item, index) => (
             <Button
               key={index}
+              onPress={() => this.removeTag(index)}
               status=""
-              style={{ width: 100, margin: 5, height: 35 }}
+              style={{ width: 100, margin: 2 }}
               size="tiny"
             >
-              {item.value + ' X'}
+              {item.value}
             </Button>
           ))}
           <Input
-            style={{ height: 25, padding: 5 }}
+            style={{ height: 25 }}
+            themedStyle={{ height: 25 }}
             placeholder="Option value"
+            value={optionValue}
             onChangeText={value => this.setState({ optionValue: value })}
+            onSubmitEditing={this.addTag}
           />
           <Button
-            onPress={() => this.setState({ formItem: { ...formItem, options: [...formItem.options, { value: optionValue }] } })}
+            onPress={this.addTag}
             status="warning"
-            style={{ width: 100, marginBottom: 45 }}
+            style={{ marginBottom: 45, marginLeft: 5 }}
           >
             +
           </Button>
@@ -86,9 +109,13 @@ class FormItemUpdateScreenView extends Component<NavigationScreenProps, FormItem
     const { formItem, formItemTypes, selectedType, selectedStatus } = this.state;
     const newFormItem = formItem;
     newFormItem.status = selectedStatus === 'Enabled';
-    newFormItem.type = formItemTypes.find(item => item.name === selectedType);
+    newFormItem.type = formItemTypes.find(item => item.name === selectedType).id;
+    newFormItem.options = (formItem.options as LeadFormItemOption[]).map(item => item.value);
+
     console.warn(newFormItem);
-    const { data } = await Networker.put(API_URLS.FORM_ITEM, formItem);
+
+    //@ts-ignore
+    const { data } = await Networker.put(`${API_URLS.FORM}/${formItem.lead_form_id}/formitem/${formItem.id}`, formItem);
     console.warn(data);
   }
 

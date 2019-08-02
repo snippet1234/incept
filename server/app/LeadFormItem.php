@@ -16,11 +16,15 @@ class LeadFormItem extends Model
 
     public function form()
     {
-        return $this->belongsTo('App\LeadFormItem');
+        return $this->belongsTo('App\LeadFormItem', 'lead_form_id');
     }
 
     public function type()
     {
         return $this->belongsTo('App\FormItemType', 'form_item_type_id');
+    }
+    public function options()
+    {
+        return $this->hasMany('App\LeadFormItemOption');
     }
 }
