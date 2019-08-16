@@ -8,7 +8,7 @@ export const API_URLS = {
   BASE: serverUrl,
   LOGIN: serverUrl + '/oauth/token',
   CLIENT: serverUrl + '/api/clients',
-  REGISTER: makeUrl('auth/register'),
+  REGISTER: makeUrl('register'),
   FORM: makeUrl('leadform'),
   FORM_ITEM: makeUrl('formitem'),
   FORM_ITEM_TYPES: makeUrl('formitemtypes'),

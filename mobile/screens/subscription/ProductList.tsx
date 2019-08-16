@@ -1,11 +1,12 @@
 import React from 'react';
-import { ListRenderItemInfo, SafeAreaView, View } from 'react-native';
+import { ListRenderItemInfo, SafeAreaView, View, TouchableHighlight } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { List, ListProps, Layout, Button, Text, Avatar } from '@kitten/ui';
 import { Product } from '../../core/model';
 import { ProductListItem, ProductListItemProps } from './ProductListItem';
 import { PALETTE } from '../../constants/colors';
 import { Title, Card } from 'native-base';
+import { NavigationScreenProps } from 'react-navigation';
 
 // @ts-ignore (override `renderItem` prop)
 interface ComponentProps extends ListProps {
@@ -18,7 +19,7 @@ export type ProductListProps = ThemedComponentProps & ComponentProps;
 
 type ListItemElement = React.ReactElement<ProductListItemProps>;
 
-class ProductListComponent extends React.Component<ProductListProps> {
+class ProductListComponent extends React.Component<ProductListProps & NavigationScreenProps> {
   private onProductAddPress = (index: number) => {
     this.props.onItemAddPress(index);
   };
@@ -125,34 +126,46 @@ class ProductListComponent extends React.Component<ProductListProps> {
     return (
       <Layout style={{ padding: 15 }}>
         <SafeAreaView>
-          <Card style={{ padding: 20, borderRadius: 5 }}>
-            <View style={{ flexDirection: 'row' }}>
-              <Avatar
+          <TouchableHighlight onPress={() => {
+            this.props.navigation.navigate('cart')
+          }}>
+            <Card style={{ padding: 20, borderRadius: 5 }}>
+              <View style={{ flexDirection: 'row' }}>
+                <Avatar
 
-                style={{ width: 90, height: 90 }}
-                source={{ uri: premiumImage }}
-              />
-              <View style={{ paddingLeft: 10 }}>
-                <Title style={{ textAlign: 'left', justifyContent: 'flex-start', marginTop: 20 }}>1003 Forms</Title>
-                <Text style={{ marginLeft: 5 }}>Has only forms included</Text>
+                  style={{ width: 90, height: 90 }}
+                  source={{ uri: premiumImage }}
+                />
+                <View style={{ paddingLeft: 10 }}>
+                  <Title style={{ textAlign: 'left', justifyContent: 'flex-start', marginTop: 20 }}>1003 Forms</Title>
+                  <Text style={{ marginLeft: 5 }}>Has only forms included</Text>
+                </View>
+
               </View>
+            </Card>
 
-            </View>
-          </Card>
-          <Card style={{ padding: 20, borderRadius: 5 }}>
-            <View style={{ flexDirection: 'row' }}>
-              <Avatar
+          </TouchableHighlight>
 
-                style={{ width: 90, height: 90 }}
-                source={{ uri: premiumImage }}
-              />
-              <View style={{ paddingLeft: 10 }}>
-                <Title style={{ textAlign: 'left', justifyContent: 'flex-start', marginTop: 20 }}>1003 Forms + Website</Title>
-                <Text style={{ marginLeft: 5 }}>Has forms along with Website</Text>
+          <TouchableHighlight onPress={() => {
+            this.props.navigation.navigate('cart', {
+              website: true,
+            })
+          }}>
+            <Card style={{ padding: 20, borderRadius: 5 }}>
+              <View style={{ flexDirection: 'row' }}>
+                <Avatar
+
+                  style={{ width: 90, height: 90 }}
+                  source={{ uri: premiumImage }}
+                />
+                <View style={{ paddingLeft: 10 }}>
+                  <Title style={{ textAlign: 'left', justifyContent: 'flex-start', marginTop: 20 }}>1003 Forms + Website</Title>
+                  <Text style={{ marginLeft: 5 }}>Has forms along with Website</Text>
+                </View>
+
               </View>
-
-            </View>
-          </Card>
+            </Card>
+          </TouchableHighlight>
           {/* <Button
             style={{
               backgroundColor: PALETTE.primary,

@@ -7,18 +7,20 @@ import validate from 'validate.js';
 import { LOGIN_CONSTRAINS } from './auth/login/contraints';
 import { PALETTE } from '../constants/colors';
 import { LOGO_IMAGE } from '../constants/images';
+import { Networker } from '../util/networker';
+import { API_URLS } from '../constants/network';
 
 interface ILoginState {
-  formData: { email: string; password: string };
+  formData: any;
   loading: boolean;
 }
 
 class RegisterScreenView extends React.Component<
   NavigationScreenProps,
   ILoginState
-> {
+  > {
   state: ILoginState = {
-    formData: { email: '', password: '' },
+    formData: {},
     loading: false
   };
 
@@ -26,6 +28,12 @@ class RegisterScreenView extends React.Component<
     const { formData } = this.state;
     this.props.navigation.navigate('Forms');
     const errors = validate(formData, LOGIN_CONSTRAINS);
+    if (!errors) {
+      Networker.post(API_URLS.REGISTER, {
+        ...formData,
+        name: this.state.formData.username
+      })
+    }
     console.warn(errors);
   };
 
