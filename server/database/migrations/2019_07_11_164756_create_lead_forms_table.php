@@ -16,6 +16,8 @@ class CreateLeadFormsTable extends Migration
         Schema::create('lead_forms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
+            $table->string('name')->default('Loan Form');
+            $table->enum('status', ['active', 'archived'])->default('active');
             $table->timestamps();
         });
 

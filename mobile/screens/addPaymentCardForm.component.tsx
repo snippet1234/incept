@@ -24,6 +24,7 @@ import {
   CvvFormatter,
   CardholderNameFormatter,
 } from '../core/formatters';
+import { Title } from 'native-base';
 
 export interface AddPaymentCardFormType {
   cardNumber: string;
@@ -108,15 +109,15 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
           style={themedStyle.input}
           textStyle={textStyle.paragraph}
           labelStyle={textStyle.label}
-          label='CARD NUMBER'
-          placeholder='0000 0000 0000 0000'
+          label='NO. OF 1003 FORMS'
+          placeholder='100'
           validator={CardNumberValidator}
           formatter={CardNumberFormatter}
           maxLength={19}
           keyboardType='numeric'
           onChangeText={this.onCardNumberChange}
         />
-        <View style={themedStyle.middleContainer}>
+        {/* <View style={themedStyle.middleContainer}>
           <ValidationInput
             style={[themedStyle.input, themedStyle.expireInput]}
             textStyle={textStyle.paragraph}
@@ -141,17 +142,18 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
             keyboardType='numeric'
             onChangeText={this.onCvvChange}
           />
-        </View>
+        </View> */}
         <ValidationInput
           style={[themedStyle.input, themedStyle.cardholderNameInput]}
           textStyle={textStyle.paragraph}
           labelStyle={textStyle.label}
-          label='CARDHOLDER NAME'
-          placeholder='Enter Name'
+          label='SUBSCRIPTION TERM'
+          placeholder='MONTHLY'
           validator={CardholderNameValidator}
           formatter={CardholderNameFormatter}
           onChangeText={this.onCardHolderNameChange}
         />
+        <Title style={{ textAlign: 'left', fontSize: 27, marginVertical: 20 }}>Total: $137</Title>
       </View>
     );
   }

@@ -2,7 +2,8 @@ import React from 'react';
 import {
   createDrawerNavigator,
   HeaderProps,
-  DrawerActions
+  DrawerActions,
+  DrawerItems
 } from 'react-navigation';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { FormsScreen } from '../screens/forms/FormsScreen';
@@ -21,7 +22,11 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Button, Text, Avatar } from '@kitten/ui';
-import { PALETTE } from '../constants/colors';
+import { PALETTE } from '../constants/Colors';
+import { logOut } from '../util/auth';
+import { ShowFormScreen } from '../screens/forms/ShowFormScreen';
+import { SubscriptionScreen } from '../screens/subscription/SubscriptionScreen';
+
 const AppHeader = (props: HeaderProps) => {
   return (
     <View style={{ backgroundColor: '#fff', paddingBottom: 10 }}>
@@ -96,6 +101,15 @@ const getScreenNavigationOptions = (title: string) => ({
 });
 const DrawerNavigator = createDrawerNavigator(
   {
+    Subscription: {
+      screen: createStackNavigator(
+        {
+          screen: SubscriptionScreen
+        },
+        getScreenNavigationOptions('Subscriptions')
+      )
+    },
+
     Forms: {
       screen: createStackNavigator(
         {
@@ -104,20 +118,16 @@ const DrawerNavigator = createDrawerNavigator(
             screen: FormUpdateScreen,
             navigationOptions: { headerTitle: 'Update Form' }
           },
+          ShowForm: {
+            screen: ShowFormScreen,
+            navigationOptions: { headerTitle: 'Show Form' }
+          },
           UpdateFormItem: {
             screen: FormsItemUpdateScreen,
             navigationOptions: { headerTitle: 'Update Form Item' }
           }
         },
         getScreenNavigationOptions('Manage Forms')
-      )
-    },
-    Subscription: {
-      screen: createStackNavigator(
-        {
-          screen: ProductList
-        },
-        getScreenNavigationOptions('Subscriptions')
       )
     },
     Profile: {
@@ -149,12 +159,24 @@ const DrawerNavigator = createDrawerNavigator(
         },
         getScreenNavigationOptions('Contact')
       )
-    },
-    Logout: props => props.navigation.navigate('Auth')
+    }
   },
   {
     initialRouteName: '',
     // contentComponent: MenuContent,
+    contentComponent: props => (
+      <View style={{ flex: 1 }}>
+        <SafeAreaView>
+          <DrawerItems {...props} />
+          <Text
+            onPress={async () => await logOut(props.navigation)}
+            style={{ color: PALETTE.errorBackground, padding: 20 }}
+          >
+            Logout
+          </Text>
+        </SafeAreaView>
+      </View>
+    ),
     navigationOptions: {
       headerMode: 'screen',
       header: null
