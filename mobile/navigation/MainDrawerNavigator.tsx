@@ -21,7 +21,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Button, Text, Avatar } from '@kitten/ui';
-import { PALETTE } from '../constants/colors';
+import { PALETTE } from '../constants/Colors';
 const AppHeader = (props: HeaderProps) => {
   return (
     <View style={{ backgroundColor: '#fff', paddingBottom: 10 }}>

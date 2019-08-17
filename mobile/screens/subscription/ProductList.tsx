@@ -4,7 +4,7 @@ import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { List, ListProps, Layout, Button, Text } from '@kitten/ui';
 import { Product } from '../../core/model';
 import { ProductListItem, ProductListItemProps } from './ProductListItem';
-import { PALETTE } from '../../constants/colors';
+import { PALETTE } from '../../constants/Colors';
 
 // @ts-ignore (override `renderItem` prop)
 interface ComponentProps extends ListProps {

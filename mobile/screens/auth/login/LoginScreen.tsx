@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { StyleSheet, ActivityIndicator } from 'react-native';
+import { StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
-import { PALETTE } from '../../../constants/colors';
+import { PALETTE } from '../../../constants/Colors';
 import validate from 'validate.js';
 import { LOGIN_CONSTRAINS } from './contraints';
-import { LOGO_IMAGE } from '../../../constants/images';
+import { LOGO_IMAGE } from '../../../constants/Images';
 
 interface ILoginState {
   formData: { email: string; password: string };
@@ -27,6 +27,14 @@ class LoginScreenView extends React.Component<
     this.props.navigation.navigate('Main');
     // console.warn(errors);
   };
+
+  onReset = () => {
+    //const { formData } = this.state;
+    //const errors = validate(formData, LOGIN_CONSTRAINS);
+    this.props.navigation.navigate('Reset');
+    // console.warn(errors);
+  };
+
 
   private onInputValueChange = (key: string, value: string) => {
     const { formData } = this.state;
@@ -78,9 +86,7 @@ class LoginScreenView extends React.Component<
           LOGIN
         </Button>
         <Button
-          onPress={() => {
-            return;
-          }}
+          onPress={this.onReset}
           style={styles.forgotButton}
         >
           Forgot Password?
@@ -111,7 +117,7 @@ const styles = StyleSheet.create({
   forgotButton: {
     width: '100%',
     marginTop: 15,
-    backgroundColor: PALETTE.tabIconDefault,
+    backgroundColor: PALETTE.primary,
     borderColor: 'transparent'
   },
   registerButton: {

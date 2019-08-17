@@ -12,7 +12,7 @@ import {
   Input
 } from 'react-native-ui-kitten';
 import { ListRenderItemInfo, View, TouchableOpacity } from 'react-native';
-import { PALETTE } from '../../constants/colors';
+import { PALETTE } from '../../constants/Colors';
 
 class FormItemUpdateScreenView extends Component<NavigationScreenProps> {
   private data: { name: string }[] = [

@@ -5,8 +5,8 @@ import { withNavigation, NavigationScreenProps } from 'react-navigation';
 
 import validate from 'validate.js';
 import { LOGIN_CONSTRAINS } from './auth/login/contraints';
-import { PALETTE } from '../constants/colors';
-import { LOGO_IMAGE } from '../constants/images';
+import { PALETTE } from '../constants/Colors';
+import { LOGO_IMAGE } from '../constants/Images';
 
 interface ILoginState {
   formData: { email: string; password: string };
