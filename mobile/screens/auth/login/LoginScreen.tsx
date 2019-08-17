@@ -2,14 +2,24 @@ import * as React from 'react';
 import { StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
+
 import { PALETTE } from '../../../constants/Colors';
-import validate from 'validate.js';
+const validate = require('validate.js');
 import { LOGIN_CONSTRAINS } from './contraints';
-import { LOGO_IMAGE } from '../../../constants/Images';
+import { LOGO_IMAGE } from '../../../constants/images';
+import { CustomInput } from '../../../components/CustomInput';
+import { Networker } from '../../../util/networker';
+import { API_URLS } from '../../../constants/network';
+import { Storage } from '../../../util/storage';
+import { isLoggedIn } from '../../../util/auth';
+import { ClientData } from 'types/auth';
+import { MessageDuration, Message } from '../../../util/message';
+import { CustomButton } from '../../../components/CustomButton';
 
 interface ILoginState {
   formData: { email: string; password: string };
   loading: boolean;
+  errors: { [index: string]: string[] }[];
 }
 
 class LoginScreenView extends React.Component<
@@ -17,13 +27,49 @@ class LoginScreenView extends React.Component<
   ILoginState
 > {
   state: ILoginState = {
-    formData: { email: '', password: '' },
-    loading: false
+    formData: { email: 'user@mail.com', password: 'secret' },
+    loading: false,
+    errors: []
   };
 
-  onSubmit = () => {
+  async componentDidMount() {
+    if (await isLoggedIn()) {
+      this.props.navigation.navigate('Main');
+      return;
+    }
+    await this.loadNetworkDetails();
+  }
+
+  async loadNetworkDetails() {
+    const { data } = await Networker.get<ClientData>(API_URLS.CLIENT);
+
+    Message.show(JSON.stringify(data), 'success', MessageDuration.LONG);
+    await Storage.setClient(data);
+  }
+
+  onSubmit = async () => {
     const { formData } = this.state;
+    console.warn(formData);
+    this.setState({ loading: true });
     const errors = validate(formData, LOGIN_CONSTRAINS);
+    if (errors) {
+      this.setState({ errors });
+      console.warn(errors);
+      return;
+    }
+
+    const { client_id, secret } = await Storage.getClient();
+    const { data } = await Networker.post(API_URLS.LOGIN, {
+      password: formData.password,
+      username: formData.email,
+      client_id,
+      client_secret: secret,
+      grant_type: 'password'
+    });
+
+    console.warn(data);
+    await Storage.setAuth(data);
+    this.setState({ loading: false });
     this.props.navigation.navigate('Main');
     // console.warn(errors);
   };
@@ -35,7 +81,6 @@ class LoginScreenView extends React.Component<
     // console.warn(errors);
   };
 
-
   private onInputValueChange = (key: string, value: string) => {
     const { formData } = this.state;
     formData[key] = value;
@@ -43,7 +88,7 @@ class LoginScreenView extends React.Component<
   };
 
   render() {
-    const { formData } = this.state;
+    const { formData, errors, loading } = this.state;
     return (
       <Layout style={styles.container}>
         <Avatar
@@ -55,8 +100,9 @@ class LoginScreenView extends React.Component<
         <Text style={styles.text} category="h4">
           Welcome to Loan Incept
         </Text>
-        <Input
+        <CustomInput
           placeholder="Email"
+          error={errors['email'] && errors['email'][0]}
           label="Email"
           value={formData.email}
           icon={() => (
@@ -68,9 +114,10 @@ class LoginScreenView extends React.Component<
           )}
           onChangeText={value => this.onInputValueChange('email', value)}
         />
-        <Input
+        <CustomInput
           placeholder="Password"
           label="Password"
+          error={errors['password'] && errors['password'][0]}
           labelStyle={{}}
           icon={() => (
             <Avatar
@@ -82,13 +129,14 @@ class LoginScreenView extends React.Component<
           value={formData.password}
           onChangeText={value => this.onInputValueChange('password', value)}
         />
-        <Button onPress={this.onSubmit} style={styles.loginButton}>
-          LOGIN
-        </Button>
-        <Button
-          onPress={this.onReset}
-          style={styles.forgotButton}
-        >
+        <CustomButton
+          disabled={loading}
+          loading={loading}
+          onPress={this.onSubmit}
+          style={styles.loginButton}
+          title="Login"
+        />
+        <Button onPress={this.onReset} style={styles.forgotButton}>
           Forgot Password?
         </Button>
         <Button

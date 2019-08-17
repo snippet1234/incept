@@ -1,11 +1,20 @@
 import axios from 'axios';
 import { API_URLS } from '../constants/network';
+import { Storage } from './storage';
 
 axios.interceptors.request.use(
-  config => {
+  async config => {
+    const authData = await Storage.getAuth();
+
+    console.warn(config.method, config.url);
+    if (authData && authData.access_token) {
+      config.headers.authorization = `Bearer ${authData.access_token}`;
+
+    }
     return config;
   },
   error => {
+    console.warn(error);
     return Promise.reject(error);
   }
 );
@@ -15,6 +24,7 @@ axios.interceptors.response.use(
     //
     //   Your Interceptor code to do something with the response data
     // Return response data
+    console.warn(response.status);
     return response;
   },
   error => {
@@ -25,10 +35,4 @@ axios.interceptors.response.use(
   }
 );
 
-export const Networker = axios.create({
-  baseURL: API_URLS.BASE,
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json'
-  }
-});
+export const Networker = axios;

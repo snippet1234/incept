@@ -11,7 +11,7 @@ class SubscriptionScreenView extends Component<NavigationScreenProps> {
       <SafeAreaView>
         <Layout style={{ padding: 15, marginBottom: 15 }}>
           <Text appearance="default" category="h2" style={{ marginBottom: 15 }}>
-            Add Card
+            Choose Forms
           </Text>
           <AddPaymentCardForm
             onFormValueChange={() => {
@@ -25,8 +25,7 @@ class SubscriptionScreenView extends Component<NavigationScreenProps> {
               marginTop: 20
             }}
           >
-            {' '}
-            Save Card
+            CONTINUE TO PAYMENT
           </Button>
         </Layout>
       </SafeAreaView>

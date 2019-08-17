@@ -1,10 +1,12 @@
 import React from 'react';
-import { ListRenderItemInfo, SafeAreaView } from 'react-native';
+import { ListRenderItemInfo, SafeAreaView, View } from 'react-native';
 import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
-import { List, ListProps, Layout, Button, Text } from '@kitten/ui';
+import { List, ListProps, Layout, Button, Text, Avatar } from '@kitten/ui';
 import { Product } from '../../core/model';
 import { ProductListItem, ProductListItemProps } from './ProductListItem';
+
 import { PALETTE } from '../../constants/Colors';
+import { Title, Card } from 'native-base';
 
 // @ts-ignore (override `renderItem` prop)
 interface ComponentProps extends ListProps {
@@ -120,22 +122,54 @@ class ProductListComponent extends React.Component<ProductListProps> {
         colors: ['red']
       }
     ];
-
+    const premiumImage =
+      'http://www.fastandyou.com/uploads/2/3/6/2/23620028/s782333958681989678_p5_i1_w400.jpeg';
     return (
       <Layout style={{ padding: 15 }}>
         <SafeAreaView>
-          <List
-            {...restProps}
-            contentContainerStyle={[
-              contentContainerStyle,
-              themedStyle.container,
-              { backgroundColor: '#fff' }
-            ]}
-            data={products}
-            renderItem={this.renderItem}
-            numColumns={2}
-          />
-          <Button
+          <Card style={{ padding: 20, borderRadius: 5 }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Avatar
+                style={{ width: 90, height: 90 }}
+                source={{ uri: premiumImage }}
+              />
+              <View style={{ paddingLeft: 10 }}>
+                <Title
+                  style={{
+                    textAlign: 'left',
+                    justifyContent: 'flex-start',
+                    marginTop: 20
+                  }}
+                >
+                  1003 Forms
+                </Title>
+                <Text style={{ marginLeft: 5 }}>Has only forms included</Text>
+              </View>
+            </View>
+          </Card>
+          <Card style={{ padding: 20, borderRadius: 5 }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Avatar
+                style={{ width: 90, height: 90 }}
+                source={{ uri: premiumImage }}
+              />
+              <View style={{ paddingLeft: 10 }}>
+                <Title
+                  style={{
+                    textAlign: 'left',
+                    justifyContent: 'flex-start',
+                    marginTop: 20
+                  }}
+                >
+                  1003 Forms + Website
+                </Title>
+                <Text style={{ marginLeft: 5 }}>
+                  Has forms along with Website
+                </Text>
+              </View>
+            </View>
+          </Card>
+          {/* <Button
             style={{
               backgroundColor: PALETTE.primary,
               borderColor: PALETTE.primary
@@ -144,7 +178,7 @@ class ProductListComponent extends React.Component<ProductListProps> {
             status="warning"
           >
             Buy Subscription
-          </Button>
+          </Button> */}
         </SafeAreaView>
       </Layout>
     );

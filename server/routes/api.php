@@ -20,14 +20,12 @@ use Laravel\Passport\Passport;
 
 
 
-Route::prefix('v1')->group(function () {
+Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 
 
-    Route::resource('leadform', 'LeadFormController', [
-        'names' => [
-            'create' => 'leadform.create',
-        ]
-    ]);
+    Route::resource('leadform', 'LeadFormController');
+    Route::resource('leadform.formitem', 'LeadFormItemController');
+    Route::get('formitemtypes', 'LeadFormController@formItemTypes');
 });
 
 Route::get('/clients', function (Request $request) {

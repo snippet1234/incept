@@ -11,20 +11,27 @@ import {
 } from 'react-native-ui-kitten';
 import { ListRenderItemInfo, View } from 'react-native';
 import { PALETTE } from '../../constants/Colors';
+interface FormUpdateScreenViewState extends NavigationScreenProps {
+  form: LeadForm;
+}
+const perPage = 5;
+class FormUpdateScreenView extends Component<FormUpdateScreenViewState> {
+  state = {
+    form: this.props.navigation.state.params.form,
+    currentPage: 0,
+    totalPages: Math.ceil(
+      this.props.navigation.state.params.form.items / perPage
+    )
+  };
+  componentDidMount() {
+    this.setState({ form: this.props.navigation.state.params.form });
+  }
 
-class FormUpdateScreenView extends Component<NavigationScreenProps> {
-  private data: { name: string; type: string }[] = [
-    { type: 'Text Input', name: 'Form Field' },
-    { type: 'Select Input', name: 'Form Field' },
-    { type: 'Radio Input', name: 'Form Field' },
-    { type: 'Select Input', name: 'Form Field' },
-    { type: 'Text Input', name: 'Form Field' },
-    { type: 'Select Input', name: 'Form Field' },
-    { type: 'Radio Input', name: 'Form Field' }
-  ];
   private onItemPress = (index: number) => {
     // Handle item press
-    this.props.navigation.navigate('UpdateFormItem');
+    this.props.navigation.navigate('UpdateFormItem', {
+      formItem: this.state.form.items[index]
+    });
   };
 
   private renderItem = (
@@ -67,11 +74,15 @@ class FormUpdateScreenView extends Component<NavigationScreenProps> {
   };
 
   render() {
+    const { form, currentPage } = this.state;
+    const data = form.items.slice(perPage * currentPage, perPage);
+    console.warn('DATA', data);
+
     return (
       <Layout style={{ padding: 20, marginTop: 25, flex: 1 }}>
         <List
           style={{ backgroundColor: 'white' }}
-          data={this.data}
+          data={data}
           renderItem={this.renderItem}
         />
         <Button

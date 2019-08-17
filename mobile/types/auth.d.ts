@@ -8,3 +8,9 @@ export type AuthUser = {
   name: string;
   email: string;
 };
+
+export type AuthData = {
+  token_type: string;
+  access_token: string;
+  expires_in: string;
+};

@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add @types/react-native-ui-kitten
+  /usr/local/bin/node /usr/local/bin/yarn add @types/react-native-ui-kitten -D
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/akashrajput/Library/Android/sdk/tools:/Users/akashrajput/Library/Android/sdk/platform-tools
@@ -29,6 +29,7 @@ Trace:
 npm manifest: 
   {
     "main": "node_modules/expo/AppEntry.js",
+    "serverUrl": "http://127.0.0.1:8000",
     "scripts": {
       "start": "expo start",
       "android": "expo start --android",
@@ -46,25 +47,28 @@ npm manifest:
       "@expo/vector-icons": "^10.0.1",
       "@react-navigation/web": "^1.0.0-alpha.9",
       "@types/axios": "^0.14.0",
-      "@types/react-native": "^0.60.0",
-      "@types/react-navigation": "^3.0.7",
+      "@types/react-native": "^0.60.1",
+      "@types/react-navigation": "3.0.7",
       "axios": "^0.19.0",
       "expo": "^33.0.0",
       "expo-asset": "^5.0.0",
       "expo-constants": "^5.0.0",
       "expo-font": "^5.0.0",
       "expo-web-browser": "^5.0.0",
-      "lodash": "^4.17.11",
+      "lodash": "4.17.15",
       "react": "16.8.3",
       "react-dom": "^16.8.6",
       "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
+      "react-native-flash-message": "0.1.13",
       "react-native-keyboard-aware-scroll-view": "^0.8.0",
+      "react-native-material-dropdown": "^0.11.1",
       "react-native-ui-kitten": "^4.0.5",
       "react-native-web": "^0.11.4",
       "react-navigation": "^3.11.0",
       "validate.js": "^0.13.1"
     },
     "devDependencies": {
+      "@types/react-native-material-dropdown": "^0.11.0",
       "babel-preset-expo": "^5.1.0",
       "jest-expo": "^33.0.0"
     },
@@ -1274,7 +1278,15 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.5.3.tgz#1c3b71b091eaeaf5924538006b7f70603ce63d38"
     integrity sha512-Jugo5V/1bS0fRhy2z8+cUAHEyWOATaz4rbyLVvcFs7+dXp5HfwpEwzF1Q11bB10ApUqHf+yTauxI0UXQDwGrbA==
   
-  "@types/react-native@*", "@types/react-native@^0.60.0":
+  "@types/react-native-material-dropdown@^0.11.0":
+    version "0.11.0"
+    resolved "https://registry.yarnpkg.com/@types/react-native-material-dropdown/-/react-native-material-dropdown-0.11.0.tgz#66488a59389e03824e3848157a2844a066430bb5"
+    integrity sha512-qa88ZgIFNdLE0rPIKeE791zkUueqtEsAV6Cwm4svwNCXJ3ohhzWe3M3ARYPKEwMNzq4qk6Pc/Nci//XuGYEXwQ==
+    dependencies:
+      "@types/react" "*"
+      "@types/react-native" "*"
+  
+  "@types/react-native@*":
     version "0.60.0"
     resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.60.0.tgz#992ecf1e59c4a92ffa1c1b92c669802e433acd05"
     integrity sha512-9av+Wgh3j7nQzK6MXIGMqc57M53Ilfcyhq49SRzO/Jv9e7PdQNjJrCiXoHSvtKwuQpwxMkomAfnbcxxkp0zzBw==
@@ -1282,7 +1294,15 @@ Lockfile:
       "@types/prop-types" "*"
       "@types/react" "*"
   
-  "@types/react-navigation@^3.0.7":
+  "@types/react-native@^0.60.1":
+    version "0.60.1"
+    resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.60.1.tgz#b512fe7156df18ddb3860b4551cfa5de667e68b5"
+    integrity sha512-COOHdIDGEjpqacOm4bJmq4kmchPU6WiP0JeTzuESvqu4CzfeyMZ96eG+WYO8n3ebQjpN38Hqw+VwMPxe/BrhKg==
+    dependencies:
+      "@types/prop-types" "*"
+      "@types/react" "*"
+  
+  "@types/react-navigation@3.0.7":
     version "3.0.7"
     resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-3.0.7.tgz#5d327b00de2bb58203977002c3ea21302da72034"
     integrity sha512-JFsNeCAQEQGTpObiD1QczDyCyQkFBaQA/F85Fo2W8QML1b6UNYHlUDtEYJA6jcfXqPoL15dVPBVj9NBJlHToqA==
@@ -4715,6 +4735,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
     integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
   
+  lodash@4.17.15:
+    version "4.17.15"
+    resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+    integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+  
   lodash@^4.16.2, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.5.0, lodash@^4.6.0, lodash@^4.6.1:
     version "4.17.11"
     resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
@@ -5916,7 +5941,7 @@ Lockfile:
       kleur "^3.0.2"
       sisteransi "^1.0.0"
   
-  prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+  prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
     version "15.7.2"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
     integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -6061,6 +6086,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
     integrity sha1-QHTdY7SXPmOX2c5Q6XtXx3pRjp0=
   
+  react-native-flash-message@0.1.13:
+    version "0.1.13"
+    resolved "https://registry.yarnpkg.com/react-native-flash-message/-/react-native-flash-message-0.1.13.tgz#3ebf9cf17d5aabc61b923dc6dc37ce97a1ad4dd2"
+    integrity sha512-7P0cOyF7dRJL6tgwIhKs3V9QXRFa1qXDymCx1BmQLzdWyc3qyD5HMv2L5EbYk3wj1BirLjaL7tkYyEETg2jSNQ==
+    dependencies:
+      prop-types "^15.7.2"
+      react-native-iphone-x-helper "^1.2.0"
+  
   react-native-gesture-handler@1.2.1:
     version "1.2.1"
     resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.2.1.tgz#9c48fb1ab13d29cece24bbb77b1e847eebf27a2b"
@@ -6070,7 +6103,7 @@ Lockfile:
       invariant "^2.2.2"
       prop-types "^15.5.10"
   
-  react-native-iphone-x-helper@^1.0.3:
+  react-native-iphone-x-helper@^1.0.3, react-native-iphone-x-helper@^1.2.0:
     version "1.2.1"
     resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
     integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
@@ -6087,6 +6120,45 @@ Lockfile:
     version "0.24.2"
     resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.24.2.tgz#19974f967cb0c2e24dab74ca879118e0932571b2"
     integrity sha512-1iNIDikp2dkCG+8DguaEviYZiMSYyvwqYT7pO2YTZvuFRDSc/P9jXMhTUnSh4wNDlEeQ47OJ09l0pwWVBZ7wxg==
+  
+  react-native-material-buttons@^0.5.0:
+    version "0.5.0"
+    resolved "https://registry.yarnpkg.com/react-native-material-buttons/-/react-native-material-buttons-0.5.0.tgz#ab2b3e3fc3f500ca713f51e9d75978aff602152a"
+    integrity sha1-qys+P8P1AMpxP1Hp11l4r/YCFSo=
+    dependencies:
+      prop-types "^15.5.9"
+      react-native-material-ripple "^0.7.0"
+  
+  react-native-material-dropdown@^0.11.1:
+    version "0.11.1"
+    resolved "https://registry.yarnpkg.com/react-native-material-dropdown/-/react-native-material-dropdown-0.11.1.tgz#c0fe434a8e617941ef910ba44d2f07c8f37584fe"
+    integrity sha1-wP5DSo5heUHvkQukTS8HyPN1hP4=
+    dependencies:
+      prop-types "^15.5.9"
+      react-native-material-buttons "^0.5.0"
+      react-native-material-ripple "^0.8.0"
+      react-native-material-textfield "^0.12.0"
+  
+  react-native-material-ripple@^0.7.0:
+    version "0.7.5"
+    resolved "https://registry.yarnpkg.com/react-native-material-ripple/-/react-native-material-ripple-0.7.5.tgz#e2af5110680532f14aea3c3a438247be2ffef659"
+    integrity sha1-4q9REGgFMvFK6jw6Q4JHvi/+9lk=
+    dependencies:
+      prop-types "^15.5.10"
+  
+  react-native-material-ripple@^0.8.0:
+    version "0.8.0"
+    resolved "https://registry.yarnpkg.com/react-native-material-ripple/-/react-native-material-ripple-0.8.0.tgz#b8c24e6fdea2af2a21e8468b1f40b35483019e2f"
+    integrity sha1-uMJOb96iryoh6EaLH0CzVIMBni8=
+    dependencies:
+      prop-types "^15.5.10"
+  
+  react-native-material-textfield@^0.12.0:
+    version "0.12.0"
+    resolved "https://registry.yarnpkg.com/react-native-material-textfield/-/react-native-material-textfield-0.12.0.tgz#3fba19d76ab89f67052c81e082152fc243d82a3f"
+    integrity sha1-P7oZ12q4n2cFLIHgghUvwkPYKj8=
+    dependencies:
+      prop-types "^15.5.9"
   
   react-native-platform-touchable@^1.1.1:
     version "1.1.1"

@@ -1,0 +1,25 @@
+{
+  "lead_form_items": [
+    {
+      "name": "username",
+      "status": "active",
+      "label": "User Name",
+      "type": "text",
+      "options": []
+    },
+    {
+      "name": "citizenship",
+      "status": "active",
+      "label": "Citizen Ship",
+      "type": "select",
+      "options": ["Native", "Alien", "Migrant"]
+    },
+    {
+      "name": "gender",
+      "status": "active",
+      "label": "Gender",
+      "type": "radio",
+      "options": ["Male", "Female"]
+    }
+  ]
+}
