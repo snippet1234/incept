@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, ActivityIndicatorProperties } from 'react-native';
-import { PALETTE } from '../constants/colors';
+import { PALETTE } from '../constants/Colors';
 
 export const LoadingIndicator = (props: ActivityIndicatorProperties) => (
   <ActivityIndicator color={PALETTE.white} {...props} />

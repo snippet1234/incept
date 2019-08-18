@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
-import { withNavigation, NavigationScreenProps } from 'react-navigation';
+import { withNavigation, NavigationScreenProps, ScrollView } from 'react-navigation';
 
 import { PALETTE } from '../../../constants/Colors';
 const validate = require('validate.js');
 import { LOGIN_CONSTRAINS } from './contraints';
-import { LOGO_IMAGE } from '../../../constants/images';
+import { LOGO_IMAGE } from '../../../constants/Images';
 import { CustomInput } from '../../../components/CustomInput';
 import { Networker } from '../../../util/networker';
 import { API_URLS } from '../../../constants/network';
@@ -90,6 +90,7 @@ class LoginScreenView extends React.Component<
   render() {
     const { formData, errors, loading } = this.state;
     return (
+      <ScrollView>
       <Layout style={styles.container}>
         <Avatar
           shape="round"
@@ -147,6 +148,7 @@ class LoginScreenView extends React.Component<
           REGISTER
         </Button>
       </Layout>
+      </ScrollView>
     );
   }
 }
