@@ -7,7 +7,7 @@ import {
   Avatar,
   InputProps
 } from 'react-native-ui-kitten';
-import { PALETTE } from '../constants/colors';
+import { PALETTE } from '../constants/Colors';
 // primary, success, info, warning or danger.
 
 type CustomInputProps = {

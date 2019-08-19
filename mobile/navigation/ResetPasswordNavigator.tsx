@@ -2,7 +2,7 @@ import React from 'react'
 //import ReactNative from 'react-native'
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { NavigationScreenProps } from 'react-navigation';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { LOGO_IMAGE } from '../constants/Images';
 import { PALETTE } from '../constants/Colors';
 
@@ -32,8 +32,21 @@ class ResetPasswordNavigator extends React.Component<
   render() {
     const { formData } = this.state;
     return (
-
+      <>
+      <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('Login')}
+          style={{
+            marginTop: 40
+          }}
+        >
+          <Avatar
+            shape="round"
+            size="small"
+            source={require('../assets/icons/eva/arrow-ios-back.png')}
+          />
+        </TouchableOpacity>
       <Layout style={styles.container}>
+        
         <Avatar
           shape="round"
           style={{ height: 150, width: 150, marginTop: 15 }}
@@ -62,6 +75,7 @@ class ResetPasswordNavigator extends React.Component<
           Reset password
         </Button>
       </Layout>
+    </>
 
     )
   }

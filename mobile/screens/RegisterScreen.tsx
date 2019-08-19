@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { StyleSheet, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView, View } from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
 
@@ -7,11 +7,13 @@ import validate from 'validate.js';
 import { LOGIN_CONSTRAINS } from './auth/login/contraints';
 import { PALETTE } from '../constants/Colors';
 import { LOGO_IMAGE } from '../constants/Images';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface ILoginState {
   formData: { email: string; password: string };
   loading: boolean;
 }
+
 
 class RegisterScreenView extends React.Component<
   NavigationScreenProps,
@@ -19,8 +21,12 @@ class RegisterScreenView extends React.Component<
 > {
   state: ILoginState = {
     formData: { email: '', password: '' },
-    loading: false
+    loading: false,
+    
   };
+ 
+
+  
 
   onSubmit = () => {
     const { formData } = this.state;
@@ -38,7 +44,7 @@ class RegisterScreenView extends React.Component<
   render() {
     const { formData } = this.state;
     return (
-      <>
+      <KeyboardAwareScrollView>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Login')}
           style={{
@@ -52,6 +58,7 @@ class RegisterScreenView extends React.Component<
             source={require('../assets/icons/eva/arrow-ios-back.png')}
           />
         </TouchableOpacity>
+      
         <Layout style={styles.container}>
           <Avatar
             shape="round"
@@ -106,10 +113,17 @@ class RegisterScreenView extends React.Component<
             REGISTER
           </Button>
         </Layout>
-      </>
+    </KeyboardAwareScrollView>
     );
   }
+ 
+ 
 }
+
+
+
+
+
 
 export const RegisterScreen = withNavigation(RegisterScreenView);
 const styles = StyleSheet.create({
@@ -139,5 +153,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderColor: 'transparent',
     backgroundColor: PALETTE.primary
-  }
+  },
+ 
+  
 });

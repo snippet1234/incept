@@ -13,7 +13,7 @@ import { ListRenderItemInfo, View, Dimensions } from 'react-native';
 import { Networker } from '../../util/networker';
 import { API_URLS } from '../../constants/network';
 import { Container, Header, Content, Tab, Tabs } from 'native-base';
-import { PALETTE } from '../../constants/colors';
+import { PALETTE } from '../../constants/Colors';
 import { ScrollView } from 'react-native-gesture-handler';
 
 interface ShowFormsScreenViewState extends NavigationScreenProps {

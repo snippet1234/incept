@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, ViewStyle } from 'react-native';
 import { Text, ButtonProps } from 'react-native-ui-kitten';
-import { PALETTE } from '../constants/colors';
+import { PALETTE } from '../constants/Colors';
 import { LoadingIndicator } from './LoadingIndicator';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
