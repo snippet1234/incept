@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, ActivityIndicator, Alert, KeyboardAvoidingView } from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { withNavigation, NavigationScreenProps, ScrollView } from 'react-navigation';
 
@@ -91,6 +91,7 @@ class LoginScreenView extends React.Component<
     const { formData, errors, loading } = this.state;
     return (
       <ScrollView>
+        <KeyboardAvoidingView>
       <Layout style={styles.container}>
         <Avatar
           shape="round"
@@ -148,6 +149,7 @@ class LoginScreenView extends React.Component<
           REGISTER
         </Button>
       </Layout>
+      </KeyboardAvoidingView>
       </ScrollView>
     );
   }
@@ -172,7 +174,7 @@ const styles = StyleSheet.create({
   },
   registerButton: {
     width: '100%',
-    marginTop: 120,
+    marginTop: 15,
     backgroundColor: PALETTE.primary,
     borderColor: PALETTE.primary
   },
