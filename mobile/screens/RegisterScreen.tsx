@@ -1,37 +1,47 @@
 import * as React from 'react';
-import { StyleSheet, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView, View } from 'react-native';
+import {
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  View
+} from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
 
 import validate from 'validate.js';
 import { LOGIN_CONSTRAINS } from './auth/login/contraints';
-import { PALETTE } from '../constants/Colors';
-import { LOGO_IMAGE } from '../constants/Images';
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { PALETTE } from '../constants/colors';
+import { LOGO_IMAGE } from '../constants/images';
+import { Networker } from '../util/networker';
+import { API_URLS } from '../constants/network';
 
 interface ILoginState {
-  formData: { email: string; password: string };
+  formData: any;
   loading: boolean;
 }
-
 
 class RegisterScreenView extends React.Component<
   NavigationScreenProps,
   ILoginState
 > {
   state: ILoginState = {
-    formData: { email: '', password: '' },
-    loading: false,
-    
+    formData: {},
+    loading: false
   };
- 
-
-  
 
   onSubmit = () => {
     const { formData } = this.state;
     this.props.navigation.navigate('Forms');
     const errors = validate(formData, LOGIN_CONSTRAINS);
+    if (!errors) {
+      Networker.post(API_URLS.REGISTER, {
+        ...formData,
+        name: this.state.formData.username
+      });
+    }
     console.warn(errors);
   };
 
@@ -58,7 +68,7 @@ class RegisterScreenView extends React.Component<
             source={require('../assets/icons/eva/arrow-ios-back.png')}
           />
         </TouchableOpacity>
-      
+
         <Layout style={styles.container}>
           <Avatar
             shape="round"
@@ -113,17 +123,10 @@ class RegisterScreenView extends React.Component<
             REGISTER
           </Button>
         </Layout>
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
     );
   }
- 
- 
 }
-
-
-
-
-
 
 export const RegisterScreen = withNavigation(RegisterScreenView);
 const styles = StyleSheet.create({
@@ -153,7 +156,5 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderColor: 'transparent',
     backgroundColor: PALETTE.primary
-  },
- 
-  
+  }
 });

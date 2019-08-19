@@ -25,6 +25,10 @@ import {
   CardholderNameFormatter,
 } from '../core/formatters';
 import { Title } from 'native-base';
+import { Dropdown } from 'react-native-material-dropdown';
+import { Avatar } from 'react-native-ui-kitten';
+import { CustomInput } from '../components/CustomInput';
+
 
 export interface AddPaymentCardFormType {
   cardNumber: string;
@@ -48,6 +52,9 @@ interface State {
   expirationDate: string | undefined;
   cvv: string | undefined;
   cardholderName: string | undefined;
+  price: number;
+  total: number;
+  discount: number;
 }
 
 class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
@@ -57,6 +64,9 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
     expirationDate: undefined,
     cvv: undefined,
     cardholderName: undefined,
+    price: 1.5,
+    total: 0,
+    discount: 0
   };
 
   public componentDidUpdate(prevProps: AddPaymentCardFormProps, prevState: State) {
@@ -74,7 +84,8 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
   }
 
   private onCardNumberChange = (cardNumber: string) => {
-    this.setState({ cardNumber });
+
+    this.setState({ cardNumber, total: Number(cardNumber) * this.state.price });
   };
 
   private onExpirationDateChange = (expirationDate: string) => {
@@ -101,6 +112,7 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
   public render(): React.ReactNode {
     const { style, themedStyle, ...restProps } = this.props;
 
+    const total = (this.state.total - this.state.discount) > 0 ? (this.state.total - this.state.discount) : 0;
     return (
       <View
         style={[themedStyle.container, style]}
@@ -110,9 +122,9 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
           textStyle={textStyle.paragraph}
           labelStyle={textStyle.label}
           label='NO. OF 1003 FORMS'
-          placeholder='100'
-          validator={CardNumberValidator}
-          formatter={CardNumberFormatter}
+          placeholder='Enter a number'
+          validator={() => true}
+          // formatter={CardNumberFormatter}
           maxLength={19}
           keyboardType='numeric'
           onChangeText={this.onCardNumberChange}
@@ -143,17 +155,38 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
             onChangeText={this.onCvvChange}
           />
         </View> */}
-        <ValidationInput
-          style={[themedStyle.input, themedStyle.cardholderNameInput]}
-          textStyle={textStyle.paragraph}
-          labelStyle={textStyle.label}
-          label='SUBSCRIPTION TERM'
-          placeholder='MONTHLY'
-          validator={CardholderNameValidator}
-          formatter={CardholderNameFormatter}
-          onChangeText={this.onCardHolderNameChange}
+        <CustomInput
+          placeholder="Coupon Code"
+          label="Coupon Code"
+          value={undefined}
+          icon={() => (
+            <Avatar
+              shape="round"
+              size="small"
+              source={require('../assets/icons/eva/checkmark-outline.png')}
+            />
+          )}
+          onChangeText={value => {
+            if (value === 'incept') {
+              this.setState({
+                discount: 50
+              })
+            }
+          }}
         />
-        <Title style={{ textAlign: 'left', fontSize: 27, marginVertical: 20 }}>Total: $137</Title>
+
+        <Dropdown
+          label='SUBSCRIPTION TERM'
+          value={'Monthly'}
+          data={['Monthly', 'Quartly', 'Six Months', 'Yearly',].map(status => ({ value: status }))}
+          onChangeText={(value, index, data) => {
+
+            // this.setState({ selectedStatus: value })
+          }}
+        />
+
+        <Title style={{ textAlign: 'left', fontSize: 27, marginVertical: 20 }}>Total: ${total}</Title>
+
       </View>
     );
   }

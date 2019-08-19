@@ -25,8 +25,7 @@ import { Button, Text, Avatar } from '@kitten/ui';
 import { PALETTE } from '../constants/Colors';
 import { logOut } from '../util/auth';
 import { ShowFormScreen } from '../screens/forms/ShowFormScreen';
-import { SubscriptionScreen } from '../screens/subscription/SubscriptionScreen';
-
+import { CartScreen } from '../screens/subscription/CartScreen';
 const AppHeader = (props: HeaderProps) => {
   return (
     <View style={{ backgroundColor: '#fff', paddingBottom: 10 }}>
@@ -104,7 +103,9 @@ const DrawerNavigator = createDrawerNavigator(
     Subscription: {
       screen: createStackNavigator(
         {
-          screen: SubscriptionScreen
+          products: ProductList,
+          cart: CartScreen,
+          payment: ProductList
         },
         getScreenNavigationOptions('Subscriptions')
       )
@@ -162,7 +163,7 @@ const DrawerNavigator = createDrawerNavigator(
     }
   },
   {
-    initialRouteName: '',
+    initialRouteName: 'Forms',
     // contentComponent: MenuContent,
     contentComponent: props => (
       <View style={{ flex: 1 }}>
