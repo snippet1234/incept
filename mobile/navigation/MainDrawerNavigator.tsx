@@ -104,7 +104,9 @@ const DrawerNavigator = createDrawerNavigator(
     Subscription: {
       screen: createStackNavigator(
         {
-          screen: SubscriptionScreen
+          products: ProductList,
+          cart: CartScreen,
+          payment: ProductList
         },
         getScreenNavigationOptions('Subscriptions')
       )
@@ -162,7 +164,7 @@ const DrawerNavigator = createDrawerNavigator(
     }
   },
   {
-    initialRouteName: '',
+    initialRouteName: 'Forms',
     // contentComponent: MenuContent,
     contentComponent: props => (
       <View style={{ flex: 1 }}>

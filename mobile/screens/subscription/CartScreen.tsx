@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { SafeAreaView } from 'react-native';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
-import { AddPaymentCardForm } from '../../screens/addPaymentCardForm.component';
+import { AddPaymentCardForm } from '../addPaymentCardForm.component';
 import { Layout, Text, Button } from '@kitten/ui';
 import { PALETTE } from '../../constants/colors';
 import { PaymentCard } from './PaymentCard';
-class SubscriptionScreenView extends Component<NavigationScreenProps> {
+class CartScreenView extends Component<NavigationScreenProps> {
   render() {
+    const { params } = this.props.navigation.state;
+    console.warn(params);
     return (
       <SafeAreaView>
         <Layout style={{ padding: 15, marginBottom: 15 }}>
@@ -18,6 +20,17 @@ class SubscriptionScreenView extends Component<NavigationScreenProps> {
               return;
             }}
           />
+
+          {params && params.website && <Text style={{
+            backgroundColor: PALETTE.warningBackground,
+            padding: 15,
+            color: PALETTE.white,
+
+            borderRadius: 100
+          }}>
+            Includes website
+          </Text>}
+
           <Button
             style={{
               backgroundColor: PALETTE.primary,
@@ -28,9 +41,10 @@ class SubscriptionScreenView extends Component<NavigationScreenProps> {
             CONTINUE TO PAYMENT
           </Button>
         </Layout>
+
       </SafeAreaView>
     );
   }
 }
 
-export const SubscriptionScreen = withNavigation(SubscriptionScreenView);
+export const CartScreen = withNavigation(CartScreenView);
