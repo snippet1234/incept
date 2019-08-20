@@ -3,8 +3,8 @@ import React from 'react'
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { NavigationScreenProps } from 'react-navigation';
 import { StyleSheet } from 'react-native';
-import { LOGO_IMAGE } from '../constants/Images';
-import { PALETTE } from '../constants/Colors';
+import { LOGO_IMAGE } from '../constants/images';
+import { PALETTE } from '../constants/colors';
 
 
 interface ILoginState {
@@ -57,7 +57,7 @@ class ResetPasswordNavigator extends React.Component<
           onChangeText={value => this.onInputValueChange('email', value)}
         />
         <Button style={styles.submitButton}
-          
+
         >
           Reset password
         </Button>

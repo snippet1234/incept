@@ -18,6 +18,7 @@ use Laravel\Passport\Passport;
 //     return $request->user();
 // });
 
+Route::post('register', 'AuthController@register');
 
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {

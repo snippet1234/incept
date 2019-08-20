@@ -10,7 +10,7 @@ import { ThemedComponentProps, ThemeType, withStyles } from '@kitten/theme';
 import { Button, Text } from '@kitten/ui';
 import { textStyle } from '../../components/common';
 import { CartIconOutline } from '../../assets/icons';
-import { PALETTE } from '../../constants/Colors';
+import { PALETTE } from '../../constants/colors';
 
 interface ListDerivedProps {
   index?: number;

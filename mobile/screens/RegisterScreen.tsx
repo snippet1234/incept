@@ -1,111 +1,164 @@
 import * as React from 'react';
-import { StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { StyleSheet, ActivityIndicator, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
 
 import validate from 'validate.js';
-import { LOGIN_CONSTRAINS } from './auth/login/contraints';
-import { PALETTE } from '../constants/Colors';
-import { LOGO_IMAGE } from '../constants/Images';
+import { LOGIN_CONSTRAINS, REGISTER_CONSTRAINS } from './auth/login/contraints';
+import { PALETTE } from '../constants/colors';
+import { LOGO_IMAGE } from '../constants/images';
+import { ScrollView } from 'react-native-gesture-handler';
+import { ValidationInput } from '../components/common';
+import { Networker } from '../util/networker';
+import { API_URLS } from '../constants/network';
+import { Message } from '../util/message';
+import { extractErrorMessage } from '../util/error';
 
 interface ILoginState {
-  formData: { email: string; password: string };
+  formData: { email: string; password: string; name: string };
   loading: boolean;
 }
 
 class RegisterScreenView extends React.Component<
   NavigationScreenProps,
   ILoginState
-> {
+  > {
   state: ILoginState = {
-    formData: { email: '', password: '' },
+    formData: { email: '', password: '', name: '' },
     loading: false
   };
 
-  onSubmit = () => {
+  onSubmit = async () => {
     const { formData } = this.state;
-    this.props.navigation.navigate('Forms');
-    const errors = validate(formData, LOGIN_CONSTRAINS);
-    console.warn(errors);
+    // this.props.navigation.navigate('Forms');
+    try {
+      const { data } = await Networker.post(API_URLS.REGISTER, formData);
+      Message.show('Successfully registered. Please login.', 'success');
+
+      this.props.navigation.navigate('Login');
+
+    } catch (err) {
+      Message.show(extractErrorMessage(err), 'danger');
+
+
+    }
   };
 
   private onInputValueChange = (key: string, value: string) => {
     const { formData } = this.state;
     formData[key] = value;
+
+
     this.setState({ formData });
+    // console.warn(this.state.formData);
   };
+
+  isValid(key: string) {
+    const { formData, loading } = this.state;
+    const errors = validate(formData, REGISTER_CONSTRAINS);
+
+    return errors && !errors[key];
+  }
 
   render() {
     const { formData } = this.state;
     return (
       <>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('Login')}
-          style={{
-            marginTop: 40,
-            marginLeft: 20
-          }}
-        >
-          <Avatar
-            shape="round"
-            size="small"
-            source={require('../assets/icons/eva/arrow-ios-back.png')}
-          />
-        </TouchableOpacity>
-        <Layout style={styles.container}>
-          <Avatar
-            shape="round"
-            style={{ height: 150, width: 150, marginTop: 15 }}
-            size="giant"
-            source={LOGO_IMAGE.DARK}
-          />
-          <Text style={{ marginBottom: 40 }} category="h4">
-            Register
+        <ScrollView>
+          <KeyboardAvoidingView>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('Login')}
+              style={{
+                marginTop: 40,
+                marginLeft: 20
+              }}
+            >
+              <Avatar
+                shape="round"
+                size="small"
+                source={require('../assets/icons/eva/arrow-ios-back.png')}
+              />
+            </TouchableOpacity>
+            <Layout style={styles.container}>
+              <Avatar
+                shape="round"
+                style={{ height: 150, width: 150, marginTop: 15 }}
+                size="giant"
+                source={LOGO_IMAGE.DARK}
+              />
+              <Text style={{ marginBottom: 40 }} category="h4">
+                Register
           </Text>
-          <Input
-            placeholder="User Name"
-            label="User Name"
-            value={formData.email}
-            icon={() => (
-              <Avatar
-                shape="round"
-                size="small"
-                source={require('../assets/icons/eva/person.png')}
+              <ValidationInput
+                placeholder="name"
+                validator={() => this.isValid('name')}
+                label="User Name"
+                value={formData.name}
+
+                icon={() => (
+                  <Avatar
+                    shape="round"
+                    size="small"
+                    source={require('../assets/icons/eva/person.png')}
+                  />
+                )}
+                onChangeText={value => {
+                  this.onInputValueChange('name', value)
+                }}
               />
-            )}
-            onChangeText={value => this.onInputValueChange('username', value)}
-          />
-          <Input
-            placeholder="Email"
-            label="Email"
-            value={formData.email}
-            icon={() => (
-              <Avatar
-                shape="round"
-                size="small"
-                source={require('../assets/icons/eva/email.png')}
+              <ValidationInput
+                validator={() => this.isValid('email')}
+                placeholder="Email"
+                label="Email"
+                value={formData.email}
+                icon={() => (
+                  <Avatar
+                    shape="round"
+                    size="small"
+                    source={require('../assets/icons/eva/email.png')}
+                  />
+                )}
+                onChangeText={value => this.onInputValueChange('email', value)}
               />
-            )}
-            onChangeText={value => this.onInputValueChange('email', value)}
-          />
-          <Input
-            placeholder="Password"
-            label="Password"
-            labelStyle={{}}
-            icon={() => (
-              <Avatar
-                shape="round"
-                size="small"
-                source={require('../assets/icons/eva/lock.png')}
+              <ValidationInput
+                validator={() => this.isValid('phone')}
+                placeholder="Phone Number"
+                label="Phone Number"
+                labelStyle={{}}
+                icon={() => (
+                  <Avatar
+                    shape="round"
+                    size="small"
+                    source={require('../assets/icons/eva/phone.png')}
+                  />
+                )}
+                value={formData.password}
+                onChangeText={value => this.onInputValueChange('phone', value)}
               />
-            )}
-            value={formData.password}
-            onChangeText={value => this.onInputValueChange('password', value)}
-          />
-          <Button onPress={this.onSubmit} style={styles.loginButton}>
-            REGISTER
+              <ValidationInput
+                secureTextEntry
+                validator={() => this.isValid('password')}
+                placeholder="Password"
+                label="Password"
+                labelStyle={{}}
+                icon={() => (
+                  <Avatar
+                    shape="round"
+                    size="small"
+                    source={require('../assets/icons/eva/lock.png')}
+                  />
+                )}
+                value={formData.password}
+                onChangeText={value => this.onInputValueChange('password', value)}
+              />
+              <Button onPress={this.onSubmit} style={styles.loginButton}>
+                REGISTER
           </Button>
-        </Layout>
+            </Layout>
+
+
+          </KeyboardAvoidingView>
+        </ScrollView>
       </>
     );
   }

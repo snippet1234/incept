@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { API_URLS } from '../constants/network';
-import { Storage } from './storage';
+import { Storage, } from './storage';
+import { Alert } from 'react-native';
+;
+
+const { serverUrl } = require('../package.json');
+
+const authData = Storage.getAuth();
+
 
 axios.interceptors.request.use(
   async config => {
@@ -14,7 +21,7 @@ axios.interceptors.request.use(
     return config;
   },
   error => {
-    console.warn(error);
+    console.warn('REQUEST ERROR', error.message);
     return Promise.reject(error);
   }
 );
@@ -24,15 +31,22 @@ axios.interceptors.response.use(
     //
     //   Your Interceptor code to do something with the response data
     // Return response data
-    console.warn(response.status);
-    return response;
+    // console.warn(response.status);
+    Alert.alert(response.status.toString());
+    return Promise.resolve(response);
+
   },
   error => {
     // Your Interceptor code to do something with response error
     // Return error
     console.warn(error);
-    return Promise.reject(error);
+    console.warn('RESPONSE ERROR', error.message);
+    console.warn(error.message);
+    console.warn('errr asdlakdlas', error);
+    return Promise.reject(error.response.data);
   }
 );
 
-export const Networker = axios;
+export const Networker = axios.create({
+});
+

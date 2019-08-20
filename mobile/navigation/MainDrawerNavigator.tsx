@@ -22,7 +22,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Button, Text, Avatar } from '@kitten/ui';
-import { PALETTE } from '../constants/Colors';
+import { PALETTE } from '../constants/colors';
 import { logOut } from '../util/auth';
 import { ShowFormScreen } from '../screens/forms/ShowFormScreen';
 import { SubscriptionScreen } from '../screens/subscription/SubscriptionScreen';

@@ -5,7 +5,7 @@ import { List, ListProps, Layout, Button, Text, Avatar } from '@kitten/ui';
 import { Product } from '../../core/model';
 import { ProductListItem, ProductListItemProps } from './ProductListItem';
 
-import { PALETTE } from '../../constants/Colors';
+import { PALETTE } from '../../constants/colors';
 import { Title, Card } from 'native-base';
 
 // @ts-ignore (override `renderItem` prop)

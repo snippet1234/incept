@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
 import { AddPaymentCardForm } from '../../screens/addPaymentCardForm.component';
 import { Layout, Text, Button } from '@kitten/ui';
-import { PALETTE } from '../../constants/Colors';
+import { PALETTE } from '../../constants/colors';
 import { PaymentCard } from './PaymentCard';
 class SubscriptionScreenView extends Component<NavigationScreenProps> {
   render() {

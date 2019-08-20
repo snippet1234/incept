@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, ActivityIndicator, Alert, KeyboardAvoidingView } from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
-import { withNavigation, NavigationScreenProps } from 'react-navigation';
+import { withNavigation, NavigationScreenProps, ScrollView } from 'react-navigation';
 
-import { PALETTE } from '../../../constants/Colors';
+import { PALETTE } from '../../../constants/colors';
 const validate = require('validate.js');
 import { LOGIN_CONSTRAINS } from './contraints';
 import { LOGO_IMAGE } from '../../../constants/images';
-import { CustomInput } from '../../../components/CustomInput';
 import { Networker } from '../../../util/networker';
 import { API_URLS } from '../../../constants/network';
 import { Storage } from '../../../util/storage';
@@ -15,6 +14,8 @@ import { isLoggedIn } from '../../../util/auth';
 import { ClientData } from 'types/auth';
 import { MessageDuration, Message } from '../../../util/message';
 import { CustomButton } from '../../../components/CustomButton';
+import { ValidationInput } from '../../../components/common';
+import { extractErrorMessage } from '../../../util/error';
 
 interface ILoginState {
   formData: { email: string; password: string };
@@ -25,9 +26,9 @@ interface ILoginState {
 class LoginScreenView extends React.Component<
   NavigationScreenProps,
   ILoginState
-> {
+  > {
   state: ILoginState = {
-    formData: { email: 'user@mail.com', password: 'secret' },
+    formData: { email: '', password: '' },
     loading: false,
     errors: []
   };
@@ -41,10 +42,15 @@ class LoginScreenView extends React.Component<
   }
 
   async loadNetworkDetails() {
-    const { data } = await Networker.get<ClientData>(API_URLS.CLIENT);
+    try {
+      const { data } = await Networker.get<ClientData>(API_URLS.CLIENT);
 
-    Message.show(JSON.stringify(data), 'success', MessageDuration.LONG);
-    await Storage.setClient(data);
+      Message.show(JSON.stringify(data), 'success', MessageDuration.LONG);
+      await Storage.setClient(data);
+
+    } catch (err) {
+      Message.show(extractErrorMessage(err), 'danger');
+    }
   }
 
   onSubmit = async () => {
@@ -59,19 +65,24 @@ class LoginScreenView extends React.Component<
     }
 
     const { client_id, secret } = await Storage.getClient();
-    const { data } = await Networker.post(API_URLS.LOGIN, {
-      password: formData.password,
-      username: formData.email,
-      client_id,
-      client_secret: secret,
-      grant_type: 'password'
-    });
+    try {
+      const { data } = await Networker.post(API_URLS.LOGIN, {
+        password: formData.password,
+        username: formData.email,
+        client_id,
+        client_secret: secret,
+        grant_type: 'password'
+      });
 
-    console.warn(data);
-    await Storage.setAuth(data);
-    this.setState({ loading: false });
-    this.props.navigation.navigate('Main');
-    // console.warn(errors);
+
+      await Storage.setAuth(data);
+      this.setState({ loading: false });
+      this.props.navigation.navigate('Main');
+
+    } catch (err) {
+      Message.show(extractErrorMessage(err), 'danger');
+    }
+
   };
 
   onReset = () => {
@@ -87,66 +98,81 @@ class LoginScreenView extends React.Component<
     this.setState({ formData });
   };
 
+  isValid(key: string) {
+    const { formData, loading } = this.state;
+    const errors = validate(formData, LOGIN_CONSTRAINS);
+
+    return !errors || errors[key];
+  }
   render() {
     const { formData, errors, loading } = this.state;
     return (
-      <Layout style={styles.container}>
-        <Avatar
-          shape="round"
-          style={{ height: 150, width: 150, marginTop: 15 }}
-          size="giant"
-          source={LOGO_IMAGE.DARK}
-        />
-        <Text style={styles.text} category="h4">
-          Welcome to Loan Incept
+      <ScrollView>
+        <KeyboardAvoidingView>
+          <Layout style={styles.container}>
+            <Avatar
+              shape="round"
+              style={{ height: 150, width: 150, marginTop: 15 }}
+              size="giant"
+              source={LOGO_IMAGE.DARK}
+            />
+            <Text style={styles.text} category="h4">
+              Welcome to Loan Incept
         </Text>
-        <CustomInput
-          placeholder="Email"
-          error={errors['email'] && errors['email'][0]}
-          label="Email"
-          value={formData.email}
-          icon={() => (
-            <Avatar
-              shape="round"
-              size="small"
-              source={require('../../../assets/icons/eva/person.png')}
+            <ValidationInput
+              placeholder="Email"
+              validator={() => this.isValid('email')}
+              // error={errors['email'] && errors['email'][0]}
+              label="Email"
+              autoCapitalize="none"
+              value={formData.email}
+              icon={() => (
+                <Avatar
+                  shape="round"
+                  size="small"
+                  source={require('../../../assets/icons/eva/person.png')}
+                />
+              )}
+              onChangeText={value => this.onInputValueChange('email', value)}
             />
-          )}
-          onChangeText={value => this.onInputValueChange('email', value)}
-        />
-        <CustomInput
-          placeholder="Password"
-          label="Password"
-          error={errors['password'] && errors['password'][0]}
-          labelStyle={{}}
-          icon={() => (
-            <Avatar
-              shape="round"
-              size="small"
-              source={require('../../../assets/icons/eva/lock.png')}
+            <ValidationInput
+              validator={() => this.isValid('password')}
+              secureTextEntry
+              placeholder="Password"
+              label="Password"
+              // error={errors['password'] && errors['password'][0]}
+              labelStyle={{}}
+              icon={() => (
+                <Avatar
+                  shape="round"
+                  size="small"
+                  source={require('../../../assets/icons/eva/lock.png')}
+                />
+              )}
+              value={formData.password}
+              onChangeText={value => this.onInputValueChange('password', value)}
             />
-          )}
-          value={formData.password}
-          onChangeText={value => this.onInputValueChange('password', value)}
-        />
-        <CustomButton
-          disabled={loading}
-          loading={loading}
-          onPress={this.onSubmit}
-          style={styles.loginButton}
-          title="Login"
-        />
-        <Button onPress={this.onReset} style={styles.forgotButton}>
-          Forgot Password?
+            <CustomButton
+              disabled={loading}
+              loading={loading}
+              onPress={this.onSubmit}
+              style={styles.loginButton}
+              title="Login"
+            />
+            <Button onPress={this.onReset} style={styles.forgotButton}>
+              Forgot Password?
         </Button>
-        <Button
-          onPress={() => this.props.navigation.navigate('Register')}
-          status="success"
-          style={styles.registerButton}
-        >
-          REGISTER
+            <Button
+              onPress={() => this.props.navigation.navigate('Register')}
+              status="success"
+              style={styles.registerButton}
+            >
+              REGISTER
         </Button>
-      </Layout>
+          </Layout>
+
+        </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }
@@ -170,9 +196,9 @@ const styles = StyleSheet.create({
   },
   registerButton: {
     width: '100%',
-    marginTop: 120,
+    marginTop: 50,
     backgroundColor: PALETTE.primary,
-    borderColor: PALETTE.primary
+    borderColor: PALETTE.primary,
   },
   loginButton: {
     width: '100%',

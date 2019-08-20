@@ -3,12 +3,29 @@ import validate from 'validate.js';
 export const LOGIN_CONSTRAINS = {
   email: {
     presence: true,
+    email: true,
+  },
+  password: {
+    presence: true,
+    length: {
+      minimum: 6,
+      message: "must be at least 6 characters"
+    }
+  }
+};
+export const REGISTER_CONSTRAINS = {
+  email: {
+    presence: true,
+    email: true,
+  },
+  password: {
+    presence: true,
     length: {
       minimum: 6,
       message: "must be at least 6 characters"
     }
   },
-  password: {
+  name: {
     presence: true,
     length: {
       minimum: 6,

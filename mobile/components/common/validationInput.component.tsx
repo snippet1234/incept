@@ -59,7 +59,7 @@ class ValidationInputComponent extends React.Component<ValidationInputProps, Sta
   private onValueChange = () => {
     const { value } = this.state;
 
-    if (this.isValid(value) && this.props.onChangeText) {
+    if (this.props.onChangeText) {
       this.props.onChangeText(value);
     }
   };

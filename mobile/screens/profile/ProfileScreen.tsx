@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
 import { View, SafeAreaView, Image } from 'react-native';
 import { Text, Avatar, Layout, Input, Button } from '@kitten/ui';
-import { PALETTE } from '../../constants/Colors';
+import { PALETTE } from '../../constants/colors';
 import { NavigationScreenOptions } from 'react-navigation';
 class ProfileScreenView extends Component<NavigationScreenProps> {
   static defaultNavigationOptions: NavigationScreenOptions = {

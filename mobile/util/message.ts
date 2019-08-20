@@ -5,7 +5,7 @@ export enum MessageDuration {
   MEDIUM = 3000,
   LONG = 5000
 }
-function show(message: string, level: MessageType, length: MessageDuration) {
+function show(message: string, level: MessageType, length: MessageDuration = MessageDuration.LONG) {
   showMessage({ message, type: level, duration: length });
 }
 
