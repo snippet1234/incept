@@ -26,8 +26,9 @@ import {
 } from '../core/formatters';
 import { Title } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
-import { Avatar } from 'react-native-ui-kitten';
+import { Avatar, Button } from 'react-native-ui-kitten';
 import { CustomInput } from '../components/CustomInput';
+import { Message } from '../util/message';
 
 
 export interface AddPaymentCardFormType {
@@ -55,6 +56,7 @@ interface State {
   price: number;
   total: number;
   discount: number;
+  selectedPeriod: number;
 }
 
 class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State> {
@@ -66,7 +68,8 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
     cardholderName: undefined,
     price: 1.5,
     total: 0,
-    discount: 0
+    discount: 0,
+    selectedPeriod: 1,
   };
 
   public componentDidUpdate(prevProps: AddPaymentCardFormProps, prevState: State) {
@@ -112,7 +115,7 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
   public render(): React.ReactNode {
     const { style, themedStyle, ...restProps } = this.props;
 
-    const total = (this.state.total - this.state.discount) > 0 ? (this.state.total - this.state.discount) : 0;
+    const total = (this.state.total - this.state.discount) > 0 ? (this.state.total * this.state.selectedPeriod - this.state.discount) : 0;
     return (
       <View
         style={[themedStyle.container, style]}
@@ -158,6 +161,7 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
         <CustomInput
           placeholder="Coupon Code"
           label="Coupon Code"
+          autoCapitalize="characters"
           value={undefined}
           icon={() => (
             <Avatar
@@ -167,13 +171,20 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
             />
           )}
           onChangeText={value => {
-            if (value === 'incept') {
+            if (value === 'INCEPT') {
+              Message.show('Coupon Applied You\'re saving upto $50', 'success');
               this.setState({
                 discount: 50
               })
+            } else {
+              this.setState({
+                discount: 0
+              })
+
             }
           }}
         />
+        {/* <Button style={{ width: '50%', marginLeft: '40%' }} size="small">Apply Coupon</Button> */}
 
         <Dropdown
           label='SUBSCRIPTION TERM'
@@ -181,7 +192,7 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
           data={['Monthly', 'Quartly', 'Six Months', 'Yearly',].map(status => ({ value: status }))}
           onChangeText={(value, index, data) => {
 
-            // this.setState({ selectedStatus: value })
+            this.setState({ selectedPeriod: (index + 1) + 3 })
           }}
         />
 

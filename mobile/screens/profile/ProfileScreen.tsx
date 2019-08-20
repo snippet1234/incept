@@ -1,10 +1,29 @@
 import React, { Component } from 'react';
 import { withNavigation, NavigationScreenProps } from 'react-navigation';
-import { View, SafeAreaView, Image } from 'react-native';
+import { View, SafeAreaView, Image, RefreshControl } from 'react-native';
 import { Text, Avatar, Layout, Input, Button } from '@kitten/ui';
 import { PALETTE } from '../../constants/colors';
 import { NavigationScreenOptions } from 'react-navigation';
-class ProfileScreenView extends Component<NavigationScreenProps> {
+import { API_URLS } from '../../constants/network';
+import { Networker } from '../../util/networker';
+import { Message } from '../../util/message';
+import { extractErrorMessage } from '../../util/error';
+import { ScrollView } from 'react-native-gesture-handler';
+
+interface IUser {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  nmls: string;
+  logo: string;
+}
+interface ProfileState {
+  user: IUser,
+  loading: boolean
+}
+
+class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
   static defaultNavigationOptions: NavigationScreenOptions = {
     title: 'Details',
     headerTitle: 'Details',
@@ -21,116 +40,153 @@ class ProfileScreenView extends Component<NavigationScreenProps> {
     }
   };
 
+  state: ProfileState = {
+    user: {
+      name: 'xxx',
+      email: 'xxx@xxx.com',
+      nmls: '',
+      address: '',
+      logo: '',
+      phone: 'xxxxxxxxxx'
+    },
+    loading: false
+  }
+  async componentDidMount() {
+  }
+
+  fetchProfile = async () => {
+    this.setState({
+      loading: true
+    })
+    try {
+      const { data } = await Networker.get(API_URLS.PROFILE);
+      this.setState({ user: data });
+    } catch (err) {
+      Message.show(extractErrorMessage(err), 'danger');
+    }
+
+    this.setState({
+      loading: false
+    })
+  }
+
   render() {
+
+    const { user, loading } = this.state;
     return (
       <SafeAreaView>
-        <Layout
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: 15
-          }}
-        >
-          <Avatar
-            style={{ width: 150, height: 150 }}
-            size="large"
-            source={{
-              uri:
-                'https://images.askmen.com/1080x540/2016/01/25-021526-facebook_profile_picture_affects_chances_of_getting_hired.jpg'
-            }}
-          />
-          <Text category="h3" style={{ margin: 10 }}>
-            Nishant Z
-          </Text>
-          <Input
-            placeholder="Email"
-            value={undefined}
-            icon={() => (
-              <Avatar
-                shape="round"
-                size="small"
-                source={require('../../assets/icons/eva/person.png')}
-              />
-            )}
-            onChangeText={value => this.onInputValueChange('email', value)}
-          />
-          <Input
-            placeholder="Phone"
-            value={undefined}
-            icon={() => (
-              <Avatar
-                shape="round"
-                size="small"
-                source={require('../../assets/icons/eva/phone.png')}
-              />
-            )}
-            onChangeText={value => this.onInputValueChange('email', value)}
-          />
-          <Input
-            placeholder="Address"
-            value={undefined}
-            icon={() => (
-              <Avatar
-                shape="round"
-                size="small"
-                source={require('../../assets/icons/eva/map.png')}
-              />
-            )}
-            onChangeText={value => this.onInputValueChange('email', value)}
-          />
-          <Input
-            placeholder="DRE"
-            value={undefined}
-            icon={() => (
-              <Avatar
-                shape="round"
-                size="small"
-                source={require('../../assets/icons/eva/arrowhead-up.png')}
-              />
-            )}
-            onChangeText={value => this.onInputValueChange('email', value)}
-          />
-          <Input
-            placeholder="NMLS"
-            value={undefined}
-            icon={() => (
-              <Avatar
-                shape="round"
-                size="small"
-                source={require('../../assets/icons/eva/bulb.png')}
-              />
-            )}
-            onChangeText={value => this.onInputValueChange('email', value)}
-          />
-          <Button
-            icon={() => (
-              <Avatar
-                shape="round"
-                size="small"
-                source={require('../../assets/icons/eva/plus.png')}
-              />
-            )}
+        <ScrollView refreshControl={<RefreshControl refreshing={loading} />}>
+          <Layout
             style={{
-              backgroundColor: PALETTE.primary,
-              borderColor: PALETTE.primary,
-              width: '100%',
-              marginTop: 15
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 15
             }}
           >
-            {' '}
-            Add Company Info
+            <Avatar
+              style={{ width: 150, height: 150 }}
+              size="large"
+              source={{
+                uri:
+                  'https://images.askmen.com/1080x540/2016/01/25-021526-facebook_profile_picture_affects_chances_of_getting_hired.jpg'
+              }}
+            />
+            <Text category="h3" style={{ margin: 10 }}>
+              {user.name}
+            </Text>
+            <Input
+              placeholder="Email"
+              value={user.email}
+              icon={() => (
+                <Avatar
+                  shape="round"
+                  size="small"
+                  source={require('../../assets/icons/eva/person.png')}
+                />
+              )}
+
+            />
+            <Input
+              placeholder="Phone"
+              value={user.phone}
+              icon={() => (
+                <Avatar
+                  shape="round"
+                  size="small"
+                  source={require('../../assets/icons/eva/phone.png')}
+                />
+              )}
+
+            />
+            <Input
+              placeholder="Address"
+              value={user.address}
+              icon={() => (
+                <Avatar
+                  shape="round"
+                  size="small"
+                  source={require('../../assets/icons/eva/map.png')}
+                />
+              )}
+
+            />
+            <Input
+              placeholder="DRE"
+              value={undefined}
+              icon={() => (
+                <Avatar
+                  shape="round"
+                  size="small"
+                  source={require('../../assets/icons/eva/arrowhead-up.png')}
+                />
+              )}
+
+            />
+            <Input
+              placeholder="NMLS"
+              value={undefined}
+              icon={() => (
+                <Avatar
+                  shape="round"
+                  size="small"
+                  source={require('../../assets/icons/eva/bulb.png')}
+                />
+              )}
+
+            />
+            <Button
+              icon={() => (
+                <Avatar
+                  shape="round"
+                  size="small"
+                  source={require('../../assets/icons/eva/plus.png')}
+                />
+              )}
+              style={{
+                backgroundColor: PALETTE.primary,
+                borderColor: PALETTE.primary,
+                width: '100%',
+                marginTop: 15
+              }}
+            >
+              Add Company Info
           </Button>
-          <Button
-            style={{
-              backgroundColor: PALETTE.primary,
-              borderColor: PALETTE.primary,
-              width: '100%',
-              marginTop: 15
-            }}
-          >
-            Save Profile
+            <Button
+              onPress={() => {
+                Message.show("Profile Updated", 'success')
+              }}
+              style={{
+                backgroundColor: PALETTE.primary,
+                borderColor: PALETTE.primary,
+                width: '100%',
+                marginTop: 15
+              }}
+            >
+              Save Profile
           </Button>
-        </Layout>
+          </Layout>
+
+        </ScrollView>
       </SafeAreaView>
     );
   }

@@ -23,6 +23,9 @@ Route::post('register', 'AuthController@register');
 
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 
+    Route::post('profile', function() {
+        return Auth::user();
+    });
 
     Route::resource('leadform', 'LeadFormController');
     Route::resource('leadform.formitem', 'LeadFormItemController');

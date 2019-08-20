@@ -25,7 +25,7 @@ import { Button, Text, Avatar } from '@kitten/ui';
 import { PALETTE } from '../constants/colors';
 import { logOut } from '../util/auth';
 import { ShowFormScreen } from '../screens/forms/ShowFormScreen';
-import { SubscriptionScreen } from '../screens/subscription/SubscriptionScreen';
+import { CartScreen } from '../screens/subscription/CartScreen';
 
 const AppHeader = (props: HeaderProps) => {
   return (

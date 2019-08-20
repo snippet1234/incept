@@ -5,6 +5,7 @@ import { AddPaymentCardForm } from '../addPaymentCardForm.component';
 import { Layout, Text, Button } from '@kitten/ui';
 import { PALETTE } from '../../constants/colors';
 import { PaymentCard } from './PaymentCard';
+import { Card } from 'native-base';
 class CartScreenView extends Component<NavigationScreenProps> {
   render() {
     const { params } = this.props.navigation.state;
@@ -12,24 +13,14 @@ class CartScreenView extends Component<NavigationScreenProps> {
     return (
       <SafeAreaView>
         <Layout style={{ padding: 15, marginBottom: 15 }}>
-          <Text appearance="default" category="h2" style={{ marginBottom: 15 }}>
-            Choose Forms
-          </Text>
+
           <AddPaymentCardForm
             onFormValueChange={() => {
               return;
             }}
           />
 
-          {params && params.website && <Text style={{
-            backgroundColor: PALETTE.warningBackground,
-            padding: 15,
-            color: PALETTE.white,
 
-            borderRadius: 100
-          }}>
-            Includes website
-          </Text>}
 
           <Button
             style={{
@@ -40,8 +31,17 @@ class CartScreenView extends Component<NavigationScreenProps> {
           >
             CONTINUE TO PAYMENT
           </Button>
+          {params && params.website && <Card style={{
+            backgroundColor: '#FFDF00',
+            margin: 25,
+          }}><Text style={{
+            padding: 15,
+            color: PALETTE.white,
+            borderRadius: 100
+          }}>
+              Includes website
+          </Text></Card>}
         </Layout>
-
       </SafeAreaView>
     );
   }

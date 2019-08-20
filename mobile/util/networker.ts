@@ -13,7 +13,7 @@ axios.interceptors.request.use(
   async config => {
     const authData = await Storage.getAuth();
 
-    console.warn(config.method, config.url);
+
     if (authData && authData.access_token) {
       config.headers.authorization = `Bearer ${authData.access_token}`;
 
@@ -21,7 +21,7 @@ axios.interceptors.request.use(
     return config;
   },
   error => {
-    console.warn('REQUEST ERROR', error.message);
+
     return Promise.reject(error);
   }
 );
@@ -39,10 +39,6 @@ axios.interceptors.response.use(
   error => {
     // Your Interceptor code to do something with response error
     // Return error
-    console.warn(error);
-    console.warn('RESPONSE ERROR', error.message);
-    console.warn(error.message);
-    console.warn('errr asdlakdlas', error);
     return Promise.reject(error.response.data);
   }
 );

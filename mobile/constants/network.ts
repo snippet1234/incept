@@ -7,6 +7,7 @@ const makeUrl = (endPoint: string) => {
 export const API_URLS = {
   BASE: serverUrl,
   LOGIN: serverUrl + '/oauth/token',
+  PROFILE: serverUrl + makeUrl('profile'),
   CLIENT: serverUrl + '/api/clients',
   REGISTER: serverUrl + '/api/register',
   FORM: makeUrl('leadform'),
