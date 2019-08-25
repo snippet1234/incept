@@ -15,11 +15,15 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('payment_id')->nullable();
-            $table->string('type')->default('one_time');
+            $table->bigInteger('user_id');
+            $table->string('razorpay_payment_id')->nullable();
+            $table->string('razorpay_signature')->nullable();
             $table->string('provider')->nullable();
+            $table->string('razorpay_order_id')->nullable();
             $table->string('amount');
             $table->string('currency')->nullable();
+            $table->boolean('paid')->default(0);
+            $table->string('type')->default('one_time');
             $table->timestamps();
         });
     }

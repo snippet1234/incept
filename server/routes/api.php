@@ -20,9 +20,12 @@ use Laravel\Passport\Passport;
 
 Route::post('register', 'AuthController@register');
 
-
 Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
 
+
+    Route::get('create-order', 'RazorPayController@createOrder');
+
+    
     Route::post('profile', function() {
         return Auth::user();
     });
