@@ -29,7 +29,7 @@ import { CartScreen } from '../screens/subscription/CartScreen';
 
 const AppHeader = (props: HeaderProps) => {
   return (
-    <View style={{ backgroundColor: '#fff', paddingBottom: 10 }}>
+    <View style={{ backgroundColor: '#fff', paddingBottom: 10, paddingTop: '10% ' }}>
       <SafeAreaView>
         <View
           style={{

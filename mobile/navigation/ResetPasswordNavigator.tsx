@@ -5,6 +5,7 @@ import { NavigationScreenProps } from 'react-navigation';
 import { StyleSheet } from 'react-native';
 import { LOGO_IMAGE } from '../constants/images';
 import { PALETTE } from '../constants/colors';
+import { Message } from '../util/message';
 
 
 interface ILoginState {
@@ -46,6 +47,7 @@ class ResetPasswordNavigator extends React.Component<
         <Input
           placeholder="Email"
           label="Email"
+          autoCapitalize="none"
           value={formData.email}
           icon={() => (
             <Avatar
@@ -57,7 +59,9 @@ class ResetPasswordNavigator extends React.Component<
           onChangeText={value => this.onInputValueChange('email', value)}
         />
         <Button style={styles.submitButton}
-
+          onPress={() => {
+            Message.show('Reset password email has been sent.', 'success')
+          }}
         >
           Reset password
         </Button>

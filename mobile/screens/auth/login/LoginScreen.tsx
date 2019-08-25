@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { StyleSheet, ActivityIndicator, Alert, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, ActivityIndicator, Alert, KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Layout, Text, Button, Input, Avatar } from 'react-native-ui-kitten';
-import { withNavigation, NavigationScreenProps, ScrollView } from 'react-navigation';
+import { withNavigation, NavigationScreenProps, ScrollView, SafeAreaView } from 'react-navigation';
 
 import { PALETTE } from '../../../constants/colors';
 const validate = require('validate.js');
@@ -16,6 +16,8 @@ import { MessageDuration, Message } from '../../../util/message';
 import { CustomButton } from '../../../components/CustomButton';
 import { ValidationInput } from '../../../components/common';
 import { extractErrorMessage } from '../../../util/error';
+
+import { Platform } from '@unimodules/core';
 
 interface ILoginState {
   formData: { email: string; password: string };
@@ -45,10 +47,11 @@ class LoginScreenView extends React.Component<
     try {
       const { data } = await Networker.get<ClientData>(API_URLS.CLIENT);
 
-      Message.show(JSON.stringify(data), 'success', MessageDuration.LONG);
+      Message.show('Network check passed.', 'success', MessageDuration.LONG);
       await Storage.setClient(data);
 
     } catch (err) {
+      console.warn(err);
       Message.show(extractErrorMessage(err), 'danger');
     }
   }
@@ -107,72 +110,77 @@ class LoginScreenView extends React.Component<
   render() {
     const { formData, errors, loading } = this.state;
     return (
-      <ScrollView>
-        <KeyboardAvoidingView>
-          <Layout style={styles.container}>
-            <Avatar
-              shape="round"
-              style={{ height: 150, width: 150, marginTop: 15 }}
-              size="giant"
-              source={LOGO_IMAGE.DARK}
-            />
-            <Text style={styles.text} category="h4">
-              Welcome to Loan Incept
+      <SafeAreaView style={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : 'padding'}
+            style={{ flex: 1 }}
+          >
+            <Layout style={styles.container}>
+              <Avatar
+                shape="round"
+                style={{ height: 150, width: 150, marginTop: 15 }}
+                size="giant"
+                source={LOGO_IMAGE.DARK}
+              />
+              <Text style={styles.text} category="h4">
+                Welcome to Loan Incept
         </Text>
-            <ValidationInput
-              placeholder="Email"
-              validator={() => this.isValid('email')}
-              // error={errors['email'] && errors['email'][0]}
-              label="Email"
-              autoCapitalize="none"
-              value={formData.email}
-              icon={() => (
-                <Avatar
-                  shape="round"
-                  size="small"
-                  source={require('../../../assets/icons/eva/person.png')}
-                />
-              )}
-              onChangeText={value => this.onInputValueChange('email', value)}
-            />
-            <ValidationInput
-              validator={() => this.isValid('password')}
-              secureTextEntry
-              placeholder="Password"
-              label="Password"
-              // error={errors['password'] && errors['password'][0]}
-              labelStyle={{}}
-              icon={() => (
-                <Avatar
-                  shape="round"
-                  size="small"
-                  source={require('../../../assets/icons/eva/lock.png')}
-                />
-              )}
-              value={formData.password}
-              onChangeText={value => this.onInputValueChange('password', value)}
-            />
-            <CustomButton
-              disabled={loading}
-              loading={loading}
-              onPress={this.onSubmit}
-              style={styles.loginButton}
-              title="Login"
-            />
-            <Button onPress={this.onReset} style={styles.forgotButton}>
-              Forgot Password?
+              <ValidationInput
+                placeholder="Email"
+                validator={() => this.isValid('email')}
+                // error={errors['email'] && errors['email'][0]}
+                label="Email"
+                autoCapitalize="none"
+                value={formData.email}
+                icon={() => (
+                  <Avatar
+                    shape="round"
+                    size="small"
+                    source={require('../../../assets/icons/eva/person.png')}
+                  />
+                )}
+                onChangeText={value => this.onInputValueChange('email', value)}
+              />
+              <ValidationInput
+                validator={() => this.isValid('password')}
+                secureTextEntry
+                placeholder="Password"
+                label="Password"
+                // error={errors['password'] && errors['password'][0]}
+                labelStyle={{}}
+                icon={() => (
+                  <Avatar
+                    shape="round"
+                    size="small"
+                    source={require('../../../assets/icons/eva/lock.png')}
+                  />
+                )}
+                value={formData.password}
+                onChangeText={value => this.onInputValueChange('password', value)}
+              />
+              <CustomButton
+                disabled={loading}
+                loading={loading}
+                onPress={this.onSubmit}
+                style={styles.loginButton}
+                title="Login"
+              />
+              <Button onPress={this.onReset} style={styles.forgotButton}>
+                Forgot Password?
         </Button>
-            <Button
-              onPress={() => this.props.navigation.navigate('Register')}
-              status="success"
-              style={styles.registerButton}
-            >
-              REGISTER
+              <Button
+                onPress={() => this.props.navigation.navigate('Register')}
+                status="success"
+                style={styles.registerButton}
+              >
+                REGISTER
         </Button>
-          </Layout>
+            </Layout>
 
-        </KeyboardAvoidingView>
-      </ScrollView>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </SafeAreaView>
     );
   }
 }
@@ -182,8 +190,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingHorizontal: 25,
-    paddingTop: '35%'
+    paddingHorizontal: 15,
+    paddingTop: '5%'
+
   },
   text: {
     marginVertical: 16

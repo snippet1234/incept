@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { ListRenderItemInfo } from 'react-native';
+import { ListRenderItemInfo, Image } from 'react-native';
 import { Button, ButtonProps, Layout, List, ListItem, StyleType, } from 'react-native-ui-kitten';
 import { NavigationScreenProps, withNavigation } from 'react-navigation';
 import { API_URLS } from '../../constants/network';
 import { Networker } from '../../util/networker';
 import { PALETTE } from '../../constants/colors';
+import { View, Text } from 'native-base';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface FormsScreenViewState extends NavigationScreenProps {
   forms: LeadForm[]
@@ -74,26 +76,32 @@ class FormsScreenView extends Component<FormsScreenViewState> {
     const { forms } = this.state;
 
     return (
-      <Layout style={{ padding: 20, marginTop: 25, flex: 1 }}>
-
-        <List
-          style={{ backgroundColor: 'white' }}
-          data={forms}
-          renderItem={this.renderItem}
-        />
-        <Button
-          onPress={() => {
-            this.props.navigation.navigate('products')
-          }}
-          style={{
-            backgroundColor: PALETTE.primary,
-            borderColor: PALETTE.primary,
-            marginTop: 20
-          }}
-        >
-          UPGRADE
+      <ScrollView style={{ flex: 1 }}>
+        <Layout style={{ padding: 20, marginTop: 25, flex: 1 }}>
+          {!forms.length && <View style={{ alignContent: 'center', margin: 20, marginTop: '20%' }}>
+            <Image style={{ tintColor: 'whitesmoke' }} source={require('../../assets/icons/eva/shopping-cart.png')} />
+            <Text>Your forms will appear here. Please upgrade to a paid plan</Text>
+          </View>}
+          <List
+            style={{ backgroundColor: 'white' }}
+            data={forms}
+            renderItem={this.renderItem}
+          />
+          <Button
+            onPress={() => {
+              this.props.navigation.navigate('products')
+            }}
+            style={{
+              backgroundColor: PALETTE.primary,
+              borderColor: PALETTE.primary,
+              marginTop: 50
+            }}
+          >
+            UPGRADE PLAN
           </Button>
-      </Layout>
+        </Layout>
+
+      </ScrollView>
     );
   }
 }

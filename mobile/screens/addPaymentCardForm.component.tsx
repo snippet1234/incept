@@ -2,6 +2,7 @@ import React from 'react';
 import {
   View,
   ViewProps,
+  Text,
 } from 'react-native';
 import {
   ThemedComponentProps,
@@ -28,7 +29,7 @@ import { Title } from 'native-base';
 import { Dropdown } from 'react-native-material-dropdown';
 import { Avatar, Button } from 'react-native-ui-kitten';
 import { CustomInput } from '../components/CustomInput';
-import { Message } from '../util/message';
+import { Message, MessageDuration } from '../util/message';
 
 
 export interface AddPaymentCardFormType {
@@ -196,7 +197,7 @@ class AddNewCardComponent extends React.Component<AddPaymentCardFormProps, State
           }}
         />
 
-        <Title style={{ textAlign: 'left', fontSize: 27, marginVertical: 20 }}>Total: ${total}</Title>
+        <Text style={{ textAlign: 'left', fontSize: 27, marginVertical: 20 }}>Total: ${total}</Text>
 
       </View>
     );

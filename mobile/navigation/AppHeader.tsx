@@ -8,8 +8,8 @@ import { DrawerActions } from 'react-navigation';
 export const AppHeader = (props: HeaderProps) => {
   console.log(props.scene.descriptor.options.headerTitle);
   return (
-    <View style={{ backgroundColor: '#fff' }}>
-      <SafeAreaView>
+    <SafeAreaView>
+      <View style={{ backgroundColor: '#fff', paddingTop: '15%' }}>
         <View style={{ flexDirection: 'row', backgroundColor: '#fff', justifyContent: 'flex-end' }}>
           <TouchableOpacity onPress={() => props.navigation.dispatch(DrawerActions.toggleDrawer())}>
             <Image
@@ -20,8 +20,8 @@ export const AppHeader = (props: HeaderProps) => {
           {props.scene.descriptor.options.headerTitle}
 
         </View>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
 
   )
 }

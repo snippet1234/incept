@@ -6,7 +6,7 @@ export enum MessageDuration {
   LONG = 5000
 }
 function show(message: string, level: MessageType, length: MessageDuration = MessageDuration.LONG) {
-  showMessage({ message, type: level, duration: length });
+  showMessage({ message, type: level, duration: length, position: 'top' });
 }
 
 export const Message = {
