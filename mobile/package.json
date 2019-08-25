@@ -1,6 +1,6 @@
 {
   "main": "node_modules/expo/AppEntry.js",
-  "serverUrl": "http://loanincept.com",
+  "serverUrl": "http://localhost:8000",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -33,6 +33,7 @@
     "react-native-flash-message": "0.1.13",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-material-dropdown": "^0.11.1",
+    "react-native-razorpay": "2.1.29",
     "react-native-ui-kitten": "^4.0.5",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.0",
