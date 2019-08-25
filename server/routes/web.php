@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/payment', function () {
+    return view('payments.razorpay');
+});
+Route::get('/payment-hosted', function () {
+    return view('payments.hosted');
+});

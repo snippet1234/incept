@@ -19,8 +19,8 @@ interface IUser {
   logo: string;
 }
 interface ProfileState {
-  user: IUser,
-  loading: boolean
+  user: IUser;
+  loading: boolean;
 }
 
 class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
@@ -50,14 +50,13 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
       phone: 'xxxxxxxxxx'
     },
     loading: false
-  }
-  async componentDidMount() {
-  }
+  };
+  async componentDidMount() {}
 
   fetchProfile = async () => {
     this.setState({
       loading: true
-    })
+    });
     try {
       const { data } = await Networker.get(API_URLS.PROFILE);
       this.setState({ user: data });
@@ -67,11 +66,10 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
 
     this.setState({
       loading: false
-    })
-  }
+    });
+  };
 
   render() {
-
     const { user, loading } = this.state;
     return (
       <SafeAreaView>
@@ -104,7 +102,6 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
                   source={require('../../assets/icons/eva/person.png')}
                 />
               )}
-
             />
             <Input
               placeholder="Phone"
@@ -116,7 +113,6 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
                   source={require('../../assets/icons/eva/phone.png')}
                 />
               )}
-
             />
             <Input
               placeholder="Address"
@@ -128,7 +124,6 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
                   source={require('../../assets/icons/eva/map.png')}
                 />
               )}
-
             />
             <Input
               placeholder="DRE"
@@ -140,7 +135,6 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
                   source={require('../../assets/icons/eva/arrowhead-up.png')}
                 />
               )}
-
             />
             <Input
               placeholder="NMLS"
@@ -152,7 +146,6 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
                   source={require('../../assets/icons/eva/bulb.png')}
                 />
               )}
-
             />
             <Button
               icon={() => (
@@ -170,10 +163,10 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
               }}
             >
               Add Company Info
-          </Button>
+            </Button>
             <Button
               onPress={() => {
-                Message.show("Profile Updated", 'success')
+                Message.show('Profile Updated', 'success');
               }}
               style={{
                 backgroundColor: PALETTE.primary,
@@ -183,9 +176,8 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
               }}
             >
               Save Profile
-          </Button>
+            </Button>
           </Layout>
-
         </ScrollView>
       </SafeAreaView>
     );
