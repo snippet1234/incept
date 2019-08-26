@@ -1,6 +1,8 @@
+import { string } from 'prop-types';
+
 enum Status {
-  ACTIVE = "active",
-  ARCHIVED = "archived"
+  ACTIVE = 'active',
+  ARCHIVED = 'archived'
 }
 
 type LeadForm = {
@@ -8,7 +10,7 @@ type LeadForm = {
   name: string;
   items: LeadFormItem[];
   status: Status;
-}
+};
 
 type LeadFormItem = {
   id: string;
@@ -18,19 +20,33 @@ type LeadFormItem = {
   placeholder: string;
   type: LeadFormItemType | string;
   options?: LeadFormItemOption[] | string[];
-}
+};
 
 type LeadFormItemType = {
   id: string;
   name: string;
-}
+};
 
 type FormItemResponse = {
   formItem: LeadFormItem;
   value: string;
-}
+};
 
 type LeadFormItemOption = {
   id?: string;
   value: string;
-}
+};
+
+type Plan = {
+  id?: string;
+  name: string;
+  description: string;
+  forms_count: number;
+  website: boolean;
+};
+
+type User = {
+  id?: string;
+  name: string;
+  email: string;
+};

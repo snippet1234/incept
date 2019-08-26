@@ -16,6 +16,9 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
+            $table->bigInteger('plan_id');
+            $table->bigInteger('renewal_term');
+            $table->integer('form_count');
             $table->string('razorpay_payment_id')->nullable();
             $table->string('razorpay_signature')->nullable();
             $table->string('provider')->nullable();

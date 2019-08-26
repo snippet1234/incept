@@ -11,10 +11,10 @@ const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 interface DashboardState {
-  collapsed: boolean
+  collapsed: boolean;
 }
 
-export class Dashboard extends React.Component<{}, DashboardState>{
+export class Dashboard extends React.Component<{}, DashboardState> {
   state = {
     collapsed: false
   };
@@ -31,8 +31,19 @@ export class Dashboard extends React.Component<{}, DashboardState>{
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
         >
-          <div className="logo" style={{ alignContent: 'center', justifyContent: 'center', flex: 1 }} >
-            <img style={{ margin: '10%', marginLeft: '20%', }} width="100" src={require('../assets/images/icon.png')} />
+          <div
+            className="logo"
+            style={{
+              alignContent: 'center',
+              justifyContent: 'center',
+              flex: 1
+            }}
+          >
+            <img
+              style={{ margin: '10%', marginLeft: '20%' }}
+              width="100"
+              src={require('../assets/images/icon.png')}
+            />
           </div>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
@@ -74,14 +85,12 @@ export class Dashboard extends React.Component<{}, DashboardState>{
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
-
+            `
             <Route exact path="/" component={Forms} />
             <Route exact path="/form/:formid" component={FormItems} />
             <Route exact path="/subscriptions" component={Subscriptions} />
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            Loan Incept ©2019
-          </Footer>
+          <Footer style={{ textAlign: 'center' }}>Loan Incept © 2019</Footer>
         </Layout>
       </Layout>
     );

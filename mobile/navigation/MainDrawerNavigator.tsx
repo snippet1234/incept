@@ -26,6 +26,7 @@ import { PALETTE } from '../constants/colors';
 import { logOut } from '../util/auth';
 import { ShowFormScreen } from '../screens/forms/ShowFormScreen';
 import { CartScreen } from '../screens/subscription/CartScreen';
+import { PaymentScreen } from '../screens/subscription/PaymentScreen';
 
 const AppHeader = (props: HeaderProps) => {
   return (
@@ -108,7 +109,7 @@ const DrawerNavigator = createDrawerNavigator(
         {
           products: ProductList,
           cart: CartScreen,
-          payment: ProductList
+          payment: PaymentScreen
         },
         getScreenNavigationOptions('Subscriptions')
       )

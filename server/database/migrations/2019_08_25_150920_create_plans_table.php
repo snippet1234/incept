@@ -16,6 +16,7 @@ class CreatePlansTable extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->unique();
+            $table->string('description');
             $table->integer('forms_count');
             $table->boolean('website')->default(0);
             $table->timestamps();
