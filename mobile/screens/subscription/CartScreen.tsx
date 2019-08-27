@@ -29,7 +29,7 @@ class CartScreenView extends Component<
     const plan_id = this.props.navigation.state.params.plan;
     const { data } = await Networker.post(API_URLS.CREATE_ORDER, {
       ...values,
-      amount: values.total,
+      amount: values.total * 100,
       plan_id: this.props.navigation.state.params.plan,
       receipt: `plan:${plan_id},form_count:${values.form_count}`
     });
