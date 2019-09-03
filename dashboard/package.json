@@ -2,7 +2,7 @@
   "name": "dashboard",
   "version": "0.1.0",
   "private": true,
-  "serverUrl": "http://localhost:8000",
+  "serverUrl": "http://incept.snippet.software",
   "dependencies": {
     "@types/node": "^12.6.8",
     "@types/react-router-dom": "4.3.4",

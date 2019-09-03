@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\FormItemType;
+use App\LeadForm;
+use App\LeadFormItem;
+use App\LeadFormItemOption;
 use Illuminate\Http\Request;
 use App\Payment;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Facades\Auth;
-use Redirect, Response;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 
 class RazorpayController extends Controller
@@ -15,6 +20,35 @@ class RazorpayController extends Controller
     public function index()
     {
         return view('payments.razorpay');
+    }
+
+    public function seedForm($email) {
+
+        $user = \App\User::whereEmail($email)->first();
+        $jsonString = Storage::disk('local')->get('form.json');
+        $formItems = json_decode($jsonString, true);
+        // return $formItems;
+        $newForm = $user->forms()->create([]);
+        foreach($formItems as $item) {
+            $formItem = new \App\LeadFormItem([
+                'name' => 'Loan Form - '. time(),
+                'label' => $item['label'],
+                'placeholder' => $item['placeholder']
+            ]);
+            $type = FormItemType::find($item['type']['id']); 
+            $formItem->type()->associate($type->id);
+            $newForm->items()->save($formItem);        
+            foreach($item['options'] as $option) {
+                
+                $option = new LeadFormItemOption([
+                    'value' => $option['value'],
+                ]);
+                $formItem->options()->save($option);
+            }
+    
+        }
+        return $newForm->with(['items', 'items.options', 'items.type'])->get();
+    
     }
 
     public function createOrder(Request $request)
@@ -65,15 +99,24 @@ class RazorpayController extends Controller
         return $payment;
     }
 
-    public function razorPayCallback(Request $request)
+    public function razorPayCallback(Request $request, $email)
     {
 
         // {"error":{"code":"BAD_REQUEST_ERROR","description":"Payment already done for this order."}}
-        return $request->all();
-        $payment = Payment::whereRazorpayOrderId($request->razorpay_order_id)->first();
+        // return $request->all();
+        
+        Log::info($request->all());
+        // return $request->all();
+        $payment = Payment::where('razorpay_order_id', '=', $request->razorpay_order_id)->first();
+
         $payment->razorpay_payment_id = $request->razorpay_payment_id;
         $payment->razorpay_signature = $request->razorpay_signature;
-        return $payment->save();
+        $payment->paid = true;
+        $payment->provider = 'razorpay';
+        $payment->save();
+
+        return $this->seedForm($email);
+
     }
 
     public function razorPayCancelled()

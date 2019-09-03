@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Networker } from '../util/network';
+import { Networker } from '../util/networker';
 import { API_URLS } from '../constants/network';
 import { LeadForm, LeadFormItem } from '../util/types';
 import { Table, Breadcrumb, Card, Modal, Button, message, Popconfirm, } from 'antd';
@@ -48,10 +48,10 @@ const columns = (props: ColumnProps) => [
     title: 'actions',
     key: 'actions',
     render: (_item: LeadFormItem) => (<>
-      <Button  style={{marginRight: 20}} type="dashed" onClick={() => props.onEdit(_item)}>edit</Button>
+      <Button style={{ marginRight: 20 }} type="dashed" onClick={() => props.onEdit(_item)}>edit</Button>
       <Popconfirm
         style={{ marginLeft: 40 }}
-        title="Are you sure delete this task?"
+        title="Are you sure delete this form item?"
         onConfirm={() => props.onDelete(_item)}
         okText="Yes"
         cancelText="No"
@@ -148,7 +148,7 @@ class FormItemsView extends Component<FormItemViewProps & RouteComponentProps<{ 
       <>
         <Breadcrumb style={{ margin: '16px 0' }}>
           <Link to="/"><Breadcrumb.Item>Forms</Breadcrumb.Item></Link>
-          <Breadcrumb.Item>{params.formid}</Breadcrumb.Item>
+          <Breadcrumb.Item>{params.formid} / Form Items</Breadcrumb.Item>
         </Breadcrumb>
         <Card>
 

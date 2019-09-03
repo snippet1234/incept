@@ -21,5 +21,5 @@ Route::get('/payment-hosted', function () {
     return view('payments.hosted');
 });
 
-Route::post('payment-callback', 'RazorPayController@razorPayCallback');
+Route::post('payment-callback/{email}', 'RazorPayController@razorPayCallback');
 Route::get('payment-cancel', 'RazorPayController@razorPayCancelled');

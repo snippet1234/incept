@@ -8,10 +8,10 @@
     <input type="hidden" name="name" value="Loan Incept">
 <input type="hidden" name="description" value="{{$_GET['description']}}">
     <input type="hidden" name="prefill[name]" value="{{$_GET['username']}}">
-    <input type="hidden" name="prefill[contact]" value="">
+    <input type="hidden" name="prefill[contact]" value="8390516768">
     <input type="hidden" name="prefill[email]" value="{{$_GET['email']}}">
-    <input type="hidden" name="notes[shipping address]" value="">
-    <input type="hidden" name="callback_url" value="{{ url('/payment-callback')}}">
+    <input type="hidden" name="notes[shipping address]" value="Some shiping address">
+    <input type="hidden" name="callback_url" value="{{ url('payment-callback') }}/{{$_GET['email']}}">
 <img src="{{asset('/images/icon.png')}}" widht="100px" style="width:100" />
 <input type="hidden" name="cancel_url" value="{{  url('/payment-cancel') }}">
 <br />

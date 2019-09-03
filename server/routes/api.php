@@ -1,7 +1,9 @@
 <?php
 
+use App\FormItemType;
+use App\LeadFormItemOption;
 use Illuminate\Http\Request;
-use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +35,38 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::resource('leadform', 'LeadFormController');
     Route::resource('leadform.formitem', 'LeadFormItemController');
     Route::get('formitemtypes', 'LeadFormController@formItemTypes');
+    Route::get('seed-form', 'RazorPayController@seedForm');
+
 });
+
+Route::get('/template', function (Request $request) {
+    
+    $user = \App\User::first();
+    $jsonString = Storage::disk('local')->get('form.json');
+    $formItems = json_decode($jsonString, true);
+    // return $formItems;
+    $newForm = $user->forms()->create([]);
+    foreach($formItems as $item) {
+        $formItem = new \App\LeadFormItem([
+            'name' => $item['name'],
+            'label' => $item['label'],
+            'placeholder' => $item['placeholder']
+        ]);
+        $type = FormItemType::find($item['type']['id']); 
+        $formItem->type()->associate($type->id);
+        $newForm->items()->save($formItem);        
+        foreach($item['options'] as $option) {
+            
+            $option = new LeadFormItemOption([
+                'value' => $option['value'],
+            ]);
+            $formItem->options()->save($option);
+        }
+
+    }
+    return $newForm->with(['items', 'items.options', 'items.type'])->get();
+});
+
 
 Route::get('/clients', function (Request $request) {
     $client = DB::table("oauth_clients")->wherePasswordClient(1)->first();

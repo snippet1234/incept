@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { API_URLS } from '../constants/network';
 import { Storage } from './storage';
-import { Alert, AsyncStorage } from 'react-native';
-import { message } from 'antd';
+import { Message } from './message';
+import { extractErrorMessage } from './error';
 const { serverUrl } = require('../package.json');
 
 const authData = Storage.getAuth();
@@ -36,6 +35,7 @@ axios.interceptors.response.use(
     console.warn('ERROR OCCURED', error.response.status);
     console.warn('ERROR OCCURED', error.message);
     console.warn('ERROR STACK', error.response);
+    Message.show(extractErrorMessage(error), 'danger');
     return Promise.reject(error.response.data);
   }
 );

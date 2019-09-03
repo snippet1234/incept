@@ -16,4 +16,8 @@ class Payment extends Model
         'renewal_term',
         'form_count'
     ];
+
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
 }

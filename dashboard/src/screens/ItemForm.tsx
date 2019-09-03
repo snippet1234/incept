@@ -15,7 +15,7 @@ import {
 } from 'antd';
 import { FormProps } from 'antd/lib/form';
 import { WrappedFormUtils, FormComponentProps } from 'antd/lib/form/Form';
-import { Networker } from '../util/network';
+import { Networker } from '../util/networker';
 import { API_URLS } from '../constants/network';
 import { LeadFormItemType, LeadFormItem } from '../util/types';
 
@@ -44,15 +44,15 @@ class ItemFormView extends React.Component<ItemFormViewProps> {
 
 
   static getDerivedStateFromProps(nextProps: ItemFormViewProps, prevState: any) {
-    
-    if(nextProps.selected !== prevState.selectedItem) {
+
+    if (nextProps.selected !== prevState.selectedItem) {
       return {
         selectedItem: nextProps.selected,
         confirmDirty: false,
         autoCompleteResult: [],
         inputVisible: false,
         inputValue: { value: '' },
-        tags: nextProps.selected ? nextProps.selected.options ? nextProps.selected.options : [] : []  
+        tags: nextProps.selected ? nextProps.selected.options ? nextProps.selected.options : [] : []
       }
     }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Networker } from '../util/network';
+import { Networker } from '../util/networker';
 import { API_URLS } from '../constants/network';
 import { LeadForm } from '../util/types';
 import { Table } from 'antd';

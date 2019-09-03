@@ -17,32 +17,32 @@ const columns = [
     key: 'name',
   },
   {
-    title: 'Show',
-    key: 'show',
-    render: (item: any) => (<Link to={`/form/${item.id}`}><Button type="primary">View</Button></Link>)
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
   },
 ]
 
-export class Forms extends Component {
+export class Users extends Component {
   state = {
-    forms: [],
+    users: [],
     formVisible: false
   }
 
   async componentDidMount() {
-    const { data } = await Networker.get<LeadForm[]>(API_URLS.LEAD_FORM);
-    this.setState({ forms: data });
+    const { data } = await Networker.get<LeadForm[]>(API_URLS.USERS);
+    this.setState({ users: data });
   }
 
   render() {
-    const { forms } = this.state;
+    const { users } = this.state;
     return (
       <>
         <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Forms</Breadcrumb.Item>
+          <Breadcrumb.Item>Users</Breadcrumb.Item>
         </Breadcrumb>
         <Card>
-          <Table dataSource={forms} columns={columns} />
+          <Table dataSource={users} columns={columns} />
 
         </Card>
       </>

@@ -1,34 +1,52 @@
 import React, { SyntheticEvent } from 'react';
-import { Networker } from '../util/network';
+import { Networker } from '../util/networker';
 import { API_URLS } from '../constants/network';
 import { STORAGE_KEYS } from '../constants/storage';
 import { getClientData, setAuthData, getAuthData } from '../util/storage';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Avatar, message } from 'antd';
 import { Redirect } from 'react-router';
 
 class LoginView extends React.Component<{ form: any }> {
 
+  state = {
+    loading: false
+  }
+
   async componentDidMount() {
     const { data } = await Networker.get(API_URLS.CLIENT);
+
     localStorage.setItem(STORAGE_KEYS.CLIENT, JSON.stringify(data));
   }
 
   handleSubmit = async (e: SyntheticEvent) => {
+
     e.preventDefault();
     this.props.form.validateFields(async (err: Error, values: any) => {
       if (!err) {
         const client = getClientData();
         console.warn(client);
-        const { data } = await Networker.post(API_URLS.LOGIN, {
-          ...values,
-          grant_type: 'password',
-          client_id: client.client_id,
-          client_secret: client.secret,
+        try {
 
-        });
-        setAuthData(data);
+          this.setState({
+            loading: true
+          });
+          const { data } = await Networker.post(API_URLS.LOGIN, {
+            ...values,
+            grant_type: 'password',
+            client_id: client.client_id,
+            client_secret: client.secret,
 
-        console.log('Received values of form: ', data);
+          });
+          setAuthData(data);
+
+          console.log('Received values of form: ', data);
+
+        } catch (err) {
+          message.error('Invalid credentials');
+        } finally {
+          this.setState({ loading: false })
+        }
+
       }
     });
   };
@@ -36,9 +54,11 @@ class LoginView extends React.Component<{ form: any }> {
   render() {
     const { getFieldDecorator } = this.props.form;
     const authData = getAuthData();
+    const { loading } = this.state;
     return (
-      <div style={{ width: 400, position: 'absolute', marginLeft: '50%', left: -200, top: 250, boxShadow: '0px 0px 25px grey', borderRadius: 5, padding: '45px' }}>
+      <div style={{ width: 400, position: 'absolute', marginLeft: '50%', left: -200, top: 150, boxShadow: '0px 0px 25px grey', borderRadius: 5, padding: '45px', justifyContent: 'center', alignContent: 'center' }}>
         {authData && <Redirect to="/" />}
+        <Avatar src={require('../assets/images/icon.png')} style={{ width: 100, height: 100, margin: '5% 35%' }} />
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
             {getFieldDecorator('username', {
@@ -69,10 +89,13 @@ class LoginView extends React.Component<{ form: any }> {
             <a className="login-form-forgot" href="/forgot-password">
               Forgot password
           </a>
-            <Button type="primary" htmlType="submit" className="login-form-button">
+          </Form.Item>
+          <Form.Item>
+            <Button loading={loading} style={{ width: '100%' }} type="primary" htmlType="submit" className="login-form-button">
               Log in
           </Button>
-            Or <a href="/register">register now!</a>
+            {/* Or <a href="/register">register now!</a> */}
+
           </Form.Item>
         </Form>
 

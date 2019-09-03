@@ -58,7 +58,7 @@ export class Dashboard extends React.Component<{}, DashboardState> {
                 <span>Subscriptions</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="3">
               <Link to="/users">
                 <Icon type="user" />
                 <span>Users</span>
@@ -73,8 +73,6 @@ export class Dashboard extends React.Component<{}, DashboardState> {
                 </span>
               }
             >
-              <Menu.Item key="6">Team 1</Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
             </SubMenu>
             <Menu.Item key="9">
               <Icon type="logout" />
@@ -85,10 +83,7 @@ export class Dashboard extends React.Component<{}, DashboardState> {
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
-            `
-            <Route exact path="/" component={Forms} />
-            <Route exact path="/form/:formid" component={FormItems} />
-            <Route exact path="/subscriptions" component={Subscriptions} />
+            `{this.props.children}
           </Content>
           <Footer style={{ textAlign: 'center' }}>Loan Incept © 2019</Footer>
         </Layout>

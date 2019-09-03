@@ -4,16 +4,20 @@ import './App.css';
 import 'antd/dist/antd.css';
 // import { DatePicker } from 'antd';
 import { Dashboard } from './common/Dashboard';
-
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { PrivateRoute } from './navigation/PrivateRoute';
+import { LoggedInRoutes } from './navigation/Routes';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Login } from './screens/Login';
 
 function App() {
   return (
     <>
       <Router>
-        <Route path="/login/" component={Login} />
-        <Route component={Dashboard} />
+        <Switch>
+          <Route path="/login" component={Login} />
+
+          <PrivateRoute component={LoggedInRoutes} />
+        </Switch>
       </Router>
     </>
   );
