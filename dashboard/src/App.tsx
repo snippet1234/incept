@@ -15,7 +15,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/login" component={Login} />
-
+          <Route exact path="/show/form/:formid" component={Users} />
           <PrivateRoute component={LoggedInRoutes} />
         </Switch>
       </Router>

@@ -160,6 +160,19 @@ class ShowFormScreenView extends Component<ShowFormsScreenViewState> {
               />
             </Tab>
           </Tabs>
+
+          <Button
+            onPress={() => {
+              this.props.navigation.navigate('products');
+            }}
+            style={{
+              backgroundColor: PALETTE.primary,
+              borderColor: PALETTE.primary,
+              marginTop: 50
+            }}
+          >
+            CONTINUE TO PLAN
+          </Button>
         </Container>
       </Layout>
     );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 import { Avatar, Button, Input, Layout, Text } from 'react-native-ui-kitten';
 import { NavigationScreenProps, withNavigation } from 'react-navigation';
@@ -7,10 +7,12 @@ import { NavigationScreenProps, withNavigation } from 'react-navigation';
 import { CustomButton } from '../../components/CustomButton';
 import { API_URLS } from '../../constants/network';
 import { Networker } from '../../util/networker';
+import { PALETTE } from '../../constants/colors';
+import { LeadFormItem, LeadFormItemOption } from '../../types/models';
 
 interface FormItemUpdateScreenViewState {
   formItem: LeadFormItem;
-  formItemTypes: LeadFormItemType[];
+  formItemTypes: LeadFormItemOption[];
   selectedType?: string;
   selectedStatus?: string;
   optionValue: string;
@@ -19,7 +21,7 @@ interface FormItemUpdateScreenViewState {
 class FormItemUpdateScreenView extends Component<
   NavigationScreenProps,
   FormItemUpdateScreenViewState
-> {
+  > {
   state: FormItemUpdateScreenViewState = {
     formItem: this.props.navigation.state.params.formItem,
     selectedType: this.props.navigation.state.params.formItem.type.name,
@@ -74,30 +76,30 @@ class FormItemUpdateScreenView extends Component<
             Options
           </Text>
         </View>
-        <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
+        <View style={{ flexWrap: 'wrap', flexDirection: 'row', marginBottom: 11 }}>
           {formItem.options.map((item, index) => (
-            <Button
+            <TouchableOpacity
               key={index}
               onPress={() => this.removeTag(index)}
-              status=""
-              style={{ width: 100, margin: 2 }}
-              size="tiny"
+              style={{ borderRadius: 4, width: 100, margin: 2, backgroundColor: PALETTE.green, padding: 5, justifyContent: 'center', alignContent: 'center' }}
             >
-              {item.value}
-            </Button>
+              <Text style={{ textAlign: 'center', color: PALETTE.white }}>{item.value}</Text>
+            </TouchableOpacity>
           ))}
+        </View>
+        <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
           <Input
-            style={{ height: 25 }}
-            themedStyle={{ height: 25 }}
+            size="small"
             placeholder="Option value"
             value={optionValue}
             onChangeText={value => this.setState({ optionValue: value })}
             onSubmitEditing={this.addTag}
           />
           <Button
+            size="small"
             onPress={this.addTag}
             status="warning"
-            style={{ marginBottom: 45, marginLeft: 5 }}
+            style={{ marginBottom: 45, marginLeft: 5, marginTop: 2 }}
           >
             +
           </Button>

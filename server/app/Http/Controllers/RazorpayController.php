@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\FormItemType;
-use App\LeadForm;
-use App\LeadFormItem;
 use App\LeadFormItemOption;
 use Illuminate\Http\Request;
 use App\Payment;

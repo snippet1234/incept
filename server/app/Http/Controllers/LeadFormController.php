@@ -48,9 +48,9 @@ class LeadFormController extends Controller
      * @param  \App\LeadForm  $leadForm
      * @return \Illuminate\Http\Response
      */
-    public function show(LeadForm $leadForm)
+    public function show($leadForm)
     {
-        //
+        return LeadForm::find($leadForm)->with(['items.type', 'items.options'])->get();
     }
 
     /**

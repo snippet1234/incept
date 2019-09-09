@@ -27,6 +27,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:api']], function () {
     Route::get('plans', 'PlanController@index');
     Route::post('create-order', 'RazorPayController@createOrder');
 
+    Route::get('form/{id}', 'LeadFormController@show');
 
     Route::post('profile', function () {
         return Auth::user();

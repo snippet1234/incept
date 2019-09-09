@@ -58,7 +58,7 @@ class RegisterScreenView extends React.Component<
     const { formData, loading } = this.state;
     const errors = validate(formData, REGISTER_CONSTRAINS);
 
-    return errors && !errors[key];
+    return !errors || !errors[key];
   }
 
   render() {

@@ -13,5 +13,6 @@ export const PALETTE = {
   noticeText: '#fff',
   primary: '#865e9f',
   white: '#fff',
-  faded_white: 'whitesmoke'
+  faded_white: 'whitesmoke',
+  green: '#5FDBA7',
 };

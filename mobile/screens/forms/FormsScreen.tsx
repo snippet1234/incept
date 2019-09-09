@@ -6,13 +6,14 @@ import {
   Layout,
   List,
   ListItem,
-  StyleType
+  StyleType,
+  Text
 } from 'react-native-ui-kitten';
 import { NavigationScreenProps, withNavigation } from 'react-navigation';
 import { API_URLS } from '../../constants/network';
 import { Networker } from '../../util/networker';
 import { PALETTE } from '../../constants/colors';
-import { View, Text } from 'native-base';
+import { View, } from 'native-base';
 import { ScrollView } from 'react-native-gesture-handler';
 
 interface FormsScreenViewState extends NavigationScreenProps {
@@ -101,18 +102,8 @@ class FormsScreenView extends Component<FormsScreenViewState> {
             data={forms}
             renderItem={this.renderItem}
           />
-          <Button
-            onPress={() => {
-              this.props.navigation.navigate('products');
-            }}
-            style={{
-              backgroundColor: PALETTE.primary,
-              borderColor: PALETTE.primary,
-              marginTop: 50
-            }}
-          >
-            UPGRADE PLAN
-          </Button>
+          <Text category="h3" style={{ marginTop: 140, color: PALETTE.green, textAlign: 'right' }}>Please update the form to continue</Text>
+
         </Layout>
       </ScrollView>
     );

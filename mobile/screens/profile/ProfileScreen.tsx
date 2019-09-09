@@ -6,7 +6,7 @@ import { PALETTE } from '../../constants/colors';
 import { NavigationScreenOptions } from 'react-navigation';
 import { API_URLS } from '../../constants/network';
 import { Networker } from '../../util/networker';
-import { Message } from '../../util/message';
+import { Message, MessageDuration } from '../../util/message';
 import { extractErrorMessage } from '../../util/error';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -51,15 +51,18 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
     },
     loading: false
   };
-  async componentDidMount() {}
+  async componentDidMount() {
+    this.fetchProfile()
+  }
 
   fetchProfile = async () => {
     this.setState({
       loading: true
     });
     try {
-      const { data } = await Networker.get(API_URLS.PROFILE);
+      const { data } = await Networker.get(API_URLS.USER);
       this.setState({ user: data });
+
     } catch (err) {
       Message.show(extractErrorMessage(err), 'danger');
     }
@@ -68,6 +71,19 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
       loading: false
     });
   };
+
+  updateProfile = async () => {
+    const { user } = this.state;
+    this.setState({ loading: true });
+    try {
+      const { data } = await Networker.post(API_URLS.PROFILE);
+      Message.show('Updated user profile', 'success');
+    } catch (error) {
+      Message.show(extractErrorMessage(error), 'danger');
+    } finally {
+      this.setState({ loading: false })
+    }
+  }
 
   render() {
     const { user, loading } = this.state;
@@ -95,6 +111,9 @@ class ProfileScreenView extends Component<NavigationScreenProps, ProfileState> {
             <Input
               placeholder="Email"
               value={user.email}
+              onChange={(e) => {
+                // this.setState({email: e.currentTarget.})
+              }}
               icon={() => (
                 <Avatar
                   shape="round"
